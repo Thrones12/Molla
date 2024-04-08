@@ -1,9 +1,10 @@
 package DaiHoc.Molla.entity;
 
-import java.sql.Date;
+import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -11,34 +12,40 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-
 @Entity
-@Table(name = "review")
+@Table(name = "bill")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Review {
+public class Bill {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
 	private Long id;
 	
-	@Column(name = "review_date")
-	private Date reviewDate;
+	@Column(name = "product_price")
+	private float product_price;
 	
-	@Column(name = "rating")
-	private int rating;
+	@Column(name = "ship")
+	private float ship;
 	
-	@Column(name = "conten")
-	private String content;
+	@Column(name = "total_price")
+	private float total_price;
 	
-	@Column(name = "picture")
-	private String picture;
+	@Column(name = "state")
+	private int state;
+	
+	@Column(name = "address_shipment")
+	private String address_shipment;
+	
+	@Column(name = "phone_shipment")
+	private int phone_shipment;
 	
 	@JsonIgnore
 	@ManyToOne
@@ -47,6 +54,10 @@ public class Review {
 	
 	@JsonIgnore
 	@ManyToOne
-	@JoinColumn(name="pro_id", referencedColumnName="id")
-	private Product product;
+	@JoinColumn(name="promotional_codeid", referencedColumnName="id")
+	private PromotionalCode promotionalCode;
+	
+	@JsonIgnore
+	@OneToMany(mappedBy="bill", cascade = CascadeType.ALL)
+	private Set<Transaction> transactions;
 }

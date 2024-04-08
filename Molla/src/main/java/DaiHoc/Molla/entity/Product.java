@@ -1,7 +1,10 @@
 package DaiHoc.Molla.entity;
 
+import java.util.Set;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -9,6 +12,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -47,10 +51,26 @@ public class Product {
 	@ManyToOne
 	@JoinColumn(name = "cate_id")
 	private Category category;
+	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name = "manu_id")
 	private Manufacturer manufacturer;
+	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name = "event_id")
 	private PromotionalEvent event;
+	
+	@JsonIgnore
+	@OneToMany(mappedBy="product", cascade = CascadeType.ALL)
+	private Set<LineItem> lineItems;
+	@JsonIgnore
+	@OneToMany(mappedBy="product", cascade = CascadeType.ALL)
+	private Set<Stock> stocks;
+	@JsonIgnore
+	@OneToMany(mappedBy="product", cascade = CascadeType.ALL)
+	private Set<Review> reviews;
+	@JsonIgnore
+	@OneToMany(mappedBy="product", cascade = CascadeType.ALL)
+	private Set<SubPicture> subPictures;
+	
 }

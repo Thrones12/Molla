@@ -1,6 +1,7 @@
 package DaiHoc.Molla.entity;
 
 import java.sql.Date;
+import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -10,6 +11,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -42,7 +44,18 @@ public class User {
     @Column(nullable = false)
     private int state;
 
+    @Column(name="is_notify", nullable = false)
+    private boolean isNotify;
+    
 	@JsonIgnore
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private Account account;
+	
+	@JsonIgnore
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private Set<Review> reviews;
+
+	@JsonIgnore
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private Set<Bill> bills;
 }
