@@ -31,9 +31,6 @@ public class Product {
     @Column(name = "picture", length = 255)
     private String picture;
  
-    @Column(name = "manu_id")
-    private Long manu_id;
-
     @Column(name = "description", length = 500)
     private String description;
 
@@ -42,10 +39,18 @@ public class Product {
 
     @Column(name = "selling_price")
     private Float selling_price;
+
+    @Column(name = "state")
+    private int state;
+    
 	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name = "cate_id")
 	private Category category;
-
-    // Constructors, getters, and setters
+	@ManyToOne
+	@JoinColumn(name = "manu_id")
+	private Manufacturer manufacturer;
+	@ManyToOne
+	@JoinColumn(name = "event_id")
+	private PromotionalEvent event;
 }

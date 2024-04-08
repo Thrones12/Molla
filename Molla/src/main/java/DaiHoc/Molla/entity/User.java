@@ -1,6 +1,6 @@
 package DaiHoc.Molla.entity;
 
-import java.util.Set;
+import java.sql.Date;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -10,29 +10,39 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "manufacturer")
+@Table(name = "user")
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
-public class Manufacturer {
+@NoArgsConstructor
+public class User {
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
     private Long id;
 
-    @Column(name = "name", length = 500)
-    private String name;
+    @Column(nullable = false)
+    private String fullname;
 
-    @Column(name = "description", length = 500)
-    private String description;
+    private Date birthdate;
+
+    private String address;
+
+    @Column(nullable = false, unique = true)
+    private Integer phone;
+
+    @Column(nullable = false, unique = true)
+    private String email;
+
+    @Column(nullable = false)
+    private int state;
+
 	@JsonIgnore
-	@OneToMany(mappedBy = "manufacturer", cascade = CascadeType.ALL)
-	private Set<Product> products;
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    private Account account;
 }

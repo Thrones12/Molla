@@ -1,5 +1,6 @@
 package DaiHoc.Molla.entity;
 
+import java.sql.Date;
 import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -17,22 +18,28 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "manufacturer")
+@Table(name = "promotional_event")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Manufacturer {
-	@Id
+public class PromotionalEvent {
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
     private Long id;
 
-    @Column(name = "name", length = 500)
+    @Column(name="name")
     private String name;
+    
+    @Column(name = "discount_percent")
+    private Float discountPercent;
 
-    @Column(name = "description", length = 500)
-    private String description;
-	@JsonIgnore
-	@OneToMany(mappedBy = "manufacturer", cascade = CascadeType.ALL)
+    @Column(name = "pro_date")
+    private Date pro_date;
+
+    @Column(name = "exp_date")
+    private Date exp_date;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "event", cascade = CascadeType.ALL)
 	private Set<Product> products;
 }

@@ -17,22 +17,20 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "manufacturer")
+@Table(name = "promotional_type")
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
-public class Manufacturer {
+@NoArgsConstructor
+public class PromotionalType {
 	@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private Long id;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id")
+	private Long id;
+	
+	@Column(name = "name", length = 500)
+	private String name;
 
-    @Column(name = "name", length = 500)
-    private String name;
-
-    @Column(name = "description", length = 500)
-    private String description;
 	@JsonIgnore
-	@OneToMany(mappedBy = "manufacturer", cascade = CascadeType.ALL)
-	private Set<Product> products;
+	@OneToMany(mappedBy = "type", cascade = CascadeType.ALL)
+	private Set<PromotionalCode> promotionalCodes;
 }
