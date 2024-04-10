@@ -13,6 +13,7 @@ import DaiHoc.Molla.entity.Category;
 import DaiHoc.Molla.entity.Manufacturer;
 import DaiHoc.Molla.entity.Product;
 import DaiHoc.Molla.entity.User;
+import DaiHoc.Molla.repository.CategoryRepository;
 import DaiHoc.Molla.service.IAccountService;
 import DaiHoc.Molla.service.ICategoryService;
 import DaiHoc.Molla.service.IManufacturerService;
@@ -22,6 +23,8 @@ import DaiHoc.Molla.service.IUserService;
 @RestController
 @RequestMapping("/api")
 public class WebAPIController {
+	@Autowired
+	private CategoryRepository repo;
 	@Autowired
 	private IProductService proSer;
 	@Autowired

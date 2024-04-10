@@ -23,7 +23,6 @@ public class ProductController {
 		List<Product> products = service.getAll();
 		model.addAttribute("products", products);
 		model.addAttribute("count", products.size());
-		
 		return "web/views/products";
 	}
 }
