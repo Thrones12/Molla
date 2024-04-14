@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -12,6 +14,7 @@ import DaiHoc.Molla.Utils.Constant;
 import DaiHoc.Molla.entity.Product;
 import DaiHoc.Molla.repository.ProductRepository;
 import DaiHoc.Molla.service.IProductService;
+import jakarta.transaction.Transactional;
 
 @Service
 public class ProductService implements IProductService {
@@ -30,7 +33,8 @@ public class ProductService implements IProductService {
 	}
 
 	@Override
-	public Optional<?> getAll(int sortby, int page) {
+    @Transactional
+	public Optional<?> getAll(Long cate_id, Long manu_id, int sortby, int page) {
 		PageRequest pageable = null;
 		if (sortby == Constant.eSortby.ASCENDING.ordinal()) {
 			pageable = PageRequest.of(page, Constant.productPerPage, Sort.by("name").ascending());
@@ -41,14 +45,17 @@ public class ProductService implements IProductService {
 		} else if (sortby == Constant.eSortby.DATE.ordinal()) {
 			pageable = PageRequest.of(page, Constant.productPerPage, Sort.by("id").descending());
 		}
-		return Optional.ofNullable(repo.findAll(pageable).getContent());
+		
+		Page<?> productPage = new PageImpl<>(repo.GetProductsByCategoryAndManufacturer(cate_id, manu_id), pageable, repo.findAll().size());
+		
+		return Optional.ofNullable(productPage.getContent());
 	}
 
 	@Override
-	public Optional<?> getByID(Long id) {
-		// TODO Auto-generated method stub
-		return Optional.empty();
+	public Optional<?> getOne(Long id) {
+		return repo.findById(id);
 	}
+
 
 	@Override
 	public Optional<?> getByCategory(Long cateID) {
@@ -61,13 +68,6 @@ public class ProductService implements IProductService {
 		// TODO Auto-generated method stub
 		return Optional.empty();
 	}
-
-	@Override
-	public Optional<?> getOne(Long id) {
-		// TODO Auto-generated method stub
-		return Optional.empty();
-	}
-
 	@Override
 	public boolean create(Optional<?> object) {
 		// TODO Auto-generated method stub

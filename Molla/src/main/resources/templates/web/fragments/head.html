@@ -35,8 +35,29 @@
 <script>
     function handleSortByChange() {
         var selectedValue = document.getElementById("sortby").value;
+        // Tạo một URLSearchParams từ query string của URL hiện tại
+		var urlParams = new URLSearchParams(window.location.search);
+
+		// Lấy giá trị của tham số 'page' từ URL
+		var pageParam = urlParams.get('page');
+
+		// Lấy giá trị của tham số 'sortby' từ URL
+		var sortbyParam = urlParams.get('sortby');
+		
+		// Lấy giá trị của tham số 'sortby' từ URL
+		var cateParam = urlParams.get('cate_id');
+		
+		// Lấy giá trị của tham số 'sortby' từ URL
+		var manuParam = urlParams.get('manu_id');
+		
     	// Tạo URL mới với tham số đã chọn
     	var newUrl = "product?page=0&sortby=" + encodeURIComponent(selectedValue);
+    	if (cateParam !== null){
+			newUrl += "&cate_id="+cateParam;
+		}
+		if (manuParam !== null){
+			newUrl += "&manu_id="+manuParam;
+		}
     	// Chuyển hướng trang đến URL mới
     	window.location.href = newUrl;
     }

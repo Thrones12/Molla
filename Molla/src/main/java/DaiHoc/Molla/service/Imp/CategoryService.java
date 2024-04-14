@@ -17,8 +17,7 @@ public class CategoryService implements ICategoryService
 
 	@Override
 	public Optional<?> getAll() {
-		// TODO Auto-generated method stub
-		return null;
+		return Optional.ofNullable(repo.findAll());
 	}
 
 	@Override

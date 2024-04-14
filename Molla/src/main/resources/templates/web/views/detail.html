@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{layouts/layout-web.html}">
+	
+<!-- molla/detail.html  14 Apr 2024 15:05:00 GMT -->
 
 <body>
     <div class="page-wrapper"  layout:fragment="content">
@@ -67,50 +69,24 @@
 
                                     <div class="col-md-6">
                                         <div class="product-details product-details-sidebar">
-                                            <h1 class="product-title">Black faux leather chain trim sandals</h1><!-- End .product-title -->
+                                            <h1 class="product-title" th:text="${product.name}"></h1><!-- End .product-title -->
 
                                             <div class="ratings-container">
                                                 <div class="ratings">
-                                                    <div class="ratings-val" style="width: 80%;"></div><!-- End .ratings-val -->
+                                                    <div class="ratings-val" th:style="'width: 20*'+${product.rating}+'%;'"></div><!-- End .ratings-val -->
                                                 </div><!-- End .ratings -->
-                                                <a class="ratings-text" href="#product-review-link" id="review-link">( 2 Reviews )</a>
+                                                <a class="ratings-text" href="#product-review-link" id="review-link" th:text="'('+${product.review.size()+' đánh giá)'}"></a>
                                             </div><!-- End .rating-container -->
 
-                                            <div class="product-price">
-                                                $90.00
+                                            <div class="product-price" th:text="${product.selling_price}">
                                             </div><!-- End .product-price -->
 
-                                            <div class="product-content">
-                                                <p>Sed egestas, ante et vulputate volutpat, eros semper est, vitae luctus metus libero eu augue.</p>
+                                            <div class="product-content" th:text="${product.description}">
                                             </div><!-- End .product-content -->
-
-                                            <div class="details-filter-row details-row-size">
-                                                <label>Color:</label>
-
-                                                <div class="product-nav product-nav-dots">
-                                                    <a href="#" class="active" style="background: #333333;"><span class="sr-only">Color name</span></a>
-                                                    <a href="#" style="background: #efe7db;"><span class="sr-only">Color name</span></a>
-                                                </div><!-- End .product-nav -->
-                                            </div><!-- End .details-filter-row -->
-
-                                            <div class="details-filter-row details-row-size">
-                                                <label for="size">Size:</label>
-                                                <div class="select-custom">
-                                                    <select name="size" id="size" class="form-control">
-                                                        <option value="#" selected="selected">Select a size</option>
-                                                        <option value="s">Small</option>
-                                                        <option value="m">Medium</option>
-                                                        <option value="l">Large</option>
-                                                        <option value="xl">Extra Large</option>
-                                                    </select>
-                                                </div><!-- End .select-custom -->
-
-                                                <a href="#" class="size-guide"><i class="icon-th-list"></i>size guide</a>
-                                            </div><!-- End .details-filter-row -->
 
                                             <div class="product-details-action">
                                                 <div class="details-action-col">
-                                                    <label for="qty">Qty:</label>
+                                                    <label for="qty" th:text="'Số lượng:' "></label>
                                                     <div class="product-details-quantity">
                                                         <input type="number" id="qty" class="form-control" value="1" min="1" max="10" step="1" data-decimals="0" required>
                                                     </div><!-- End .product-details-quantity -->
@@ -126,10 +102,8 @@
 
                                             <div class="product-details-footer details-footer-col">
                                                 <div class="product-cat">
-                                                    <span>Category:</span>
-                                                    <a href="#">Women</a>,
-                                                    <a href="#">Dresses</a>,
-                                                    <a href="#">Yellow</a>
+                                                    <span>Danh mục:</span>
+                                                    <a th:href="'product?cate_id='+${product.category.id}" th:text="${product.category.name}"></a>
                                                 </div><!-- End .product-cat -->
 
                                                 <div class="social-icons social-icons-sm">

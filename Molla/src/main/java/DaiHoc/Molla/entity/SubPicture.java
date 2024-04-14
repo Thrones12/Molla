@@ -27,7 +27,7 @@ public class SubPicture {
 	@Column(name = "id")
 	private Long id;
 	
-	@Column(name = "picure")
+	@Column(name = "picture")
 	private String picture;
 	
 	@JsonIgnore

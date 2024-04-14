@@ -79,6 +79,6 @@ public class Product {
 	private List<Review> review;
 	@JsonIgnore
 	@OneToMany(mappedBy="product", cascade = CascadeType.ALL)
-	private Set<SubPicture> subPicture;
+	private List<SubPicture> subPicture;
 	
 }
