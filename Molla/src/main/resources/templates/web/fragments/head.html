@@ -31,6 +31,16 @@
 	<link rel="stylesheet" href="assets/css/style.css">
 	<link rel="stylesheet" href="assets/css/skins/skin-demo-3.css">
 	<link rel="stylesheet" href="assets/css/demos/demo-3.css">
+	
+<script>
+    function handleSortByChange() {
+        var selectedValue = document.getElementById("sortby").value;
+    	// Tạo URL mới với tham số đã chọn
+    	var newUrl = "product?page=0&sortby=" + encodeURIComponent(selectedValue);
+    	// Chuyển hướng trang đến URL mới
+    	window.location.href = newUrl;
+    }
+</script>
 </head>
 
 </html>

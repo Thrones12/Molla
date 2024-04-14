@@ -2,6 +2,7 @@ package DaiHoc.Molla.entity;
 
 import java.sql.Date;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Column;

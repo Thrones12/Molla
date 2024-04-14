@@ -1,18 +1,25 @@
 package DaiHoc.Molla.service;
 
-import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Component;
 
-import DaiHoc.Molla.entity.Product;
+
 @Component
 public interface IProductService {
-	List<Product> getAll();
-	Product getByID(Long id);
-	Product getByCategory(Long cateID);
-	Product getByManufacturer(Long manuID);
+	Optional<?> getAll();
+	Optional<?> getAll(int page);
+	Optional<?> getAll(int sortby, int page);
 	
-	boolean create(Product product);
-	boolean update(Product product);
+	Optional<?> getByID(Long id);
+	Optional<?> getByCategory(Long cateID);
+	Optional<?> getByManufacturer(Long manuID);
+	
+	Optional<?> getOne(Long id);
+	boolean create(Optional<?> object);
+	boolean update(Optional<?> object);
 	boolean delete(Long id);
+	
+	int count(Optional<?> products);
+	public int calculatePage();
 }

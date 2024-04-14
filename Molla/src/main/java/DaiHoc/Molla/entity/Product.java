@@ -1,8 +1,10 @@
 package DaiHoc.Molla.entity;
 
+import java.util.List;
 import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -27,7 +29,7 @@ public class Product {
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private Long productId;
+    private Long id;
 
     @Column(name = "name", length = 500, nullable = false, columnDefinition = "varchar(500) default 'Chưa đặt tên'")
     private String name;
@@ -43,6 +45,12 @@ public class Product {
 
     @Column(name = "selling_price")
     private Float selling_price;
+
+    @Column(name = "sold")
+    private int sold;
+
+    @Column(name = "rating")
+    private int rating;
 
     @Column(name = "state")
     private int state;
@@ -62,15 +70,15 @@ public class Product {
 	
 	@JsonIgnore
 	@OneToMany(mappedBy="product", cascade = CascadeType.ALL)
-	private Set<LineItem> lineItems;
+	private Set<LineItem> lineItem;
 	@JsonIgnore
 	@OneToMany(mappedBy="product", cascade = CascadeType.ALL)
-	private Set<Stock> stocks;
+	private Set<Stock> stock;
 	@JsonIgnore
 	@OneToMany(mappedBy="product", cascade = CascadeType.ALL)
-	private Set<Review> reviews;
+	private List<Review> review;
 	@JsonIgnore
 	@OneToMany(mappedBy="product", cascade = CascadeType.ALL)
-	private Set<SubPicture> subPictures;
+	private Set<SubPicture> subPicture;
 	
 }
