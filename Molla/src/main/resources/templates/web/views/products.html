@@ -31,9 +31,15 @@
                             <a href="#" class="sidebar-toggler"><i class="icon-bars"></i>Filters</a>
         				</div><!-- End .toolbox-left -->
 
+                        <div class="toolbox-center">
+                            <div class="toolbox-info">
+                                <span th:text="'Số lượng sản phảm: '+${count}"></span>
+                            </div><!-- End .toolbox-info -->
+                        </div><!-- End .toolbox-center -->
+
         				<div class="toolbox-right">
         					<div class="toolbox-sort">
-        						<label for="sortby">Sắp xếp:</label>
+        						<label for="sortby">Sort by:</label>
         						<div class="select-custom">
 									<select name="sortby" id="sortby" class="form-control" onchange="handleSortByChange()">
 										<option value="0" th:selected="${sortby == 0}">Tên</option>
@@ -52,8 +58,8 @@
                                 <div class="product">
                                     <figure class="product-media">
                                         <span class="product-label label-new">New</span>
-                                        <a th:href="'detail?id='+${product.id}">
-                                            <img th:src="'assets/images/products/'+${product.picture}" alt="Product image" class="product-image">
+                                        <a href="product.html">
+                                            <img style="width:100%;" th:src="'assets/images/products/'+${product.picture}" alt="Product image" class="product-image">
                                         </a>
 
                                         <div class="product-action-vertical">
@@ -76,7 +82,7 @@
                                         </div><!-- End .product-price -->
                                         <div class="ratings-container">
                                             <div class="ratings">
-                                                <div class="ratings-val" th:style="${'width: '+20*product.rating+'%;'}"></div><!-- End .ratings-val -->
+                                                <div class="ratings-val" style="width: 0%;"></div><!-- End .ratings-val -->
                                             </div><!-- End .ratings -->
                                             <span class="ratings-text" th:text="'('+${product.review.size()}+' đánh giá)'"></span>
                                         </div><!-- End .rating-container -->
