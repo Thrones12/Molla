@@ -43,11 +43,19 @@ public class ProductController {
 		List<Product> products = (List<Product>) productService.getAll(cate_id, manu_id, sortby, page - 1).get();
 
 		model.addAttribute("products", products);
+		model.addAttribute("sortby", sortby);
+		
+		//phan trang
 		model.addAttribute("page", page);
 		model.addAttribute("countPage", productService.calculatePage());
-		model.addAttribute("sortby", sortby);
+		
+		//xu li filter
 		model.addAttribute("categories", (List<Category>) cateService.getAll().get());
-		model.addAttribute("manufacturies", (List<Manufacturer>) manuService.getAll().get());
+		model.addAttribute("manufacturers", (List<Manufacturer>) manuService.getAll().get());
+		model.addAttribute("cate_id", cate_id);
+		model.addAttribute("manu_id", manu_id);
+		
+		
 		return "web/views/products";
 	}
 

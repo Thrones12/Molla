@@ -61,6 +61,32 @@
     	// Chuyển hướng trang đến URL mới
     	window.location.href = newUrl;
     }
+    function handleCheckboxChange(type,checkbox){
+		// Lấy URL hiện tại
+		var url = window.location.href;
+		// Phân tích URL để lấy ra các tham số
+		var urlParams = new URLSearchParams(url.search);
+		// Thay đổi giá trị của tham số mong muốn
+		urlParams.set('manu_id', checkbox.id);
+		// Xây dựng lại URL với các tham số mới
+		var newUrl = window.location.origin + window.location.pathname + '?' + urlParams.toString();
+    	// Chuyển hướng trang đến URL mới
+    	//window.location.href = newUrl;
+    	console.log(type);
+	}
+	function handleCategoryCheckboxChange(checkbox){
+		// Lấy URL hiện tại
+		var url = window.location.href;
+		// Phân tích URL để lấy ra các tham số
+		var urlParams = new URLSearchParams(url.search);
+		// Thay đổi giá trị của tham số mong muốn
+		urlParams.set('cate_id', checkbox.id);
+		// Xây dựng lại URL với các tham số mới
+		var newUrl = window.location.origin + window.location.pathname + '?' + urlParams.toString();
+    	// Chuyển hướng trang đến URL mới
+    	//window.location.href = newUrl;
+    	console.log('cate');
+	}
 </script>
 </head>
 
