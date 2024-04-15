@@ -1,5 +1,7 @@
 package DaiHoc.Molla.service.Imp;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,9 +34,10 @@ public class ProductService implements IProductService {
 		return Optional.ofNullable(repo.findAll(pageable).getContent());
 	}
 
+	@SuppressWarnings("null")
 	@Override
     @Transactional
-	public Optional<?> getAll(Long cate_id, Long manu_id, int sortby, int page) {
+	public Optional<?> getAll(String str_cate, String str_manu, float min_price, float max_price, int sortby, int page) {
 		PageRequest pageable = null;
 		if (sortby == Constant.eSortby.ASCENDING.ordinal()) {
 			pageable = PageRequest.of(page, Constant.productPerPage, Sort.by("name").ascending());
@@ -45,10 +48,12 @@ public class ProductService implements IProductService {
 		} else if (sortby == Constant.eSortby.DATE.ordinal()) {
 			pageable = PageRequest.of(page, Constant.productPerPage, Sort.by("id").descending());
 		}
-		
-		Page<?> productPage = new PageImpl<>(repo.GetProductsByCategoryAndManufacturer(cate_id, manu_id), pageable, repo.findAll().size());
-		
-		return Optional.ofNullable(productPage.getContent());
+		List<Product> products = repo.GetProductsByCategoryAndManufacturer(str_cate, str_manu, min_price, max_price);
+	    int start = (int) pageable.getOffset();
+	    int end = Math.min((start + pageable.getPageSize()), products.size());
+	    Page<Product> productPage = new PageImpl<>(products.subList(start, end), pageable, products.size());
+	    
+	    return Optional.ofNullable(productPage.getContent());
 	}
 
 	@Override

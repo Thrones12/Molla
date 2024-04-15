@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 public interface IProductService {
 	Optional<?> getAll();
 	Optional<?> getAll(int page);
-	Optional<?> getAll(Long cate_id, Long manu_id, int sortby, int page);
+	Optional<?> getAll(String cate_id, String manu_id, float min_price, float max_price, int sortby, int page);
 	
 	Optional<?> getOne(Long id);
 	Optional<?> getByCategory(Long cateID);

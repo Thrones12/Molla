@@ -31,18 +31,13 @@
 	<link rel="stylesheet" href="assets/css/style.css">
 	<link rel="stylesheet" href="assets/css/skins/skin-demo-3.css">
 	<link rel="stylesheet" href="assets/css/demos/demo-3.css">
-	
+	<link rel="stylesheet" href="assets/css/plugins/nouislider/nouislider.css">
 <script>
     function handleSortByChange() {
+		noUi
         var selectedValue = document.getElementById("sortby").value;
         // Tạo một URLSearchParams từ query string của URL hiện tại
 		var urlParams = new URLSearchParams(window.location.search);
-
-		// Lấy giá trị của tham số 'page' từ URL
-		var pageParam = urlParams.get('page');
-
-		// Lấy giá trị của tham số 'sortby' từ URL
-		var sortbyParam = urlParams.get('sortby');
 		
 		// Lấy giá trị của tham số 'sortby' từ URL
 		var cateParam = urlParams.get('cate_id');
@@ -51,7 +46,7 @@
 		var manuParam = urlParams.get('manu_id');
 		
     	// Tạo URL mới với tham số đã chọn
-    	var newUrl = "product?page=0&sortby=" + encodeURIComponent(selectedValue);
+    	var newUrl = "product?page=1&sortby=" + encodeURIComponent(selectedValue);
     	if (cateParam !== null){
 			newUrl += "&cate_id="+cateParam;
 		}
@@ -61,31 +56,46 @@
     	// Chuyển hướng trang đến URL mới
     	window.location.href = newUrl;
     }
-    function handleCheckboxChange(type,checkbox){
+	function updateUrl(){
 		// Lấy URL hiện tại
 		var url = window.location.href;
 		// Phân tích URL để lấy ra các tham số
-		var urlParams = new URLSearchParams(url.search);
-		// Thay đổi giá trị của tham số mong muốn
-		urlParams.set('manu_id', checkbox.id);
+		var urlParams = new URLSearchParams(window.location.search);
+		// Xóa các tham số cũ
+	    urlParams.delete('cate_id');
+	    urlParams.delete('manu_id');
+	    urlParams.delete('page');
+		// Xử lí category param 
+		var cate_checkboxes = document.querySelectorAll('input[type="checkbox"][id*="cate"]:checked');
+		var cateid_value = '';
+		cate_checkboxes.forEach(function(checkbox){
+			cateid_value += checkbox.id.split("-")[1]+',';
+		});
+		cateid_value = cateid_value.slice(0, -1);
+		
+		// Xử lí manufacturer param
+		var manu_checkboxes = document.querySelectorAll('input[type="checkbox"][id*="manu"]:checked');
+		var manuid_value = '';
+		manu_checkboxes.forEach(function(checkbox){
+			manuid_value += checkbox.id.split("-")[1]+',';
+		});
+		manuid_value = manuid_value.slice(0, -1);
+		
+		// Thêm lại các param
+		if (cateid_value != ''){
+			urlParams.set('cate_id', cateid_value);	
+		}
+		if (manuid_value != ''){
+			urlParams.set('manu_id', manuid_value);
+		}
+		
+		var slider = document.getElementById('price-slider');
+    	var sliderValue = slider.noUiSlider.get();
+    	urlParams.set('price', sliderValue);
 		// Xây dựng lại URL với các tham số mới
 		var newUrl = window.location.origin + window.location.pathname + '?' + urlParams.toString();
     	// Chuyển hướng trang đến URL mới
-    	//window.location.href = newUrl;
-    	console.log(type);
-	}
-	function handleCategoryCheckboxChange(checkbox){
-		// Lấy URL hiện tại
-		var url = window.location.href;
-		// Phân tích URL để lấy ra các tham số
-		var urlParams = new URLSearchParams(url.search);
-		// Thay đổi giá trị của tham số mong muốn
-		urlParams.set('cate_id', checkbox.id);
-		// Xây dựng lại URL với các tham số mới
-		var newUrl = window.location.origin + window.location.pathname + '?' + urlParams.toString();
-    	// Chuyển hướng trang đến URL mới
-    	//window.location.href = newUrl;
-    	console.log('cate');
+    	window.location.href = newUrl;
 	}
 </script>
 </head>

@@ -122,13 +122,13 @@ $(document).ready(function () {
     $('.sidebar-filter-overlay').on('click', function (e) {
 		$body.removeClass('sidebar-filter-active');
 		$sidebarToggler.removeClass('active');
+		updateUrl();
 		e.preventDefault();
     });
 
     // Clear All checkbox/remove filters in sidebar filter
     $('.sidebar-filter-clear').on('click', function (e) {
     	$('.sidebar-shop').find('input').prop('checked', false);
-
     	e.preventDefault();
     });
 
@@ -170,13 +170,13 @@ $(document).ready(function () {
 		if (priceSlider == null) return;
 
 		noUiSlider.create(priceSlider, {
-			start: [ 0, 750 ],
+			start: [ 0, 50 ],
 			connect: true,
-			step: 50,
-			margin: 200,
+			step: 1,
+			margin: 10,
 			range: {
 				'min': 0,
-				'max': 1000
+				'max': 100
 			},
 			tooltips: true,
 			format: wNumb({
