@@ -9,4 +9,9 @@ import DaiHoc.Molla.entity.Manufacturer;
 @Component
 public interface IManufacturerService {
 	List<Manufacturer> getAll();
+	
+	boolean save(Manufacturer manufacturer);
+	boolean update(Manufacturer manufacturer);
+	boolean delete(Long id);
+	Manufacturer findById(Long id);
 }
