@@ -8,8 +8,9 @@ import org.springframework.stereotype.Component;
 
 @Component
 public interface IReviewService {
-	Optional<?> getAll();
-	Optional<?> getOne(Long id);
+	Optional<?> findAll();
+	Optional<?> findByProduct_Id(Long pro_id);
+	Optional<?> findOne(Long id);
 	boolean create(Optional<?> object);
 	boolean update(Optional<?> object);
 	boolean delete(Long id);

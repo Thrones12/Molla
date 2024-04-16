@@ -24,20 +24,13 @@ public class ProductService implements IProductService {
 	ProductRepository repo;
 
 	@Override
-	public Optional<?> getAll() {
+	public Optional<?> findAll() {
 		return Optional.ofNullable(repo.findAll());
 	}
 
 	@Override
-	public Optional<?> getAll(int page) {
-		PageRequest pageable = PageRequest.of(page, Constant.productPerPage, Sort.by("name").ascending());
-		return Optional.ofNullable(repo.findAll(pageable).getContent());
-	}
-
-	@SuppressWarnings("null")
-	@Override
     @Transactional
-	public Optional<?> getAll(String str_cate, String str_manu, float min_price, float max_price, int sortby, int page) {
+	public Optional<?> findAll(String str_cate, String str_manu, float min_price, float max_price, int sortby, int page) {
 		PageRequest pageable = null;
 		if (sortby == Constant.eSortby.ASCENDING.ordinal()) {
 			pageable = PageRequest.of(page, Constant.productPerPage, Sort.by("name").ascending());
@@ -48,31 +41,40 @@ public class ProductService implements IProductService {
 		} else if (sortby == Constant.eSortby.DATE.ordinal()) {
 			pageable = PageRequest.of(page, Constant.productPerPage, Sort.by("id").descending());
 		}
-		List<Product> products = repo.GetProductsByCategoryAndManufacturer(str_cate, str_manu, min_price, max_price);
+		List<Product> products = repo.findProductsByCategoryAndManufacturer(str_cate, str_manu, min_price, max_price);
 	    int start = (int) pageable.getOffset();
 	    int end = Math.min((start + pageable.getPageSize()), products.size());
 	    Page<Product> productPage = new PageImpl<>(products.subList(start, end), pageable, products.size());
 	    
 	    return Optional.ofNullable(productPage.getContent());
 	}
+	
+	@Override
+    @Transactional
+	public Optional<?> findTop4Product() {
+		return Optional.ofNullable(repo.findTop4Product());
+	}
 
 	@Override
-	public Optional<?> getOne(Long id) {
+	public Optional<?> findByCategory(Long cateID) {
+		return Optional.ofNullable(repo.findByCategory_Id(cateID));
+	}
+
+	@Override
+	public Optional<?> findByManufacturer(Long manuID) {
+		return Optional.ofNullable(repo.findByManufacturer_Id(manuID));
+	}
+	
+	@Override
+	public Float findMaxPrice() {
+		return repo.findMaxPrice();
+	}
+
+	@Override
+	public Optional<?> findOne(Long id) {
 		return repo.findById(id);
 	}
-
-
-	@Override
-	public Optional<?> getByCategory(Long cateID) {
-		// TODO Auto-generated method stub
-		return Optional.empty();
-	}
-
-	@Override
-	public Optional<?> getByManufacturer(Long manuID) {
-		// TODO Auto-generated method stub
-		return Optional.empty();
-	}
+	
 	@Override
 	public boolean create(Optional<?> object) {
 		// TODO Auto-generated method stub

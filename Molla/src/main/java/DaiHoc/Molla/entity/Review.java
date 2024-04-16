@@ -30,13 +30,16 @@ public class Review {
 	private Long id;
 	
 	@Column(name = "review_date")
-	private Date reviewDate;
+	private Date review_date;
 	
 	@Column(name = "rating")
 	private int rating;
 	
-	@Column(name = "conten")
+	@Column(name = "content")
 	private String content;
+	
+	@Column(name = "title")
+	private String title;
 	
 	@Column(name = "picture")
 	private String picture;

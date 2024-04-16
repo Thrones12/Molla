@@ -1,0 +1,22 @@
+package DaiHoc.Molla.controller.web;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import DaiHoc.Molla.service.ICartService;
+
+@Controller
+@RequestMapping("/")
+public class CartController {
+	@Autowired
+	private ICartService cartService;
+
+	@GetMapping("cart")
+	public String getDetail(ModelMap model) {
+		return "web/views/cart";
+	}
+}

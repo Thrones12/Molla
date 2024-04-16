@@ -12,9 +12,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import DaiHoc.Molla.entity.Category;
 import DaiHoc.Molla.entity.Manufacturer;
 import DaiHoc.Molla.entity.Product;
+import DaiHoc.Molla.entity.Review;
 import DaiHoc.Molla.service.ICategoryService;
 import DaiHoc.Molla.service.IManufacturerService;
 import DaiHoc.Molla.service.IProductService;
+import DaiHoc.Molla.service.IReviewService;
 import DaiHoc.Molla.service.ISubPictureService;
 
 @Controller
@@ -28,6 +30,8 @@ public class ProductController {
 	private ICategoryService cateService;
 	@Autowired
 	private IManufacturerService manuService;
+	@Autowired
+	private IReviewService reviewService;
 
 	@SuppressWarnings("unchecked")
 	@GetMapping("product")
@@ -42,9 +46,13 @@ public class ProductController {
 		else if (page > productService.calculatePage())
 			page = productService.calculatePage();
 		
-		List<Product> products = (List<Product>) productService.getAll(cate_id, manu_id, 
-				Float.parseFloat(price.replace('$', ' ').split(",")[0].trim()), 
-				Float.parseFloat(price.replace('$', ' ').split(",")[1].trim()), 
+		if (price.equals("0")) {
+			price = "0.0," + productService.findMaxPrice().toString();
+		}
+		
+		List<Product> products = (List<Product>) productService.findAll(cate_id, manu_id, 
+				Float.parseFloat(price.replace('đ', ' ').split(",")[0].trim()), 
+				Float.parseFloat(price.replace('đ', ' ').split(",")[1].trim()), 
 				sortby, page - 1).get();
 		
 		model.addAttribute("products", products);
@@ -59,9 +67,18 @@ public class ProductController {
 		
 	}
 
+	@SuppressWarnings("unchecked")
 	@GetMapping("detail")
 	public String getDetail(@RequestParam Long id, ModelMap model) {
-		model.addAttribute("product", productService.getOne(id).get());
+		//${review.user.fullname}
+		List<Review> reviews = (List<Review>) reviewService.findByProduct_Id(id).get();
+		
+		model.addAttribute("product", productService.findOne(id).get());
+		model.addAttribute("top4_product", productService.findTop4Product().get());
+		model.addAttribute("reviews", reviews);
+		model.addAttribute("countReview", reviews.size());
+		model.addAttribute("categories", (List<Product>) productService.findByCategory(id).get());
+		model.addAttribute("manufacturers", (List<Product>) productService.findByManufacturer(id).get());
 		return "web/views/detail";
 	}
 }

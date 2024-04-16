@@ -7,18 +7,21 @@ import org.springframework.stereotype.Component;
 
 @Component
 public interface IProductService {
-	Optional<?> getAll();
-	Optional<?> getAll(int page);
-	Optional<?> getAll(String cate_id, String manu_id, float min_price, float max_price, int sortby, int page);
+	// Tìm kiếm
+	Optional<?> findAll();
+	Optional<?> findAll(String cate_id, String manu_id, float min_price, float max_price, int sortby, int page);
+	Optional<?> findOne(Long id);
+	Optional<?> findTop4Product();
+	Optional<?> findByCategory(Long cateID);
+	Optional<?> findByManufacturer(Long manuID);
 	
-	Optional<?> getOne(Long id);
-	Optional<?> getByCategory(Long cateID);
-	Optional<?> getByManufacturer(Long manuID);
-	
+	// Tác vụ
 	boolean create(Optional<?> object);
 	boolean update(Optional<?> object);
 	boolean delete(Long id);
 	
+	// Khác
 	int count(Optional<?> products);
 	public int calculatePage();
+	Float findMaxPrice();
 }

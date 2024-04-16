@@ -16,12 +16,18 @@ public class ReviewService implements IReviewService
 	private ReviewRepository repo;
 
 	@Override
-	public Optional<?> getAll() {
+	public Optional<?> findAll() {
 		return Optional.ofNullable(repo.findAll());
 	}
 
 	@Override
-	public Optional<?> getOne(Long id) {
+	public Optional<?> findByProduct_Id(Long pro_id) {
+		// TODO Auto-generated method stub
+		return Optional.ofNullable(repo.findByProduct_Id(pro_id));
+	}
+
+	@Override
+	public Optional<?> findOne(Long id) {
 		// TODO Auto-generated method stub
 		return Optional.empty();
 	}

@@ -10,15 +10,13 @@ import DaiHoc.Molla.service.IProductService;
 import DaiHoc.Molla.service.IReviewService;
 
 @RestController
-@RequestMapping("/api/product")
-public class ProductAPIController {
+@RequestMapping("/api/review")
+public class ReviewAPIController {
 	@Autowired
-	private IProductService service;
-	@Autowired
-	private IReviewService service1;
+	private IReviewService service;
 	@GetMapping("")
-	public ResponseEntity<?> getProduct(){
+	public ResponseEntity<?> getReview(){
 		
-		return ResponseEntity.ok(service.findAll().get());
+		return ResponseEntity.ok(service.findByProduct_Id(1L).get());
 	}
 }
