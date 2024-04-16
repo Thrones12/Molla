@@ -1,4 +1,4 @@
-package DaiHoc.Molla.entity;
+	package DaiHoc.Molla.entity;
 
 import java.sql.Date;
 import java.util.Set;

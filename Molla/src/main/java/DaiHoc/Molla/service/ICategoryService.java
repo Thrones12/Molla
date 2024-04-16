@@ -8,4 +8,8 @@ import DaiHoc.Molla.entity.Category;
 @Component
 public interface ICategoryService {
 	List<Category> getAll();
+	Boolean save(Category category);
+	Boolean update(Category category);
+	Boolean delete(Long Id);
+	Category findById(Long id);
 }

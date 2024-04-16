@@ -16,8 +16,8 @@ public class MollaApplication {
 		SpringApplication.run(MollaApplication.class, args);
 	}
 
-    public void run(String... args) throws Exception {
-        // Logic to save category
-        repo.save(new Category());
-    }
+//    public void run(String... args) throws Exception {
+//        // Logic to save category
+//        repo.save(new Category());
+//    }
 }

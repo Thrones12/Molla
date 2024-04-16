@@ -17,5 +17,44 @@ public class CategoryService implements ICategoryService
 	public List<Category> getAll() {
 		return repo.findAll();
 	}
+	@Override
+	public Boolean save(Category category) {
+		// TODO Auto-generated method stub
+		try {
+			repo.save(category);
+			return true;
+		}
+		 catch (Exception e) {
+			 e.printStackTrace();
+		 }
+		 return false;
+	}
+	@Override
+	public Category findById(Long id) {	
+		return repo.findById(id).get();
+	}
+	@Override
+	public Boolean update(Category category) {
+		// TODO Auto-generated method stub
+		try {
+			repo.save(category);
+			return true;
+		}
+		 catch (Exception e) {
+			 e.printStackTrace();
+		 }
+		 return false;
+	}
+	@Override
+	public Boolean delete(Long Id) {
+		try {
+			repo.delete(findById(Id));
+			return true;
+		}
+		 catch (Exception e) {
+			 e.printStackTrace();
+		 }
+		 return false;
+	}
 
 }
