@@ -1,6 +1,5 @@
 package DaiHoc.Molla.service.Imp;
 
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,15 +15,18 @@ public class CartService implements ICartService
 	private CartRepository repo;
 
 	@Override
-	public List<Optional<?>> getAll() {
-		// TODO Auto-generated method stub
-		return null;
+	public Optional<?> findAll() {
+		return Optional.ofNullable(repo.findAll());
 	}
 
 	@Override
-	public Optional<?> getOne(Long id) {
-		// TODO Auto-generated method stub
-		return Optional.empty();
+	public Optional<?> findByUser(Long user_id) {
+		return Optional.ofNullable(repo.findByUser_Id(user_id));
+	}
+	
+	@Override
+	public Cart findOne(Long id) {
+		return repo.findById(id).get();
 	}
 
 	@Override
@@ -34,9 +36,9 @@ public class CartService implements ICartService
 	}
 
 	@Override
-	public boolean update(Optional<?> object) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean update(Cart cart) {
+		repo.save(cart);
+		return true;
 	}
 
 	@Override

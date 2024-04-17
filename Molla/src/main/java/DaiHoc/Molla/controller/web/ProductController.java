@@ -54,7 +54,7 @@ public class ProductController {
 				Float.parseFloat(price.replace('đ', ' ').split(",")[0].trim()), 
 				Float.parseFloat(price.replace('đ', ' ').split(",")[1].trim()), 
 				sortby, page - 1).get();
-		
+
 		model.addAttribute("products", products);
 		model.addAttribute("sortby", sortby);
 		model.addAttribute("page", page);

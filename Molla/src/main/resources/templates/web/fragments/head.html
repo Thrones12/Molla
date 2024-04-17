@@ -32,6 +32,38 @@
 	<link rel="stylesheet" href="assets/css/skins/skin-demo-3.css">
 	<link rel="stylesheet" href="assets/css/demos/demo-3.css">
 	<link rel="stylesheet" href="assets/css/plugins/nouislider/nouislider.css">
+<style>
+.custom-control-inputtt[type="checkbox"] {
+    position: relative;
+    width: 20px;
+    height: 20px;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-color: #fff;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    cursor: pointer;
+    margin: 0 10px;
+}
+
+.custom-control-inputtt[type="checkbox"]:checked {
+    background-color: dimgray;
+    border-color: dimgray;
+}
+
+.custom-control-inputtt[type="checkbox"]:checked::before {
+    content: '\2713';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #fff;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+</style>
 <script>
 	
 </script>

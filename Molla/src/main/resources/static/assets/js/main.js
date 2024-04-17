@@ -42,6 +42,18 @@ $(document).ready(function(){
         });
 	}
 });
+function handleCartQuantityChange(cart_id, quantity){
+	// Phân tích URL để lấy ra các tham số
+	var urlParams = new URLSearchParams(window.location.search);
+	urlParams.set('cart_id', cart_id);
+	urlParams.set('quantity', quantity);
+	
+	
+	// Xây dựng lại URL với các tham số mới
+	var newUrl = window.location.origin + window.location.pathname + '-quantity?' + urlParams.toString();
+	// Chuyển hướng trang đến URL mới
+	window.location.href = newUrl;
+}
 function handleSortByChange() {
     var selectedValue = document.getElementById("sortby").value;
     // Tạo một URLSearchParams từ query string của URL hiện tại
@@ -65,8 +77,6 @@ function handleSortByChange() {
 	window.location.href = newUrl;
 }
 function updateUrl(){
-	// Lấy URL hiện tại
-	var url = window.location.href;
 	// Phân tích URL để lấy ra các tham số
 	var urlParams = new URLSearchParams(window.location.search);
 	// Xóa các tham số cũ

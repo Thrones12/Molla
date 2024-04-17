@@ -28,6 +28,7 @@ public class ProductService implements IProductService {
 		return Optional.ofNullable(repo.findAll());
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
     @Transactional
 	public Optional<?> findAll(String str_cate, String str_manu, float min_price, float max_price, int sortby, int page) {
@@ -72,7 +73,7 @@ public class ProductService implements IProductService {
 
 	@Override
 	public Optional<?> findOne(Long id) {
-		return repo.findById(id);
+		return Optional.ofNullable(repo.findById(id));
 	}
 	
 	@Override

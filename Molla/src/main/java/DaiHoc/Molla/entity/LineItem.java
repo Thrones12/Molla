@@ -33,8 +33,7 @@ public class LineItem {
 	
 	@Column(name="subtotal")
 	private float subtotal;
-	
-	@JsonIgnore
+
 	@ManyToOne
 	@JoinColumn(name="pro_id", referencedColumnName="id")
 	private Product product;

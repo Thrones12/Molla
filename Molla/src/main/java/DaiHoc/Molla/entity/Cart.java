@@ -27,12 +27,10 @@ public class Cart {
 	@Column(name = "id")
 	private Long id;
 	
-	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name="user_id", referencedColumnName = "id")
 	private User user;
 	
-	@JsonIgnore
 	@OneToOne
 	@JoinColumn(name="line_id", referencedColumnName="id")
 	private LineItem lineItem;
