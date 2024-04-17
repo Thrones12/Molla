@@ -171,7 +171,7 @@
                                             <div class="review" th:each="review : ${reviews}">
                                                 <div class="row no-gutters">
                                                     <div class="col-auto">
-                                                        <h4 ></h4>
+                                                        <h4 th:text="${review.user.fullname}"></h4>
                                                         <div class="ratings-container">
                                                             <div class="ratings">
                                                                 <div class="ratings-val" th:style="'width: 20*'+${review.rating}+'%;'"></div><!-- End .ratings-val -->

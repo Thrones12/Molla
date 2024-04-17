@@ -73,7 +73,7 @@ public class ProductService implements IProductService {
 
 	@Override
 	public Optional<?> findOne(Long id) {
-		return Optional.ofNullable(repo.findById(id));
+		return repo.findById(id);
 	}
 	
 	@Override

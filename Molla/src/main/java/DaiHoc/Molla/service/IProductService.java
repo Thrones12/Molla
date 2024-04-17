@@ -4,6 +4,8 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Component;
 
+import DaiHoc.Molla.entity.Product;
+
 
 @Component
 public interface IProductService {
