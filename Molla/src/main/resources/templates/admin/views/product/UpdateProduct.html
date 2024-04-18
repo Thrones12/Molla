@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="admin/fragments/head :: head">
+</head>
+<body class="hold-transition skin-blue sidebar-mini">
+	<!-- Site wrapper -->
+	<div class="wrapper">
+
+		<div th:replace="admin/fragments/header :: header"></div>
+		<!-- =============================================== -->
+
+		<!-- Left side column. contains the sidebar -->
+
+		<div th:replace="admin/fragments/sidebar :: sidebar"></div>
+		<!-- =============================================== -->
+
+	  <!-- Content Wrapper. Contains page content -->
+	<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1>
+        Create new Product   
+      </h1>
+      <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li><a href="#">Examples</a></li>
+        <li class="active">Blank page</li>
+      </ol>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+
+      <!-- Default box -->
+     <div class="col-md-8">
+          <!-- general form elements -->
+          <div class="box box-primary">         
+            <!-- /.box-header -->
+            <!-- form start -->
+            <form role="form" method="post" th:action="@{/admin/update-product}" th:object="${product}" enctype="multipart/form-data">
+            <input type="hidden" class="form-control" name="id" placeholder="id" th:field="*{productId}">
+              <div class="box-body">
+                <div class="form-group">
+                  <label for="exampleInputEmail1">Product Name</label>
+                  <input type="text" class="form-control" name="name" placeholder="Name" th:field="*{name}">
+                </div>
+                 <div class="form-group">
+                  <label for="exampleInputEmail1">Description</label>
+                 <input type="text" class="form-control" name="description" placeholder="Category Description" th:field="*{description}">
+                </div>
+                <div class="form-group">
+                  <label for="exampleInputEmail1">Picture</label>
+                  <input type="file" class="form-control" name="FilePicture" >
+                  <input type="text"  th:field="*{picture}">
+                  </div>
+                  <div class="form-group">
+                <label for="exampleInputEmail1">Purchase Price</label>
+                  <input type="text" class="form-control" name="purchase_price" placeholder="Purchase Price" th:field="*{purchase_price}">
+                  </div>
+                  <div class="form-group">
+                <label for="exampleInputEmail1">Selling Price</label>
+                  <input type="text" class="form-control" name="selling_price" placeholder="Selling Price" th:field="*{selling_price}">
+                  </div>
+                  <div class="row">
+				    <div class="col-md-4">
+				        <div class="form-group">
+				            <label for="exampleInputEmail1">State</label>
+				            <input type="text" class="form-control" name="state" placeholder="State" th:field="*{state}">
+				        </div>
+				    </div>
+				    <div class="col-md-4">
+				        <div class="form-group">
+				            <label>Category</label>
+				            <select class="form-control select2 select2-hidden-accessible" th:field="*{category.id}">
+				                <option th:each="category : ${listCate}" th:value="${category.id}" th:text="${category.name}"></option>
+				            </select>
+				        </div>
+				    </div>
+				    <div class="col-md-4">
+				        <div class="form-group">
+				            <label>Manufacturer</label>
+				            <select class="form-control select2 select2-hidden-accessible" th:field="*{manufacturer.id}">
+				                <option th:each="manufacturer : ${listManu}" th:value="${manufacturer.id}" th:text="${manufacturer.name}"></option>
+				            </select>
+				        </div>
+				    </div>
+				</div>
+			    				        						  									
+					</div>
+									
+              <!-- /.box-body -->
+
+              <div class="box-footer">
+                <button type="submit" class="btn btn-primary">Update</button>
+              </div>
+            </form>
+          </div>
+       
+          <!-- /.box -->
+
+        </div>
+      <!-- /.box -->
+
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+
+
+
+		<div th:replace="admin/fragments/fooster :: fooster"></div>
+
+	</div>
+	<!-- ./wrapper -->
+
+	<!-- jQuery 3 -->
+
+	<script th:src="@{/admin/js/jquery.min.js}"></script>
+	<script th:src="@{/admin/js/jquery-ui.js}"></script>
+	<script th:src="@{/admin/js/bootstrap.min.js}"></script>
+	<script th:src="@{/admin/js/adminlte.min.js}"></script>
+	<script th:src="@{/admin/js/dashboard.js}"></script>
+	<script th:src="@{/admin/tinymce/tinymce.min.js}"></script>
+	<script th:src="@{/admin/tinymce/config.js}"></script>
+	<script th:src="@{/admin/js/function.js}"></script>
+</body>
+</html>

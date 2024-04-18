@@ -54,7 +54,7 @@
 						<div class="box-body table-responsive no-padding">
 							<table class="table table-hover">
 								<tbody>
-									<tr>
+								<tr>
 										<th>Category ID</th>
 										<th>Category Name</th>
 										<th>Description</th>
@@ -69,7 +69,8 @@
 										<td><span class="label label-success">Hiển thị</span></td>
 										<td><a
 											th:href="@{/admin/update-category/{id}(id=${list.id})}"
-											class="btn btn-success">Update</a> <a
+											class="btn btn-success">Update</a>
+											 <a
 											th:href="@{/admin/delete-category/{id}(id=${list.id})}"
 											onclick="return confirm('Do you want to delete it?')"
 											class="btn btn-danger">Delete</a></td>

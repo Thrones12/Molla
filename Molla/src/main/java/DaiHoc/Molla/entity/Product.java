@@ -32,21 +32,51 @@ public class Product {
     @Column(name = "name", length = 500, nullable = false, columnDefinition = "varchar(500) default 'Chưa đặt tên'")
     private String name;
 
-    @Column(name = "picture", length = 255)
+    @Column(name = "picture", length = 255,  nullable = true)
     private String picture;
  
     @Column(name = "description", length = 500)
     private String description;
 
-    @Column(name = "purchase_price")
+    @Column(name = "purchase_price", nullable = true)
     private Float purchase_price;
 
-    @Column(name = "selling_price")
+    @Column(name = "selling_price", nullable = true)
     private Float selling_price;
 
     @Column(name = "state")
     private int state;
     
+    @Column(name = "sold", nullable = true)
+    private int slod;
+    
+    @Column(name = "rating", nullable = true)
+    private Integer rating;
+    
+	public int getSlod() {
+		return slod;
+	}
+	public void setSlod(int slod) {
+		this.slod = slod;
+	}
+	public int getRating() {
+		return rating;
+	}
+	public void setRating(Integer rating) {
+		this.rating = rating;
+	}
+	public PromotionalEvent getEvent() {
+		return event;
+	}
+	public void setEvent(PromotionalEvent event) {
+		this.event = event;
+	}
+	public Set<LineItem> getLineItems() {
+		return lineItems;
+	}
+	public void setLineItems(Set<LineItem> lineItems) {
+		this.lineItems = lineItems;
+	}
 	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name = "cate_id")
@@ -73,4 +103,6 @@ public class Product {
 	@OneToMany(mappedBy="product", cascade = CascadeType.ALL)
 	private Set<SubPicture> subPictures;
 	
+
 }
+

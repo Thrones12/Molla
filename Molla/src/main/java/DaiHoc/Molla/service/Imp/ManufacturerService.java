@@ -32,10 +32,15 @@ public class ManufacturerService implements IManufacturerService
 	}
 	@Override
 	public boolean update(Manufacturer manufacturer) {
-		// TODO Auto-generated method stub
 		try {
-			repo.save(manufacturer);
-			return true;
+			Optional<Manufacturer> opt = Optional.of(findById(manufacturer.getId()));
+			if (opt.isPresent()) {
+				repo.save(manufacturer);
+				return true;
+			}
+			else {
+				return false;
+			}
 		}
 		catch(Exception e) {
 			e.printStackTrace();

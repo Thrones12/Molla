@@ -36,33 +36,6 @@ public class Category {
 	@OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
 	private Set<Product> products;
 	
-	public Category (Long id ,String name , String description , Set<Product> products  ) {
-		this.id = id;
-		this.name = name;
-		this.description = description;
-		this.products = products;	
-	}
-	public Category() {
-		
-	}
-	public Long getId() {
-		return this.id;
-	}
-	public String getName() {
-		return this.name;
-	}
-	public String getDescription() {
-		return this.description;
-	}
-	
-	public void setId(Long id) {
-		this.id = id;
-	}
-	public void setName(String name) {
-		this.name = name;
-	}
-	public void setDescription(String description) {
-		this.description = description;
-	}
+
 	
 }

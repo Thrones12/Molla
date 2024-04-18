@@ -37,7 +37,7 @@ public class CategoryManagerController {
 //		categoryService.save(c);
 		List<Category> list = categoryService.getAll();
 		model.addAttribute("list", list);
-		return "/admin/category/CategoryManager";
+		return "/admin/views/category/CategoryManager";
 	}
 	
 	
@@ -45,7 +45,7 @@ public class CategoryManagerController {
 	public String addCategory(Model model) {
 		Category category = new Category();
 		model.addAttribute("category", category);
-		return "/admin/category/CreateCategory";
+		return "/admin/views/category/CreateCategory";
 	}
 	
 	
@@ -62,16 +62,16 @@ public class CategoryManagerController {
 	public String editCategory(Model model, @PathVariable("id") Long id) {
 		Category category = categoryService.findById(id);
 		model.addAttribute("category", category);
-		return "admin/category/UpdateCategory";		
+		return "admin/views/category/UpdateCategory";		
 	}
 	
-	@PostMapping("/update-catrgory")
+	@PostMapping("/update-category")
 	public String updateCategory(@ModelAttribute("category") Category category) {
 		if(categoryService.save(category)) {
 			return "redirect:/admin/category";
 		}
 		
-		return "redirect:/admin/update-catrgory";
+		return "redirect:/admin/update-category";
 	}
 	
 	@GetMapping("/delete-category/{id}")

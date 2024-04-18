@@ -28,7 +28,7 @@ public class ManufacturerManagerController {
 //		categoryService.save(c);
 		List<Manufacturer> list = manufacturerService.getAll();
 		model.addAttribute("list", list);
-		return "/admin/manufacturer/ManufacturerManager";
+		return "/admin/views/manufacturer/ManufacturerManager";
 	}
 	
 	
@@ -36,7 +36,7 @@ public class ManufacturerManagerController {
 	public String addManufacturer(Model model) {
 		Manufacturer manufacturer = new Manufacturer();
 		model.addAttribute("manufacturer", manufacturer);
-		return "/admin/manufacturer/CreateManufacturer";
+		return "/admin/views/manufacturer/CreateManufacturer";
 	}
 	
 	
@@ -53,7 +53,7 @@ public class ManufacturerManagerController {
 	public String editManufacturer(Model model, @PathVariable("id") Long id) {
 		Manufacturer manufacturer = manufacturerService.findById(id);
 		model.addAttribute("manufacturer", manufacturer);
-		return "admin/manufacturer/UpdateManufacturer";		
+		return "admin/views/manufacturer/UpdateManufacturer";		
 	}
 	
 	@PostMapping("/update-manufacturer")

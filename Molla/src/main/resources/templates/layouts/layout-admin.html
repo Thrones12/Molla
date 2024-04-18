@@ -1,25 +1,38 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
-
-<head>
-    <meta charset="UTF-8">
-    <title>Layout Title</title>
+<head th:replace="admin/fragments/head :: head">
 </head>
+<body class="hold-transition skin-blue sidebar-mini">
+	<!-- Site wrapper -->
+	<div class="wrapper">
 
-<body>
-    <!-- Include header fragment -->
-    <div th:replace="admin/fragments/header :: header"></div>
+		<div th:replace="admin/fragments/header :: header"></div>
+		<!-- =============================================== -->
 
-    <!-- Content fragment -->
-    <div layout:fragment="content">
-        <!-- Content from individual pages will replace this div -->
-    </div>
+		<!-- Left side column. contains the sidebar -->
 
-    <!-- Footer fragment -->
-    <div th:replace="admin/fragments/footer :: footer">
-        <!-- Footer content goes here -->
-        <p>&copy; 2024 My Website</p>
-    </div>
+		<div th:replace="admin/fragments/sidebar :: sidebar"></div>
+		<!-- =============================================== -->
+
+		<!-- Content Wrapper. Contains page content -->
+		<div layout:fragment="content">
+			<!-- Content from individual pages will replace this div -->
+		</div>
+
+		<div th:replace="admin/fragments/fooster :: fooster"></div>
+
+	</div>
+	<!-- ./wrapper -->
+
+	<!-- jQuery 3 -->
+
+	<script th:src="@{/admin/js/jquery.min.js}"></script>
+	<script th:src="@{/admin/js/jquery-ui.js}"></script>
+	<script th:src="@{/admin/js/bootstrap.min.js}"></script>
+	<script th:src="@{/admin/js/adminlte.min.js}"></script>
+	<script th:src="@{/admin/js/dashboard.js}"></script>
+	<script th:src="@{/admin/tinymce/tinymce.min.js}"></script>
+	<script th:src="@{/admin/tinymce/config.js}"></script>
+	<script th:src="@{/admin/js/function.js}"></script>
 </body>
-
 </html>
