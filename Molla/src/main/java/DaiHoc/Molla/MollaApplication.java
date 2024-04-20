@@ -14,7 +14,6 @@ import DaiHoc.Molla.service.IStorageService;
 @SpringBootApplication
 public class MollaApplication {
 	@Autowired
-	private static CategoryRepository repo;
 	public static void main(String[] args) {
 		SpringApplication.run(MollaApplication.class, args);
 	}

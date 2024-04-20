@@ -1,6 +1,7 @@
 package DaiHoc.Molla.service.Imp;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,17 +34,23 @@ public class CategoryService implements ICategoryService
 	public Category findById(Long id) {	
 		return repo.findById(id).get();
 	}
+
 	@Override
 	public Boolean update(Category category) {
-		// TODO Auto-generated method stub
 		try {
-			repo.save(category);
-			return true;
+			Optional<Category> opt = Optional.of(findById(category.getId()));
+			if (opt.isPresent()) {
+				repo.save(category);
+				return true;
+			}
+			else {
+				return false;
+			}
 		}
-		 catch (Exception e) {
-			 e.printStackTrace();
-		 }
-		 return false;
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		return false;
 	}
 	@Override
 	public Boolean delete(Long Id) {

@@ -92,10 +92,12 @@ public class ProductManagerController {
 	@PostMapping("/update-product")
 	public String updateCategory(@ModelAttribute("product") Product product,
 			@RequestParam("FilePicture") MultipartFile file)  {
-		iStorageService.store(file);
-
-		String filename = file.getOriginalFilename();
-		product.setPicture(filename);
+		if(!file.isEmpty()) {
+			iStorageService.store(file);
+			String filename = file.getOriginalFilename();
+			product.setPicture(filename);
+		}
+		
 		if (productService.update(product)) {
 			return "redirect:/admin/product";
 		}
