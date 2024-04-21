@@ -6,13 +6,25 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import DaiHoc.Molla.entity.Cart;
+import DaiHoc.Molla.entity.LineItem;
+import DaiHoc.Molla.entity.Product;
+import DaiHoc.Molla.entity.User;
 import DaiHoc.Molla.repository.CartRepository;
+import DaiHoc.Molla.repository.LineItemRepository;
+import DaiHoc.Molla.repository.ProductRepository;
+import DaiHoc.Molla.repository.UserRepository;
 import DaiHoc.Molla.service.ICartService;
 @Service
 public class CartService implements ICartService
 {
 	@Autowired
 	private CartRepository repo;
+	@Autowired
+	private UserRepository userRepo;
+	@Autowired
+	private ProductRepository proRepo;
+	@Autowired
+	private LineItemRepository lineRepo;
 
 	@Override
 	public Optional<?> findAll() {
@@ -30,9 +42,25 @@ public class CartService implements ICartService
 	}
 
 	@Override
-	public boolean create(Optional<?> object) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean create(Long user_id, Long pro_id, int quantity) {
+		try {
+			User user = userRepo.findById(user_id).get();
+			Product pro = proRepo.findById(pro_id).get();
+			LineItem line = new LineItem();
+			line.setProduct(pro);
+			line.setQuantity(quantity);
+			line.setSubtotal(quantity*pro.getSelling_price());
+			lineRepo.save(line);
+			Cart cart = new Cart();
+			cart.setUser(user);
+			cart.setLineItem(line);
+			repo.save(cart);
+			return true;
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+			return false;
+		}
 	}
 
 	@Override
@@ -43,7 +71,17 @@ public class CartService implements ICartService
 
 	@Override
 	public boolean delete(Long id) {
-		// TODO Auto-generated method stub
+		repo.deleteById(id);
+		return true;
+	}
+
+	@Override
+	public boolean isCartPresent(Long user_id, Long pro_id) {
+		User user = userRepo.findById(user_id).get();
+		for (Cart c : user.getCarts()) {
+			if (c.getLineItem().getProduct().getId() == pro_id)
+				return true;
+		}
 		return false;
 	}
 

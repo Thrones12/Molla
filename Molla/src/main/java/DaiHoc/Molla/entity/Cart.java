@@ -1,7 +1,6 @@
 package DaiHoc.Molla.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -31,7 +30,7 @@ public class Cart {
 	@JoinColumn(name="user_id", referencedColumnName = "id")
 	private User user;
 	
-	@OneToOne
+	@OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
 	@JoinColumn(name="line_id", referencedColumnName="id")
 	private LineItem lineItem;
 }

@@ -1,6 +1,6 @@
 package DaiHoc.Molla.entity;
 
-import java.util.Set;
+import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -33,6 +33,6 @@ public class Manufacturer {
     @Column(name = "description", length = 500)
     private String description;
 	@JsonIgnore
-	@OneToMany(mappedBy = "manufacturer", cascade = CascadeType.ALL)
-	private Set<Product> products;
+	@OneToMany(mappedBy = "manufacturer", cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<Product> products;
 }

@@ -40,7 +40,7 @@
 									</thead>
 
 									<tbody>
-										<tr th:each="cart:${carts}">
+										<tr th:each="cart:${carts}" th:id="${cart.id}" name="cart">
 											<td class="product-col">
 												<div class="product">
 													<input type="checkbox" id="checkbox1" class="custom-control-inputtt">
@@ -58,13 +58,12 @@
 											</td>
 											<td class="price-col" th:text="${cart.lineItem.product.selling_price}"></td>
 											<td class="quantity-col">
-                                                <div class="cart-product-quantity">
-                                                    <input th:id="${cart.id}"type="number" class="form-control" th:value="${cart.lineItem.quantity}" min="1" max="10" step="1" data-decimals="0" 
-                                                    required onchange="handleCartQuantityChange(this.id, this.value)">
-                                                </div><!-- End .cart-product-quantity -->
+                                                <div class="product-details-quantity">
+                                                        <input type="number" th:id="${cart.id}" class="form-control" value="1" step="1" data-decimals="0" required onchange="handleCartQuantityChange(id, value)">
+                                                    </div><!-- End .product-details-quantity -->
                                             </td>
 											<td class="total-col" th:text="${cart.lineItem.subtotal}"></td>
-											<td class="remove-col"><button class="btn-remove"><i class="icon-close"></i></button></td>
+											<td class="remove-col"><button th:id="${cart.id}" class="btn-remove" onclick="clickToRemoveCart(id)"><i class="icon-close"></i></button></td>
 										</tr>
 									</tbody>
 								</table><!-- End .table table-wishlist -->

@@ -40,8 +40,8 @@ public class ManufacturerService implements IManufacturerService
 
 	@Override
 	public boolean delete(Long id) {
-		// TODO Auto-generated method stub
-		return false;
+		repo.deleteById(id);
+		return true;
 	}
 	
 

@@ -79,6 +79,8 @@ public class ProductController {
 		model.addAttribute("countReview", reviews.size());
 		model.addAttribute("categories", (List<Product>) productService.findByCategory(id).get());
 		model.addAttribute("manufacturers", (List<Product>) productService.findByManufacturer(id).get());
+		List<Product>list = (List<Product>) productService.findByCategory(id).get();
+		System.out.println(list.get(0).getName());
 		return "web/views/detail";
 	}
 }

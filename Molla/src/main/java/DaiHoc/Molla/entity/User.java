@@ -1,7 +1,7 @@
 package DaiHoc.Molla.entity;
 
 import java.sql.Date;
-import java.util.Set;
+import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -53,9 +53,13 @@ public class User {
 	
 	@JsonIgnore
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private Set<Review> reviews;
+    private List<Review> reviews;
 
 	@JsonIgnore
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private Set<Bill> bills;
+    private List<Bill> bills;
+
+	@JsonIgnore
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Cart> carts;
 }

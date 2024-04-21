@@ -13,7 +13,8 @@ public interface ICartService {
 	Optional<?> findAll();
 	Optional<?> findByUser(Long user_id);
 	Cart findOne(Long id);
-	boolean create(Optional<?> object);
+	boolean create(Long user_id, Long pro_id, int quantity);
 	boolean update(Cart cart);
 	boolean delete(Long id);
+	boolean isCartPresent(Long user_id, Long pro_id);
 }

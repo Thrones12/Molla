@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -69,16 +68,16 @@ public class Product {
 	private PromotionalEvent event;
 	
 	@JsonIgnore
-	@OneToMany(mappedBy="product", cascade = CascadeType.ALL)
-	private Set<LineItem> lineItem;
+	@OneToMany(mappedBy="product", cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<LineItem> lineItem;
 	@JsonIgnore
-	@OneToMany(mappedBy="product", cascade = CascadeType.ALL)
-	private Set<Stock> stock;
+	@OneToMany(mappedBy="product", cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<Stock> stock;
 	@JsonIgnore
-	@OneToMany(mappedBy="product", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy="product", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Review> review;
 	@JsonIgnore
-	@OneToMany(mappedBy="product", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy="product", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<SubPicture> subPicture;
 	
 }

@@ -1,14 +1,17 @@
 package DaiHoc.Molla.controller.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import DaiHoc.Molla.service.ICartService;
+import DaiHoc.Molla.service.IManufacturerService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -17,6 +20,8 @@ import jakarta.servlet.http.HttpServletRequest;
 public class CartController {
 	@Autowired
 	private ICartService cartService;
+	@Autowired
+	private IManufacturerService manuService;
 
 	@GetMapping("cart")
 	public String getCart(HttpServletRequest request, ModelMap model) {
@@ -25,10 +30,66 @@ public class CartController {
 		return "web/views/cart";
 	}
 
-	@GetMapping("cart-quantity")
-	public String getCartQuantity(@RequestParam Long cart_id, @RequestParam int quantity, ModelMap model) {
-		cartService.update(cartService.findOne(cart_id));
-		return "redirect:cart";
+	@PostMapping("add-to-cart")
+	public ResponseEntity<String>  getCartQuantity(HttpServletRequest request, 
+			@RequestParam("product_id") Long pro_id, 
+			@RequestParam("quantity") int quantity) {
+		Long user_id = Long.parseLong(getCookieValue(request, "user_id"));
+		
+		if (cartService.isCartPresent(user_id, pro_id)) {
+		    String responseScript = 
+					"setTimeout(function() {\r\n"
+							+ "		Swal.fire({\r\n"
+							+ "			icon : 'info',\r\n"
+							+ "			title : 'Sản phẩm đã có trong giỏ hàng!',\r\n"
+							+ "			showConfirmButton : false,\r\n"
+							+ "			timer : 1500\r\n"
+							+ "		});\r\n"
+							+ "	}, 500); ";
+		    return ResponseEntity.ok(responseScript);
+		}
+		else {
+			cartService.create(user_id, pro_id, quantity);
+			String responseScript = 
+					"setTimeout(function() {\r\n"
+							+ "		Swal.fire({\r\n"
+							+ "			icon : 'success',\r\n"
+							+ "			title : 'Đã thêm vào giỏ hàng!',\r\n"
+							+ "			showConfirmButton : false,\r\n"
+							+ "			timer : 1500\r\n"
+							+ "		});\r\n"
+							+ "	}, 500); ";
+		    return ResponseEntity.ok(responseScript);
+		}
+	}
+	
+	@DeleteMapping("remove-cart")
+	public ResponseEntity<String> deleteCart(HttpServletRequest request, 
+			@RequestParam("cart_id") Long cart_id){
+		if (cartService.delete(cart_id)) {
+		    String responseScript = 
+					"setTimeout(function() {\r\n"
+							+ "		Swal.fire({\r\n"
+							+ "			icon : 'success',\r\n"
+							+ "			title : 'Xóa thành công!',\r\n"
+							+ "			showConfirmButton : false,\r\n"
+							+ "			timer : 1000\r\n"
+							+ "		});\r\n"
+							+ "	}, 0); ";
+		    return ResponseEntity.ok(responseScript);
+		}
+		else {
+			String responseScript = 
+					"setTimeout(function() {\r\n"
+							+ "		Swal.fire({\r\n"
+							+ "			icon : 'error',\r\n"
+							+ "			title : 'Thất bại!',\r\n"
+							+ "			showConfirmButton : false,\r\n"
+							+ "			timer : 1000\r\n"
+							+ "		});\r\n"
+							+ "	}, 0); ";
+		    return ResponseEntity.ok(responseScript);
+		}
 	}
 	
 	public String getCookieValue(HttpServletRequest request, String cookieName) {
