@@ -8,4 +8,8 @@ public class Constant {
 		RATING,
 		DATE
 	}
+	public static enum eRole{
+		ADMIN,
+		CUSTOMER
+	}
 }

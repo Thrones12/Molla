@@ -5,8 +5,10 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import DaiHoc.Molla.Utils.Constant;
 import DaiHoc.Molla.entity.Account;
 import DaiHoc.Molla.repository.AccountRepository;
 import DaiHoc.Molla.service.IAccountService;
@@ -15,6 +17,18 @@ public class AccountService implements IAccountService
 {
 	@Autowired
 	private AccountRepository repo;
+	@Autowired
+	private PasswordEncoder passwordEncoder;
+	
+	@Override
+	public Account save(Account account) {
+		Account acc = new Account();
+		acc.setUsername(account.getUsername());
+		acc.setPassword(passwordEncoder.encode(account.getPassword()));
+		acc.setRole(Constant.eRole.CUSTOMER.ordinal()); //mặc định lúc đăng kí là customer. admin thì tự thêm hoặc vô sql sửa role lại 
+		return repo.save(acc);
+	}
+	
 	@Override
 	public Optional<?> getAll() {
 		return Optional.ofNullable(repo.findAll());
@@ -39,5 +53,4 @@ public class AccountService implements IAccountService
 		// TODO Auto-generated method stub
 		return false;
 	}
-
 }

@@ -5,6 +5,8 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Component;
 
+import DaiHoc.Molla.entity.Account;
+
 
 @Component
 public interface IAccountService {
@@ -13,4 +15,5 @@ public interface IAccountService {
 	boolean create(Optional<?> object);
 	boolean update(Optional<?> object);
 	boolean delete(Long id);
+	Account save(Account account);
 }

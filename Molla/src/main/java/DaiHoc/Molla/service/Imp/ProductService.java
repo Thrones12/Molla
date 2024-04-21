@@ -68,7 +68,11 @@ public class ProductService implements IProductService {
 	
 	@Override
 	public Float findMaxPrice() {
-		return repo.findMaxPrice();
+	    Float maxPrice = repo.findMaxPrice();
+	    if (maxPrice == null) {
+	        return 0.0f; // Hoặc giá trị mặc định khác tùy theo yêu cầu của ứng dụng
+	    }
+	    return maxPrice;
 	}
 
 	@Override
