@@ -58,12 +58,31 @@ public class ProductService implements IProductService {
 
 	@Override
 	public Optional<?> findByCategory(Long cateID) {
+		System.out.println(cateID);
 		return Optional.ofNullable(repo.findByCategory_Id(cateID));
 	}
 
 	@Override
 	public Optional<?> findByManufacturer(Long manuID) {
 		return Optional.ofNullable(repo.findByManufacturer_Id(manuID));
+	}
+	
+	@Override
+    @Transactional
+	public Optional<?> findNewProduct() {
+		return Optional.ofNullable(repo.findNewProduct());
+	}
+
+	@Override
+    @Transactional
+	public Optional<?> findBestSellerProduct() {
+		return Optional.ofNullable(repo.findBestSellerProduct());
+	}
+
+	@Override
+    @Transactional
+	public Optional<?> findOnSaleProduct() {
+		return Optional.ofNullable(repo.findOnSaleProduct());
 	}
 	
 	@Override
@@ -109,5 +128,7 @@ public class ProductService implements IProductService {
 			return products.size() / Constant.productPerPage;
 		}
 	}
+
+
 
 }

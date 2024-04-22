@@ -85,5 +85,20 @@ public class CartService implements ICartService
 		return false;
 	}
 
+	@Override
+	public boolean changeQuantity(Long cart_id, int quantity) {
+		try {
+			Cart cart = findOne(cart_id);
+			cart.getLineItem().setQuantity(quantity);
+			repo.flush();
+			return true;
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+		
+	}
+
 
 }

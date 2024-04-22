@@ -294,7 +294,7 @@
 									<div class="product product-7 text-center" th:each="product : ${categories}">
 										<figure class="product-media">
 											<span class="product-label label-new">New</span>
-											<a href="product.html">
+											<a th:href="'detail?id='+${product.id}">
 												<img th:src="'assets/images/products/'+${product.picture}"
 													alt="Product image" class="product-image">
 											</a>
@@ -370,7 +370,7 @@
 									<div class="product product-7 text-center" th:each="product : ${categories}">
 										<figure class="product-media">
 											<span class="product-label label-new">New</span>
-											<a href="product.html">
+											<a th:href="'detail?id='+${product.id}">
 												<img th:src="'assets/images/products/'+${product.picture}"
 													alt="Product image" class="product-image">
 											</a>

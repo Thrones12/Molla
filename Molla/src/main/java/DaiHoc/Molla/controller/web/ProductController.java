@@ -41,6 +41,8 @@ public class ProductController {
 							@RequestParam(defaultValue = "0") String price,
 							ModelMap model) {
 		
+		model.addAttribute("urlPage", "product");
+		
 		if (page < 1)
 			page = 1;
 		else if (page > productService.calculatePage())
@@ -57,7 +59,7 @@ public class ProductController {
 
 		model.addAttribute("products", products);
 		model.addAttribute("sortby", sortby);
-		model.addAttribute("page", page);
+		model.addAttribute("pageIndex", page);
 		model.addAttribute("countPage", productService.calculatePage());
 		model.addAttribute("categories", (List<Category>) cateService.getAll().get());
 		model.addAttribute("manufacturers", (List<Manufacturer>) manuService.getAll().get());
@@ -72,15 +74,13 @@ public class ProductController {
 	public String getDetail(@RequestParam Long id, ModelMap model) {
 		//${review.user.fullname}
 		List<Review> reviews = (List<Review>) reviewService.findByProduct_Id(id).get();
-		
-		model.addAttribute("product", productService.findOne(id).get());
+		Product product = (Product) productService.findOne(id).get();
+		model.addAttribute("product", product);
 		model.addAttribute("top4_product", productService.findTop4Product().get());
 		model.addAttribute("reviews", reviews);
 		model.addAttribute("countReview", reviews.size());
-		model.addAttribute("categories", (List<Product>) productService.findByCategory(id).get());
-		model.addAttribute("manufacturers", (List<Product>) productService.findByManufacturer(id).get());
-		List<Product>list = (List<Product>) productService.findByCategory(id).get();
-		System.out.println(list.get(0).getName());
+		model.addAttribute("categories", (List<Product>) productService.findByCategory(product.getCategory().getId()).get());
+		model.addAttribute("manufacturers", (List<Product>) productService.findByManufacturer(product.getManufacturer().getId()).get());
 		return "web/views/detail";
 	}
 }

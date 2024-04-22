@@ -13,9 +13,14 @@ public interface IProductService {
 	Optional<?> findAll();
 	Optional<?> findAll(String cate_id, String manu_id, float min_price, float max_price, int sortby, int page);
 	Optional<?> findOne(Long id);
-	Optional<?> findTop4Product();
 	Optional<?> findByCategory(Long cateID);
 	Optional<?> findByManufacturer(Long manuID);
+	
+	// Tìm kiếm top sản phẩm
+	Optional<?> findTop4Product();
+	Optional<?> findNewProduct();
+	Optional<?> findBestSellerProduct();
+	Optional<?> findOnSaleProduct();
 	
 	// Tác vụ
 	boolean create(Optional<?> object);

@@ -28,14 +28,8 @@
                 <div class="container">
         			<div class="toolbox">
         				<div class="toolbox-left">
-                            <a href="#" class="sidebar-toggler"><i class="icon-bars"></i>Filters</a>
+                            <a href="#" class="sidebar-toggler"><i class="icon-bars"></i>Bộ lọc</a>
         				</div><!-- End .toolbox-left -->
-
-                        <div class="toolbox-center">
-                            <div class="toolbox-info">
-                                <span th:text="'Số lượng sản phảm: '+${count}"></span>
-                            </div><!-- End .toolbox-info -->
-                        </div><!-- End .toolbox-center -->
 
         				<div class="toolbox-right">
         					<div class="toolbox-sort">
@@ -82,7 +76,7 @@
                                         </div><!-- End .product-price -->
                                         <div class="ratings-container">
                                             <div class="ratings">
-                                                <div class="ratings-val" style="width: 0%;"></div><!-- End .ratings-val -->
+                                                <div class="ratings-val" th:style="'width: ' + (20 * ${product.rating}) + '%;'"></div><!-- End .ratings-val -->
                                             </div><!-- End .ratings -->
                                             <span class="ratings-text" th:text="'('+${product.review.size()}+' đánh giá)'"></span>
                                         </div><!-- End .rating-container -->

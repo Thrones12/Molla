@@ -17,4 +17,5 @@ public interface ICartService {
 	boolean update(Cart cart);
 	boolean delete(Long id);
 	boolean isCartPresent(Long user_id, Long pro_id);
+	boolean changeQuantity(Long cart_id, int quantity);
 }
