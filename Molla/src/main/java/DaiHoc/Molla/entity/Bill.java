@@ -1,5 +1,6 @@
 package DaiHoc.Molla.entity;
 
+import java.sql.Date;
 import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -43,6 +44,9 @@ public class Bill {
 	
 	@Column(name = "address_shipment")
 	private String address_shipment;
+	
+	@Column(name="bill_date")
+	private Date billDate;
 	
 	@Column(name = "phone_shipment")
 	private int phone_shipment;

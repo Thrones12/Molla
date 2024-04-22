@@ -9,4 +9,6 @@ import DaiHoc.Molla.entity.Transaction;
 @Component
 public interface ITransactionService {
 	List<Transaction> getAll();
+	List<Transaction> findTransactionByBillId(Long Id);
+	
 }

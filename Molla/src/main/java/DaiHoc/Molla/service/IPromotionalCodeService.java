@@ -9,4 +9,5 @@ import DaiHoc.Molla.entity.PromotionalCode;
 @Component
 public interface IPromotionalCodeService {
 	List<PromotionalCode> getAll();
+
 }

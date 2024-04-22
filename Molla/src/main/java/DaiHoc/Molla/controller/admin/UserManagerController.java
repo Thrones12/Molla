@@ -10,13 +10,18 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
+
 
 import DaiHoc.Molla.entity.Account;
+import DaiHoc.Molla.entity.Bill;
 import DaiHoc.Molla.entity.Category;
+import DaiHoc.Molla.entity.PromotionalCode;
+import DaiHoc.Molla.entity.Transaction;
 import DaiHoc.Molla.entity.User;
+import DaiHoc.Molla.repository.TransactionRepository;
 import DaiHoc.Molla.service.Imp.AccountService;
+import DaiHoc.Molla.service.Imp.BillService;
+import DaiHoc.Molla.service.Imp.PromotionalCodeService;
 import DaiHoc.Molla.service.Imp.UserService;
 
 @Controller
@@ -26,6 +31,10 @@ public class UserManagerController {
 	private UserService userService;
 	@Autowired
 	private AccountService accountService;
+	@Autowired
+	private BillService billService;
+	@Autowired
+	private TransactionRepository transRepo;
 	@GetMapping("/user")
 	public String UserMangerPage(Model model) {
 		
@@ -76,6 +85,21 @@ public class UserManagerController {
 			return "redirect:/admin/user";
 		}	
 		return "redirect:/admin/admin";
+	}
+	@GetMapping("/purchase-history/{id}")
+	public String PurchaseHistory(Model model, @PathVariable("id") Long id) {
+		List<Bill> listbill = billService.findBillByUserId(id);
+		model.addAttribute("listbill", listbill);
+		return "admin/views/user/PurchaseHistory";		
+	}
+	@GetMapping("/bill-detail/{id}")
+	public String BillDetail(Model model, @PathVariable("id") Long id) {
+		Bill bill = billService.findById(id);
+		List<Transaction> listtrans = transRepo.findTransactionByBillId(id);
+		model.addAttribute("listtrans", listtrans);
+		model.addAttribute("bill", bill);
+		
+		return "admin/views/user/BillDetail";		
 	}
 }
 	

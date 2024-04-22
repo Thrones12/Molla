@@ -40,3 +40,7 @@
 .table-action a.label{
 	margin-left: 5px
 }
+
+.bold {
+	font-weight: bold;
+}

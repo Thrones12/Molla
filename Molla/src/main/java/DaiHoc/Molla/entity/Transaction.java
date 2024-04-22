@@ -29,8 +29,6 @@ public class Transaction {
 	@Column(name = "id")
 	private Long id;
 	
-	@Column(name="transaction_date")
-	private Date transactionDate;
 	
 	@JsonIgnore
 	@OneToOne
