@@ -25,8 +25,6 @@ public class ProductController {
 	@Autowired
 	private IProductService productService;
 	@Autowired
-	private ISubPictureService subPictureService;
-	@Autowired
 	private ICategoryService cateService;
 	@Autowired
 	private IManufacturerService manuService;
@@ -35,7 +33,8 @@ public class ProductController {
 
 	@SuppressWarnings("unchecked")
 	@GetMapping("product")
-	public String getProduct(@RequestParam(defaultValue = "0") int sortby, @RequestParam(defaultValue = "1") int page,
+	public String getProduct(@RequestParam(defaultValue = "0") int sortby, 
+							@RequestParam(defaultValue = "1") int page,
 							@RequestParam(defaultValue = "0") String cate_id,
 							@RequestParam(defaultValue = "0") String manu_id,
 							@RequestParam(defaultValue = "0") String price,
@@ -59,7 +58,7 @@ public class ProductController {
 
 		model.addAttribute("products", products);
 		model.addAttribute("sortby", sortby);
-		model.addAttribute("pageIndex", page);
+		model.addAttribute("page", page);
 		model.addAttribute("countPage", productService.calculatePage());
 		model.addAttribute("categories", (List<Category>) cateService.getAll().get());
 		model.addAttribute("manufacturers", (List<Manufacturer>) manuService.getAll().get());
@@ -82,5 +81,29 @@ public class ProductController {
 		model.addAttribute("categories", (List<Product>) productService.findByCategory(product.getCategory().getId()).get());
 		model.addAttribute("manufacturers", (List<Product>) productService.findByManufacturer(product.getManufacturer().getId()).get());
 		return "web/views/detail";
+	}
+	@SuppressWarnings("unchecked")
+	@GetMapping("search")
+	public String getSearch(@RequestParam() String q,
+			ModelMap model) {
+		try {
+			model.addAttribute("urlPage", "product");
+			
+			List<Product> products = (List<Product>) productService.search(q).get();
+
+			model.addAttribute("products", products);
+			model.addAttribute("sortby", 0);
+			model.addAttribute("page", 1);
+			model.addAttribute("countPage", productService.calculatePage());
+			model.addAttribute("categories", (List<Category>) cateService.getAll().get());
+			model.addAttribute("manufacturers", (List<Manufacturer>) manuService.getAll().get());
+			model.addAttribute("cate_id", 0);
+			model.addAttribute("manu_id", 0);
+			return "web/views/products";
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+			return "web/views/404";
+		}
 	}
 }

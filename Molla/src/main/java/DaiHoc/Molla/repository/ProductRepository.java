@@ -21,13 +21,10 @@ public interface ProductRepository extends JpaRepository<Product, Long>{
 	List<Product> findBestSellerProduct();
 	@Procedure(name = "findOnSaleProduct")
 	List<Product> findOnSaleProduct();
+
+	@Procedure(name = "search")
+	List<Product> search(String str);
 	
-	@Procedure(name = "findTop1NewProduct")
-	List<Product> findTop1NewProduct();
-	@Procedure(name = "findTop1SellerProduct")
-	List<Product> findTop1SellerProduct();
-	@Procedure(name = "findTop1RatingProduct")
-	List<Product> findTop1RatingProduct();
 	
 	@Query("SELECT MAX(p.selling_price) FROM Product p")
     Float findMaxPrice();

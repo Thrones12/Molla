@@ -5,9 +5,9 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import DaiHoc.Molla.entity.Stock;
+import DaiHoc.Molla.entity.Favourite;
 
 @Repository
-public interface StockRepository extends JpaRepository<Stock, Long>{
-    List<Stock> findAllByProduct_IdAndState(Long productId, int state);
+public interface FavouriteRepository extends JpaRepository<Favourite, Long>{
+	List<Favourite> findByUser_id(Long user_id);
 }

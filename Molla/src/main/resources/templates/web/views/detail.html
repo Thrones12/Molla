@@ -85,7 +85,8 @@
 														th:text="'('+${product.review.size()+' đánh giá)'}"></a>
 												</div><!-- End .rating-container -->
 
-												<div class="product-price" th:text="${product.selling_price}">
+												<div class="product-price"
+													th:text="${#numbers.formatDecimal(product.selling_price, 0, 'COMMA', 0, 'POINT')}+'₫'">
 												</div><!-- End .product-price -->
 
 												<div class="product-content" th:text="${product.description}">
@@ -308,8 +309,8 @@
 											</div><!-- End .product-action-vertical -->
 
 											<div class="product-action">
-												<a class="btn-product btn-cart" onclick="clickToAddCart()"><span>Thêm
-														giỏ hàng</span></a>
+												<a class="btn-product btn-cart" onclick="clickToAddCart()">
+													<span>Thêm giỏ hàng</span></a>
 											</div><!-- End .product-action -->
 										</figure><!-- End .product-media -->
 

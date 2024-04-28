@@ -940,7 +940,6 @@ function clickToAddCart(p_id) {
 	} else {
 		// Lấy giá trị từ thẻ input
 		var quantity = document.getElementById("quantity").value;;
-
 		var params = new URLSearchParams();
 		params.append('quantity', quantity);
 		params.append('product_id', p_id);
@@ -1031,4 +1030,37 @@ function handleShipChange(ship){
 	console.log(ship);
 	console.log(subtotal.innerText.substring(0, subtotal.innerText.length-1));
 	total.innerText = parseFloat(subtotal.innerText.substring(0, subtotal.innerText.length-1)) + parseFloat(ship) + 'đ';
+}
+function clickToRemoveFavourite(fav_id) {
+	var params = new URLSearchParams();
+	params.append('fav_id', fav_id);
+	fetch(
+		window.location.origin + '/remove-fav?' + params.toString(), {
+		method: 'DELETE',
+		headers: {
+			'Content-Type': 'application/x-www-form-urlencoded'
+		}
+	})
+		.then(response => {
+			if (response.ok) {
+				return response.text();
+			} else {
+				throw new Error('Có lỗi xảy ra khi xóa yêu thích!');
+			}
+		})
+		.then(data => {
+			eval(data);
+		})
+		.catch(error => {
+			console.error('Lỗi:', error);
+		});
+
+	var favs = document.getElementsByName("fav");
+	for (var i = 0; i < favs.length; i++) {
+		var fav = favs[i];
+		if (fav.id == fav_id) {
+			fav.remove();
+			break; // Dừng vòng lặp sau khi xóa phần tử
+		}
+	}
 }

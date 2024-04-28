@@ -21,7 +21,7 @@ public interface IProductService {
 	Optional<?> findNewProduct();
 	Optional<?> findBestSellerProduct();
 	Optional<?> findOnSaleProduct();
-	
+	Optional<?> search(String search);
 	// Tác vụ
 	boolean create(Optional<?> object);
 	boolean update(Optional<?> object);

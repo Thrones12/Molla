@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 public interface IStockService {
 	Optional<?> getAll();
 	Optional<?> getOne(Long id);
-	boolean create(Optional<?> object);
+	boolean insert(Optional<?> object);
 	boolean update(Optional<?> object);
 	boolean delete(Long id);
 }

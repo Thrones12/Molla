@@ -12,10 +12,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import DaiHoc.Molla.Utils.CookieManager;
 import DaiHoc.Molla.entity.Cart;
+import DaiHoc.Molla.entity.Category;
 import DaiHoc.Molla.service.ICartService;
-import DaiHoc.Molla.service.IManufacturerService;
-import jakarta.servlet.http.Cookie;
+import DaiHoc.Molla.service.ICategoryService;
 import jakarta.servlet.http.HttpServletRequest;
 
 @Controller
@@ -24,13 +25,14 @@ public class CartController {
 	@Autowired
 	private ICartService cartService;
 	@Autowired
-	private IManufacturerService manuService;
+	private ICategoryService cateService;
 
 	@SuppressWarnings("unchecked")
 	@GetMapping("cart")
 	public String getCart(HttpServletRequest request, ModelMap model) {
 		// Handle cart
-		Long user_id = Long.parseLong(getCookieValue(request, "user_id"));
+		model.addAttribute("categories", (List<Category>) cateService.getAll().get());
+		Long user_id = Long.parseLong(CookieManager.getCookieValue(request, "user_id"));
 		List<Cart> carts = (List<Cart>) cartService.findByUser(user_id).get();
 		model.addAttribute("carts",carts);
 		
@@ -42,7 +44,7 @@ public class CartController {
 	public ResponseEntity<String>  postAddCart(HttpServletRequest request, 
 			@RequestParam("product_id") Long pro_id, 
 			@RequestParam("quantity") int quantity) {
-		Long user_id = Long.parseLong(getCookieValue(request, "user_id"));
+		Long user_id = Long.parseLong(CookieManager.getCookieValue(request, "user_id"));
 		
 		if (cartService.isCartPresent(user_id, pro_id)) {
 		    String responseScript = 
@@ -130,16 +132,4 @@ public class CartController {
 			return ResponseEntity.ok(0f);
 		}
 	}
-	
-	public String getCookieValue(HttpServletRequest request, String cookieName) {
-        Cookie[] cookies = request.getCookies();
-        if (cookies != null) {
-            for (Cookie cookie : cookies) {
-                if (cookie.getName().equals(cookieName)) {
-                    return cookie.getValue();
-                }
-            }
-        }
-        return null;
-    }
 }

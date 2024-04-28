@@ -79,5 +79,8 @@ public class Product {
 	@JsonIgnore
 	@OneToMany(mappedBy="product", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<SubPicture> subPicture;
+	@JsonIgnore
+	@OneToMany(mappedBy="product", cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<Favourite> favourites;
 	
 }

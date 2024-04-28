@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import DaiHoc.Molla.entity.Product;
 import DaiHoc.Molla.entity.Stock;
 import DaiHoc.Molla.repository.StockRepository;
 import DaiHoc.Molla.service.IStockService;
@@ -28,7 +29,7 @@ public class StockService implements IStockService
 	}
 
 	@Override
-	public boolean create(Optional<?> object) {
+	public boolean insert(Optional<?> object) {
 		// TODO Auto-generated method stub
 		return false;
 	}
@@ -44,6 +45,5 @@ public class StockService implements IStockService
 		// TODO Auto-generated method stub
 		return false;
 	}
-	
 
 }
