@@ -20,7 +20,7 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        Create new Product   
+        Thêm sản phẩm  
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
@@ -41,45 +41,53 @@
             <form role="form" method="post" th:action="@{/admin/create-product}" th:object="${product}" enctype="multipart/form-data">
               <div class="box-body">
                 <div class="form-group">
-                  <label for="exampleInputEmail1">Product Name</label>
-                  <input type="text" class="form-control" name="name" placeholder="Name" th:field="*{name}">
+                  <label for="exampleInputEmail1">Tên sản phẩm </label>
+                  <input type="text" class="form-control" name="name" placeholder="Tên sản phẩm" th:field="*{name}">
                 </div>
                  <div class="form-group">
-                  <label for="exampleInputEmail1">Description</label>
-                 <input type="text" class="form-control" name="description" placeholder="Category Description" th:field="*{description}">
+                  <label for="exampleInputEmail1">Mô tả</label>
+                 <input type="text" class="form-control" name="description" placeholder="Mô tả sản phẩm " th:field="*{description}">
                 </div>
                 <div class="form-group">
-                  <label for="exampleInputEmail1">Picture</label>
+                  <label for="exampleInputEmail1">Hình ảnh</label>
                   <input type="file" class="form-control" name="FilePicture">
                   </div>
                   <div class="form-group">
-                <label for="exampleInputEmail1">Purchase Price</label>
-                  <input type="text" class="form-control" name="purchase_price" placeholder="Purchase Price" th:field="*{purchase_price}">
+                <label for="exampleInputEmail1">Giá nhập</label>
+                  <input type="text" class="form-control" name="purchase_price" placeholder="Giá nhập" th:field="*{purchase_price}">
                   </div>
                   <div class="form-group">
-                <label for="exampleInputEmail1">Selling Price</label>
-                  <input type="text" class="form-control" name="selling_price" placeholder="Selling Price" th:field="*{selling_price}">
+                <label for="exampleInputEmail1">Giá bán</label>
+                  <input type="text" class="form-control" name="selling_price" placeholder="Giá bán" th:field="*{selling_price}">
                   </div>
                   <div class="row">
-				    <div class="col-md-4">
+				    <div class="col-md-3">
 				        <div class="form-group">
-				            <label for="exampleInputEmail1">State</label>
-				            <input type="text" class="form-control" name="state" placeholder="State" th:field="*{state}">
+				            <label for="exampleInputEmail1">Trang thái</label>
+				            <input type="text" class="form-control" name="state" placeholder="Trạng thái" th:field="*{state}">
 				        </div>
 				    </div>
-				    <div class="col-md-4">
+				    <div class="col-md-3">
 				        <div class="form-group">
-				            <label>Category</label>
+				            <label>Loại sản phẩm</label>
 				            <select class="form-control select2 select2-hidden-accessible" th:field="*{category.id}">
 				                <option th:each="category : ${listCate}" th:value="${category.id}" th:text="${category.name}"></option>
 				            </select>
 				        </div>
 				    </div>
-				    <div class="col-md-4">
+				    <div class="col-md-3">
 				        <div class="form-group">
-				            <label>Manufacturer</label>
+				            <label>Nhà sản xuất</label>
 				            <select class="form-control select2 select2-hidden-accessible" th:field="*{manufacturer.id}">
 				                <option th:each="manufacturer : ${listManu}" th:value="${manufacturer.id}" th:text="${manufacturer.name}"></option>
+				            </select>
+				        </div>
+				    </div>
+				    <div class="col-md-3">
+				        <div class="form-group">
+				            <label>Chương trình giảm giá</label>
+				            <select class="form-control select2 select2-hidden-accessible" th:field="*{event.id}">
+				                <option th:each="event : ${pro_event}" th:value="${event.id}" th:text="${event.name}"></option>
 				            </select>
 				        </div>
 				    </div>
@@ -90,7 +98,7 @@
               <!-- /.box-body -->
 
               <div class="box-footer">
-                <button type="submit" class="btn btn-primary">Create</button>
+                <button type="submit" class="btn btn-primary">Thêm</button>
               </div>
             </form>
           </div>

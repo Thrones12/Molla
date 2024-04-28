@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Component;
 
 import DaiHoc.Molla.entity.Manufacturer;
+import DaiHoc.Molla.entity.Product;
 
 @Component
 public interface IManufacturerService {
@@ -14,4 +15,5 @@ public interface IManufacturerService {
 	boolean update(Manufacturer manufacturer);
 	boolean delete(Long id);
 	Manufacturer findById(Long id);
+
 }

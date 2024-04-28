@@ -19,7 +19,7 @@
 		<div class="content-wrapper">
 			<!-- Content Header (Page header) -->
 			<section class="content-header">
-				<h1>Product Manager</h1>
+				<h1>Quản lí sản phẩm</h1>
 				<ol class="breadcrumb">
 					<li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
 					<li><a href="#">Examples</a></li>
@@ -34,20 +34,66 @@
 				<div class="col-xs-12">
 					<div class="box">
 						<div class="box-header">
-							<a href="/admin/create-product" class="btn btn-success">+Create
-								new Product</a>
+							<a href="/admin/create-product" class="btn btn-success"
+								style="float: left">+Thêm sản phẩm </a> <span>
+
+								<div class="col-md-8">
+
+
+									<form role="form">
+										<span>
+											<div class="col-md-5">
+												<label> Danh mục</label> 
+												<select name="cateid" 
+													class="form-control select2 select2-hidden-accessible">
+													<option th:value=0 th:text="All"></option>
+													<option th:each="category : ${listCate}"  
+														th:value="${category.id}" th:text="${category.name}"
+														th:selected="${category.id == cateid}">
+													</option>
+												</select>
+											</div>
+
+											<div class="col-md-5">
+												<label> Nhà sản xuất</label> <select name="manuid"
+													class="form-control select2 select2-hidden-accessible">
+													<option th:value=0 th:text="All"></option>
+													<option th:each="manu : ${listManu}" th:value="${manu.id}"
+														th:text="${manu.name}"
+														th:selected="${manu.id == manuid}"></option>
+
+												</select>
+
+											</div>
+
+											<div class="col-md-2">
+												<button type="submit" class="btn btn-primary" 
+													style="margin-top:20px; float: left">Lọc</button>
+											</div>
+
+										</span>
+									</form>
+								</div>
+
+
+							</span>
+
 
 							<div class="box-tools">
-								<div class="input-group input-group-sm" style="width: 150px;">
-									<input type="text" name="table_search"
-										class="form-control pull-right" placeholder="Search">
+								<form>
+									<div class="input-group input-group-sm" style="width: 150px;">
+										<input type="text" name="keyword"
+											class="form-control pull-right" placeholder="Search"
+											th:value="*{keyword}">
 
-									<div class="input-group-btn">
-										<button type="submit" class="btn btn-default">
-											<i class="fa fa-search"></i>
-										</button>
+										<div class="input-group-btn">
+											<button type="submit" class="btn btn-default">
+												<i class="fa fa-search"></i>
+											</button>
+										</div>
 									</div>
-								</div>
+								</form>
+
 							</div>
 						</div>
 						<!-- /.box-header -->
@@ -55,29 +101,34 @@
 							<table class="table table-hover">
 								<tbody>
 									<tr>
-										<th>Product ID</th>
-										<th>Product Name</th>
-										<th>Description</th>
-										<th>Picture</th>
-										
+										<th>Mã sản phẩm</th>
+										<th>Tên sản phẩm</th>
+										<th>Loại</th>
+										<th>Giá bán</th>
+										<th>Mô tả</th>
+										<th>Hình ảnh</th>
+
+
 										<th></th>
-										<th>Action</th>
 
 									</tr>
 									<tr th:each="list: ${list}">
 										<td th:text="${list.productId}"></td>
 										<td th:text="${list.name}"></td>
+										<td th:text="${list.category.name}"></td>
+										<td th:text="${list.selling_price}"></td>
 										<td th:text="${list.description}"></td>
-										<td>
-										<img th:src="@{'/assets/images/products/' + ${list.picture}}"  alt="User Image" style ="height:100px; weight:100px">
+										<td><img
+											th:src="@{'/assets/images/products/' + ${list.picture}}"
+											alt="User Image" style="height: 100px; weight: 100px">
 										</td>
-										<td><span class="label label-success">Hiển thị</span></td>
-										<td>
-											<a th:href="@{/admin/update-product/{productId}(productId=${list.productId})}"
-											 class="btn btn-success">Update</a>
-										    <a th:href="@{/admin/delete-product/{productId}(productId=${list.productId})}
-										    " onclick="return confirm('Do you want to delete it?')" class="btn btn-danger">Delete</a>
-										</td>
+
+										<td><a
+											th:href="@{/admin/update-product/{productId}(productId=${list.productId})}"
+											class="btn btn-success">Chỉnh sửa</a> <a
+											th:href="@{/admin/delete-product/{productId}(productId=${list.productId})}   "
+											onclick="return confirm('Do you want to delete it?')"
+											class="btn btn-danger">Xóa</a></td>
 
 									</tr>
 
@@ -87,6 +138,21 @@
 							</table>
 						</div>
 						<!-- /.box-body -->
+						<div class="box-footer clearfix">
+							<ul class="pagination pagination-sm no-margin pull-right">
+								<li th:if="${curPage>1}"><a
+									th:href="@{${cateid != null && manuid != null &&  cateid != '' && manuid != '' ? '?cateid=' +cateid + '&' + 'manuid=' + manuid +'&' :'?' }+'pageNo=' + ${curPage-1}}"> &lt&lt </a></li>
+								<li th:each="i:${#numbers.sequence(1,totalPage)}"
+									th:classappend="${curPage == i ? 'active' : ''}">
+									<a	th:href="@{${cateid != null && manuid != null &&  cateid != '' && manuid != '' ? '?cateid=' +cateid + '&' + 'manuid=' + manuid +'&' :'?' }
+											+'pageNo=' + ${i}}"
+									th:text="${i}"> </a></li>
+								<li th:if="${curPage < totalPage}"><a
+									th:href="@{${cateid != null && manuid != null &&  cateid != '' && manuid != '' ? '?cateid=' +cateid + '&' + 'manuid=' + manuid +'&' :'?' }+'pageNo=' + ${curPage+1}}"> &gt&gt </a></li>
+							</ul>
+
+
+						</div>
 					</div>
 					<!-- /.box -->
 				</div>

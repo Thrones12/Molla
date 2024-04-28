@@ -3,6 +3,8 @@ package DaiHoc.Molla.controller.admin;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,7 +12,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-
+import org.springframework.web.bind.annotation.RequestParam;
 
 import DaiHoc.Molla.entity.Account;
 import DaiHoc.Molla.entity.Bill;
@@ -36,12 +38,24 @@ public class UserManagerController {
 	@Autowired
 	private TransactionRepository transRepo;
 	@GetMapping("/user")
-	public String UserMangerPage(Model model) {
+	public String UserMangerPage(Model model,@Param("keyword")String keyword
+			,@RequestParam(name="pageNo", defaultValue="1") Integer pageNo) {
+		Page<User> list = userService.getAll(pageNo);
 		
 
-		List<User> list = userService.getAll();
+		if(keyword != null) {
+			list = userService.searchUser(keyword,pageNo);
+			model.addAttribute("keyword", keyword);
+		}
+		model.addAttribute("totalPage", list.getTotalPages());
+		model.addAttribute("curPage", pageNo);
 		model.addAttribute("list", list);
+
 		return "/admin/views/user/UserManager";
+		
+		
+		
+		
 	}
 	@GetMapping("/show-info-user/{id}")
 	public String showInfoUser(Model model, @PathVariable("id") Long id) {

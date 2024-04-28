@@ -4,6 +4,10 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import DaiHoc.Molla.entity.Category;
@@ -62,6 +66,26 @@ public class CategoryService implements ICategoryService
 			 e.printStackTrace();
 		 }
 		 return false;
+	}
+	@Override
+	public List<Category> searchCategory(String keyword) {
+		// TODO Auto-generated method stub
+		return repo.searchCategory(keyword);
+	}
+	@Override
+	public Page<Category> getAll(Integer pageNo) {
+		Pageable pageable =PageRequest.of(pageNo-1, 10);
+		return repo.findAll(pageable);
+	}
+	@Override
+	public Page<Category> searchCategory(String keyword, Integer pageNo) {
+		List list = this.searchCategory(keyword);
+		Pageable pageable =PageRequest.of(pageNo-1, 10);
+		Integer start= (int) pageable.getOffset();
+		Integer end = (int)((pageable.getOffset() + pageable.getPageSize()) > list.size() ? list.size() :  pageable.getOffset() + pageable.getPageSize());
+		list = list.subList(start, end);
+		
+		return new PageImpl<Category>(list, pageable,  this.searchCategory(keyword).size());
 	}
 
 }

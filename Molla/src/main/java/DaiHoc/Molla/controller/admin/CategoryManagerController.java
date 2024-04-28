@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,13 +31,18 @@ public class CategoryManagerController {
 	@Autowired
 	private CategoryService categoryService;
 	@GetMapping("/category")
-	public String CategoryMangerPage(Model model) {
+	public String CategoryMangerPage(Model model,@Param("keyword")String keyword
+			,@RequestParam(name="pageNo", defaultValue="1") Integer pageNo) {
+		Page<Category> list = categoryService.getAll(pageNo);
 		
-//		Set<Product> lists = new HashSet<>();
-////
-//		Category c = new Category(4l,"xiaomi","aaaa",lists);
-//		categoryService.save(c);
-		List<Category> list = categoryService.getAll();
+
+		if(keyword != null) {
+			list = categoryService.searchCategory(keyword,pageNo);
+			model.addAttribute("keyword", keyword);
+		}
+		
+		model.addAttribute("totalPage", list.getTotalPages());
+		model.addAttribute("curPage", pageNo);
 		model.addAttribute("list", list);
 		return "/admin/views/category/CategoryManager";
 	}

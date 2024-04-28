@@ -11,4 +11,5 @@ import DaiHoc.Molla.entity.Account;
 public interface AccountRepository extends JpaRepository<Account, Long>{
 
 	Account findAccountByUserId(Long userId);
+	
 }

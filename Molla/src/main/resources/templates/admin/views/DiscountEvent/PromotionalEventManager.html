@@ -19,7 +19,7 @@
 		<div class="content-wrapper">
 			<!-- Content Header (Page header) -->
 			<section class="content-header">
-				<h1>Quản lí nhà sản xuất</h1>
+				<h1>Quản lí sự kiện giảm giá </h1>
 				<ol class="breadcrumb">
 					<li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
 					<li><a href="#">Examples</a></li>
@@ -34,7 +34,7 @@
 				<div class="col-xs-12">
 					<div class="box">
 						<div class="box-header">
-							<a href="/admin/create-manufacturer" class="btn btn-success">+Thêm nhà sản xuất</a>
+							<a href="/admin/create-promotional-event" class="btn btn-success">+Tạo sự kiện</a>
 
 							<div class="box-tools">
 								<div class="input-group input-group-sm" style="width: 150px;">
@@ -53,26 +53,38 @@
 						<div class="box-body table-responsive no-padding">
 							<table class="table table-hover">
 								<tbody>
-									<tr>
-										<th>Mã nhà sản xuất</th>
-										<th>Tên nhà sản xuất</th>
-										<th>Mô tả</th>
+								<tr>
+										<th>Mã sự kiện </th>
+										<th>Tên sự kiện giảm giá</th>
+										<th>Giảm giá (%)</th>
+										<th>Thời gian bắt đầu</th>
+										<th>Thời gian kết thúc</th>
 										<th></th>
-										<th>Action</th>
 
-									</tr>
-									<tr th:each="list: ${list}">
+								</tr>
+								<tr th:each="list: ${pro_event}">
 										<td th:text="${list.id}"></td>
 										<td th:text="${list.name}"></td>
-										<td th:text="${list.description}"></td>
-										<td><span class="label label-success">Hiển thị</span></td>
-										<td><a
-											th:href="@{/admin/update-manufacturer/{id}(id=${list.id})}"
-											class="btn btn-success">Chỉnh sửa</a> <a
-											th:href="@{/admin/delete-manufacturer/{id}(id=${list.id})}"
+										<td th:text="${list.discountPercent}"></td>
+										<td th:text="${list.pro_date}"></td>
+										<td th:text="${list.exp_date}"></td>
+										<td>
+										<a
+											th:href="@{/admin/update-promotional-event/{id}(id=${list.id})}"
+											class="btn btn-success">Cập nhật</a>
+										 <a
+											th:href="@{/admin/delete-promotional-event/{id}(id=${list.id})}"
 											onclick="return confirm('Do you want to delete it?')"
 											class="btn btn-danger">Xóa</a></td>
-									</tr>
+										
+										
+										</td>
+									
+											 
+											 
+							  </tr>
+								
+								
 
 
 
