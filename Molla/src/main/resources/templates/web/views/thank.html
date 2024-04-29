@@ -5,148 +5,35 @@
 <body>
 	<div layout:fragment="content">
 		<div class="page-wrapper">
+
 			<main class="main">
-				<div class="page-header text-center" style="background-image: url('assets/images/page-header-bg.jpg')">
-					<div class="container">
-						<h1 class="page-title">Đặt hàng<span>Shop</span></h1>
-					</div><!-- End .container -->
-				</div><!-- End .page-header -->
-				<nav aria-label="breadcrumb" class="breadcrumb-nav">
+				<nav aria-label="breadcrumb" class="breadcrumb-nav border-0 mb-0">
 					<div class="container">
 						<ol class="breadcrumb">
 							<li class="breadcrumb-item"><a th:href="home">Trang chủ</a></li>
 							<li class="breadcrumb-item"><a th:href="product">Shop</a></li>
-							<li class="breadcrumb-item active" aria-current="page">Checkout</li>
+							<li class="breadcrumb-item active" aria-current="page">cảm ơn</li>
 						</ol>
 					</div><!-- End .container -->
 				</nav><!-- End .breadcrumb-nav -->
 
-				<div class="page-content">
-					<div class="checkout">
-						<div class="container">
-							<div class="checkout-discount">
-								<form action="#">
-									<input type="text" class="form-control" required id="checkout-discount-input">
-									<label for="checkout-discount-input" class="text-truncate">Have a coupon?
-										<span>Click here to enter your code</span></label>
-								</form>
-							</div><!-- End .checkout-discount -->
-							<form th:action="checkout" method="POST">
-								<div class="row">
-									<div class="col-lg-9">
-										<h2 class="checkout-title">Thông tin người nhận</h2>
-										<!-- End .checkout-title -->
-
-										<label>Họ tên</label>
-										<input name="name" type="text" class="form-control" required>
-
-										<label>Tổ chức (Tùy chọn)</label>
-										<input name="company" type="text" class="form-control">
-
-										<label>Quốc gia</label>
-										<input name="country" type="text" class="form-control" required>
-
-										<label>Địa chỉ</label>
-										<input name="Address" type="text" class="form-control"
-											placeholder="Tên đường và số nhà" required>
-										<input type="text" class="form-control"
-											placeholder="Căn hộ, dãy phòng, căn hộ, v.v ...">
-
-										<div class="row">
-											<div class="col-sm-6">
-												<label>Thành phố / tỉnh</label>
-												<input name="Town/city" type="text" class="form-control" required>
-											</div><!-- End .col-sm-6 -->
-
-											<div class="col-sm-6">
-												<label>Quận / huyện</label>
-												<input name="Province" type="text" class="form-control" required>
-											</div><!-- End .col-sm-6 -->
-										</div><!-- End .row -->
-
-										<div class="row">
-											<div class="col-sm-6">
-												<label>Mã bưu chính (Tùy chọn)</label>
-												<input name="Postcode" type="text" class="form-control">
-											</div><!-- End .col-sm-6 -->
-
-											<div class="col-sm-6">
-												<label>Số điện thoại</label>
-												<input name="Phone" type="tel" class="form-control" required>
-											</div><!-- End .col-sm-6 -->
-										</div><!-- End .row -->
-
-										<label>Địa chỉ Email</label>
-										<input type="email" class="form-control" required>
-
-										<label>Ghi chú (Tùy chọn)</label>
-										<textarea class="form-control" cols="30" rows="4"
-											placeholder="Ghi chú cho đơn hàng của bạn"></textarea>
-									</div><!-- End .col-lg-9 -->
-									<aside class="col-lg-3">
-										<div class="summary">
-											<h3 class="summary-title">Đơn hàng</h3><!-- End .summary-title -->
-
-											<table class="table table-summary">
-												<thead>
-													<tr>
-														<th>Sản phẩm</th>
-														<th>Thành tiền</th>
-													</tr>
-												</thead>
-
-												<tbody>
-													<tr>
-														<td><a href="#">Beige knitted elastic runner shoes</a></td>
-														<td>$84.00</td>
-													</tr>
-													<tr class="summary-subtotal">
-														<td>Tổng sản phẩm:</td>
-														<td>$160.00</td>
-													</tr><!-- End .summary-subtotal -->
-													<tr>
-														<td>Phí vận chuyển:</td>
-														<td>Free shipping</td>
-													</tr>
-													<tr class="summary-total">
-														<td>Thành tiền:</td>
-														<td>$160.00</td>
-													</tr><!-- End .summary-total -->
-												</tbody>
-											</table><!-- End .table table-summary -->
-											<div ><h6>Phương thức thanh toán:</h6></div>
-											<div class="accordion-summary" id="accordion-payment">
-												<div class="custom-control custom-radio">
-													<input type="radio" id="free-shipping" checked name="cash"
-														class="custom-control-input">
-													<label class="custom-control-label" for="free-shipping">Tiền mặt</label>
-												</div><!-- End .custom-control -->
-												<div class="custom-control custom-radio">
-													<input type="radio" id="standart-shipping" name="VNPAY"
-														class="custom-control-input">
-													<label class="custom-control-label"
-														for="standart-shipping">VNPAY</label>
-												</div><!-- End .custom-control -->
-												<div class="custom-control custom-radio">
-													<input type="radio" id="express-shipping" name="MOMO"
-														class="custom-control-input">
-													<label class="custom-control-label"
-														for="express-shipping">MOMO</label>
-												</div><!-- End .custom-control -->
-											</div><!-- End .accordion -->
-
-											<button type="submit" class="btn btn-outline-primary-2 btn-order btn-block">
-												<span class="btn-text">Thanh toán</span>
-												<span class="btn-hover-text">Thanh toán</span>
-											</button>
-										</div><!-- End .summary -->
-									</aside><!-- End .col-lg-3 -->
-								</div><!-- End .row -->
-							</form>
-						</div><!-- End .container -->
-					</div><!-- End .checkout -->
-				</div><!-- End .page-content -->
+				<div class="error-content text-center"
+					style="background-image: url(assets/images/backgrounds/error-bg.jpg)">
+					<div class="container">
+						<div class="col-lg-10 offset-lg-1">
+                            <div class="about-text text-center mt-3">
+                                <h2 class="title text-center mb-2">Cảm ơn quý khách hàng</h2><!-- End .title text-center mb-2 -->
+								<p>Chúng tôi xin chân thành cảm ơn quý khách đã lựa chọn và mua sắm tại trang web của chúng tôi. Điều này không chỉ là một vinh dự mà còn là niềm vui lớn đối với chúng tôi khi biết rằng quý khách tin tưởng và ủng hộ sản phẩm của chúng tôi.</p>                               
+                            </div><!-- End .about-text -->
+                        </div><!-- End .col-lg-10 offset-1 -->
+						<a th:href="home" class="btn btn-outline-primary-2 btn-minwidth-lg">
+							<span>Quay lại trang chủ</span>
+							<i class="icon-long-arrow-right"></i>
+						</a>
+					</div><!-- End .container -->
+				</div><!-- End .error-content text-center -->
 			</main><!-- End .main -->
+
 		</div><!-- End .page-wrapper -->
 		<button id="scroll-top" title="Back to Top"><i class="icon-arrow-up"></i></button>
 
@@ -455,6 +342,6 @@
 </body>
 
 
-<!-- molla/checkout.html  22 Nov 2019 09:55:06 GMT -->
+<!-- molla/404.html  22 Nov 2019 10:04:04 GMT -->
 
 </html>
