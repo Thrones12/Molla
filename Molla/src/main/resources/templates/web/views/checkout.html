@@ -33,12 +33,20 @@
 							</div><!-- End .checkout-discount -->
 							<form th:action="checkout" method="POST">
 								<div class="row">
-									<div class="col-lg-9">
+									<div class="col-lg-8">
 										<h2 class="checkout-title">Thông tin người nhận</h2>
 										<!-- End .checkout-title -->
 
-										<label>Họ tên</label>
-										<input name="name" type="text" class="form-control" required>
+										<div class="row">
+											<div class="col-sm-6">
+												<label>Họ tên</label>
+												<input name="name" type="text" class="form-control" required>
+											</div><!-- End .col-sm-6 -->
+											<div class="col-sm-6">
+												<label>Số điện thoại</label>
+												<input name="Phone" type="tel" class="form-control" required>
+											</div><!-- End .col-sm-6 -->
+										</div><!-- End .row -->
 
 										<label>Tổ chức (Tùy chọn)</label>
 										<input name="company" type="text" class="form-control">
@@ -47,15 +55,15 @@
 										<input name="country" type="text" class="form-control" required>
 
 										<label>Địa chỉ</label>
-										<input name="Address" type="text" class="form-control"
+										<input name="address" type="text" class="form-control"
 											placeholder="Tên đường và số nhà" required>
-										<input type="text" class="form-control"
+										<input name="more_address" type="text" class="form-control"
 											placeholder="Căn hộ, dãy phòng, căn hộ, v.v ...">
 
 										<div class="row">
 											<div class="col-sm-6">
 												<label>Thành phố / tỉnh</label>
-												<input name="Town/city" type="text" class="form-control" required>
+												<input name="city" type="text" class="form-control" required>
 											</div><!-- End .col-sm-6 -->
 
 											<div class="col-sm-6">
@@ -64,26 +72,15 @@
 											</div><!-- End .col-sm-6 -->
 										</div><!-- End .row -->
 
-										<div class="row">
-											<div class="col-sm-6">
-												<label>Mã bưu chính (Tùy chọn)</label>
-												<input name="Postcode" type="text" class="form-control">
-											</div><!-- End .col-sm-6 -->
-
-											<div class="col-sm-6">
-												<label>Số điện thoại</label>
-												<input name="Phone" type="tel" class="form-control" required>
-											</div><!-- End .col-sm-6 -->
-										</div><!-- End .row -->
 
 										<label>Địa chỉ Email</label>
-										<input type="email" class="form-control" required>
+										<input name="email" type="email" class="form-control" required>
 
 										<label>Ghi chú (Tùy chọn)</label>
-										<textarea class="form-control" cols="30" rows="4"
+										<textarea name="note" class="form-control" cols="30" rows="4"
 											placeholder="Ghi chú cho đơn hàng của bạn"></textarea>
 									</div><!-- End .col-lg-9 -->
-									<aside class="col-lg-3">
+									<aside class="col-lg-4">
 										<div class="summary">
 											<h3 class="summary-title">Đơn hàng</h3><!-- End .summary-title -->
 
@@ -96,21 +93,25 @@
 												</thead>
 
 												<tbody>
-													<tr>
-														<td><a href="#">Beige knitted elastic runner shoes</a></td>
-														<td>$84.00</td>
+													<tr th:each="cart: ${carts}" name="cart" th:value="${cart.id}">
+														<input type="hidden" name="cart" th:value="${cart.id}">
+														<td><a th:href="'detail?id='+${cart.lineItem.product.id}" th:text="${cart.lineItem.product.name}"></a></td>
+														<td th:text="${#numbers.formatDecimal(cart.lineItem.subtotal, 0, 'COMMA', 0, 'POINT')}+'₫'"></td>
 													</tr>
 													<tr class="summary-subtotal">
+														<input type="hidden" name="subtotal" th:value="${subtotal}">
 														<td>Tổng sản phẩm:</td>
-														<td>$160.00</td>
+														<td th:text="${#numbers.formatDecimal(subtotal, 0, 'COMMA', 0, 'POINT')}+'₫'"></td>
 													</tr><!-- End .summary-subtotal -->
 													<tr>
+														<input type="hidden" name="ship" th:value="${ship}">
 														<td>Phí vận chuyển:</td>
-														<td>Free shipping</td>
+														<td th:text="${#numbers.formatDecimal(ship, 0, 'COMMA', 0, 'POINT')}+'₫'"></td>
 													</tr>
 													<tr class="summary-total">
+														<input type="hidden" name="total" th:value="${total}">
 														<td>Thành tiền:</td>
-														<td>$160.00</td>
+														<td th:text="${#numbers.formatDecimal(total, 0, 'COMMA', 0, 'POINT')}+'₫'"></td>
 													</tr><!-- End .summary-total -->
 												</tbody>
 											</table><!-- End .table table-summary -->

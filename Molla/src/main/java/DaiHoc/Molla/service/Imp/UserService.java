@@ -23,8 +23,7 @@ public class UserService implements IUserService
 
 	@Override
 	public Optional<?> getOne(Long id) {
-		// TODO Auto-generated method stub
-		return Optional.empty();
+		return Optional.ofNullable(repo.findById(id).get());
 	}
 
 	@Override

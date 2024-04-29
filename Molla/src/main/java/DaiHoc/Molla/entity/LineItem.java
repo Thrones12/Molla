@@ -22,7 +22,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class LineItem {
+public class LineItem{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
@@ -39,6 +39,10 @@ public class LineItem {
 	private Product product;
 	
 	@JsonIgnore
-	@OneToOne(mappedBy="lineItem", cascade = CascadeType.ALL)
-	private Cart cart;
+    @OneToOne(mappedBy="lineItem", cascade = CascadeType.DETACH)
+    private Cart cart;
+
+	@JsonIgnore
+    @OneToOne(mappedBy="lineItem", cascade = CascadeType.DETACH)
+    private Transaction transaction;
 }

@@ -27,10 +27,10 @@ public class Cart {
 	private Long id;
 	
 	@ManyToOne
-	@JoinColumn(name="user_id", referencedColumnName = "id")
-	private User user;
-	
-	@OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
-	@JoinColumn(name="line_id", referencedColumnName="id")
-	private LineItem lineItem;
+    @JoinColumn(name="user_id", referencedColumnName = "id")
+    private User user;
+    
+    @OneToOne(cascade = CascadeType.DETACH, orphanRemoval = false)
+    @JoinColumn(name="line_id", referencedColumnName="id")
+    private LineItem lineItem;
 }

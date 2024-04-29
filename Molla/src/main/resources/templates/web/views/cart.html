@@ -46,13 +46,13 @@
 													<input type="checkbox" th:id="'cart-'+${cart.id}" class="custom-control-inputtt" onchange="handleSelectProduct()">
 
 													<figure class="product-media ">
-														<a href="#">
+														<a th:href="'detail?id='+${cart.lineItem.product.id}">
 															<img th:src="'assets/images/products/'+${cart.lineItem.product.picture}" alt="Product image">
 														</a>
 													</figure>
 
 													<h3 class="product-title">
-														<a href="#" th:text="${cart.lineItem.product.name}"></a>
+														<a th:href="'detail?id='+${cart.lineItem.product.id}" th:text="${cart.lineItem.product.name}"></a>
 													</h3><!-- End .product-title -->
 												</div><!-- End .product -->
 											</td>
@@ -133,7 +133,7 @@
 	                					</tbody>
 	                				</table><!-- End .table table-summary -->
 
-	                				<a href="checkout" class="btn btn-outline-primary-2 btn-order btn-block">ĐẶT HÀNG</a>
+	                				<a onclick="checkout()" class="btn btn-outline-primary-2 btn-order btn-block">ĐẶT HÀNG</a>
 	                			</div><!-- End .summary -->
 
 		            			<a href="product" class="btn btn-outline-dark-2 btn-block mb-3"><span>TIẾP TỤC MUA SẮM</span><i class="icon-refresh"></i></a>
@@ -432,17 +432,6 @@
             </div><!-- End .modal-content -->
         </div><!-- End .modal-dialog -->
     </div><!-- End .modal -->
-
-    <!-- Plugins JS File -->
-    <script src="assets/js/jquery.min.js"></script>
-    <script src="assets/js/bootstrap.bundle.min.js"></script>
-    <script src="assets/js/jquery.hoverIntent.min.js"></script>
-    <script src="assets/js/jquery.waypoints.min.js"></script>
-    <script src="assets/js/superfish.min.js"></script>
-    <script src="assets/js/owl.carousel.min.js"></script>
-    <script src="assets/js/bootstrap-input-spinner.js"></script>
-    <!-- Main JS File -->
-    <script src="assets/js/main.js"></script>
 </body>
 
 

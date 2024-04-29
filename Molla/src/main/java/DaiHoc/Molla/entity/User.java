@@ -64,6 +64,6 @@ public class User {
     private List<Cart> carts;
 
 	@JsonIgnore
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Favourite> favourites;
 }

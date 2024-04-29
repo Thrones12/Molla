@@ -1,9 +1,11 @@
 package DaiHoc.Molla.entity;
 
+import java.sql.Date;
 import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import groovy.transform.builder.Builder;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -23,6 +25,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class Bill {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -38,14 +41,26 @@ public class Bill {
 	@Column(name = "total_price")
 	private float total_price;
 	
+	@Column(name = "bill_date")
+	private Date bill_date;
+	
 	@Column(name = "state")
 	private int state;
+	
+	@Column(name = "receiver")
+	private String receiver;
 	
 	@Column(name = "address_shipment")
 	private String address_shipment;
 	
 	@Column(name = "phone_shipment")
-	private int phone_shipment;
+	private String phone_shipment;
+	
+	@Column(name = "email")
+	private String email;
+	
+	@Column(name = "note")
+	private String note;
 	
 	@JsonIgnore
 	@ManyToOne

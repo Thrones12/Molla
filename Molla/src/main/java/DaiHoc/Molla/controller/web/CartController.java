@@ -76,7 +76,7 @@ public class CartController {
 	@DeleteMapping("remove-cart")
 	public ResponseEntity<String> deleteCart(HttpServletRequest request, 
 			@RequestParam("cart_id") Long cart_id){
-		if (cartService.delete(cart_id)) {
+		if (cartService.deleteWithLineItem(cart_id)) {
 		    String responseScript = 
 					"setTimeout(function() {\r\n"
 							+ "		Swal.fire({\r\n"
@@ -120,7 +120,6 @@ public class CartController {
 	public ResponseEntity<Float> postSelectProduct(@RequestParam("carts_id") String carts_id){
 		try {
 			String[] str_cartsId = carts_id.split(",");
-			System.out.println(carts_id);
 			Float subtotal = 0f;
 			for (String cart_id : str_cartsId) {
 				Cart cart = cartService.findOne(Long.parseLong(cart_id));

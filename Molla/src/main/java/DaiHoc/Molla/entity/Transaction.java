@@ -4,6 +4,7 @@ import java.sql.Date;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -29,11 +30,8 @@ public class Transaction {
 	@Column(name = "id")
 	private Long id;
 	
-	@Column(name="transaction_date")
-	private Date transactionDate;
-	
 	@JsonIgnore
-	@OneToOne
+	@OneToOne(cascade = CascadeType.DETACH, orphanRemoval = false)
 	@JoinColumn(name="line_id", referencedColumnName="id")
 	private LineItem lineItem;
 	

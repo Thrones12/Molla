@@ -71,10 +71,31 @@ public class CartService implements ICartService
 
 	@Override
 	public boolean delete(Long id) {
-		repo.deleteById(id);
-		return true;
+		try {
+			Cart cart = findOne(id);
+			repo.delete(cart);
+			return true;
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+			return false;
+		}
 	}
 
+
+	@Override
+	public boolean deleteWithLineItem(Long id) {
+		try {
+			Cart cart = findOne(id);
+			repo.delete(cart);
+			lineRepo.delete(cart.getLineItem());
+			return true;
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
 	@Override
 	public boolean isCartPresent(Long user_id, Long pro_id) {
 		User user = userRepo.findById(user_id).get();

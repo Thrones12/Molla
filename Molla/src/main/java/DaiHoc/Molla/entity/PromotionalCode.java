@@ -1,7 +1,7 @@
 package DaiHoc.Molla.entity;
 
 import java.sql.Date;
-import java.util.Set;
+import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -9,7 +9,6 @@ import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -44,5 +43,5 @@ public class PromotionalCode {
     
     @JsonIgnore
     @OneToMany(mappedBy="promotionalCode", cascade = CascadeType.ALL)
-    private Set<Bill> bills;
+    private List<Bill> bills;
 }

@@ -1,35 +1,34 @@
 package DaiHoc.Molla.service.Imp;
 
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import DaiHoc.Molla.entity.Transaction;
-import DaiHoc.Molla.repository.TransactionRepository;
-import DaiHoc.Molla.service.ITransactionService;
+import DaiHoc.Molla.entity.Bill;
+import DaiHoc.Molla.repository.BillRepository;
+import DaiHoc.Molla.service.IBillService;
 @Service
-public class TransactionService implements ITransactionService
-{
+public class BillService implements IBillService{
 	@Autowired
-	private TransactionRepository repo;
-
+	private BillRepository repo;
 	@Override
-	public Optional<?> getAll() {
+	public Optional<?> findOne(Long id) {
 		// TODO Auto-generated method stub
-		return null;
+		return Optional.empty();
 	}
 
 	@Override
-	public Optional<?> getOne(Long id) {
-		return repo.findById(id);
+	public Optional<?> findByUser_id(Long user_id) {
+		// TODO Auto-generated method stub
+		return Optional.empty();
 	}
 
 	@Override
 	public boolean create(Optional<?> object) {
 		try {
-			repo.save((Transaction)object.get());
+			repo.save((Bill)object.get());
+			repo.flush();
 			return true;
 		}
 		catch(Exception e) {

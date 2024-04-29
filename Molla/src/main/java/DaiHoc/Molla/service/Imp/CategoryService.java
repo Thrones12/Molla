@@ -22,8 +22,7 @@ public class CategoryService implements ICategoryService
 
 	@Override
 	public Optional<?> getOne(Long id) {
-		// TODO Auto-generated method stub
-		return Optional.empty();
+		return repo.findById(id);
 	}
 
 	@Override
@@ -40,8 +39,14 @@ public class CategoryService implements ICategoryService
 
 	@Override
 	public boolean delete(Long id) {
-		// TODO Auto-generated method stub
-		return false;
+		try {
+			repo.delete((Category)getOne(id).get());
+			return true;
+		}
+		 catch (Exception e) {
+			 e.printStackTrace();
+		 }
+		 return false;
 	}
 	
 

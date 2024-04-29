@@ -20,9 +20,19 @@ public class LineItemService implements ILineItemService
 		return Optional.empty();
 	}
 	@Override
+	public Optional<?> findNew(){
+		return repo.findFirstByOrderByIdDesc();
+	}
+	@Override
 	public boolean create(Optional<?> object) {
-		// TODO Auto-generated method stub
-		return false;
+		try {
+			repo.save((LineItem) object.get());
+			return true;
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+			return false;
+		}
 	}
 	@Override
 	public boolean update(Optional<?> object) {
