@@ -7,9 +7,11 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.session.SimpleRedirectSessionInformationExpiredStrategy;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import DaiHoc.Molla.service.Imp.CustomSuccessHandler;
@@ -42,10 +44,18 @@ public class SecurityConfig {
 		.formLogin(form -> form.loginPage("/login").loginProcessingUrl("/login")
 				.successHandler(customSuccessHandler)
 				.permitAll())
-		
+		.sessionManagement(session -> session
+				.sessionCreationPolicy(SessionCreationPolicy.ALWAYS)
+				.invalidSessionUrl("/login?expired")
+				.maximumSessions(1)
+				.maxSessionsPreventsLogin(true))
 		.logout(form -> form.invalidateHttpSession(true).clearAuthentication(true)
+				.deleteCookies("JSESSIONID")
 				.logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-				.logoutSuccessUrl("/login?logout").permitAll());
+				.logoutSuccessUrl("/login?logout").permitAll())
+		
+		.rememberMe(rememberMe -> rememberMe.key("uniqueAndSecretKey")
+				.tokenValiditySeconds(7 * 24 * 3600)); //1 tuần
 		
 		return http.build();
 		

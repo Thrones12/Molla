@@ -48,7 +48,7 @@
 					                <a th:href="@{/login}" >Sign in / Sign up</a>
 					            </li>
 					            <li sec:authorize="isAuthenticated">
-					                	<div class="header-dropdown">
+					                 	<div class="header-dropdown">
 										<a href="#">Hi, [[${account.getUsername()}]]</a>
 										<div class="header-menu">
 											<ul>
