@@ -1,46 +1,81 @@
 package DaiHoc.Molla.service.Imp;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import DaiHoc.Molla.entity.Category;
 import DaiHoc.Molla.repository.CategoryRepository;
 import DaiHoc.Molla.service.ICategoryService;
+
 @Service
-public class CategoryService implements ICategoryService
-{
+public class CategoryService implements ICategoryService {
 	@Autowired
 	private CategoryRepository repo;
 
 	@Override
-	public Optional<?> getAll() {
-		return Optional.ofNullable(repo.findAll());
+	public List<Category> findAll() {
+		return repo.findAll();
 	}
 
 	@Override
-	public Optional<?> getOne(Long id) {
-		return repo.findById(id);
+	public Page<Category> findAll(Integer pageNo) {
+		Pageable pageable =PageRequest.of(pageNo-1, 10);
+		return repo.findAll(pageable);
 	}
 
 	@Override
-	public boolean create(Optional<?> object) {
-		// TODO Auto-generated method stub
-		return false;
+	public Category findOne(Long id) {
+		return repo.findById(id).get();
 	}
 
 	@Override
-	public boolean update(Optional<?> object) {
-		// TODO Auto-generated method stub
-		return false;
+	public List<Category> searchCategory(String keyword) {
+		return repo.searchCategory(keyword);
+	}
+
+	@Override
+	public Page<Category> searchCategory(String keyword, Integer pageNo) {
+		List list = this.searchCategory(keyword);
+		Pageable pageable =PageRequest.of(pageNo-1, 10);
+		Integer start= (int) pageable.getOffset();
+		Integer end = (int)((pageable.getOffset() + pageable.getPageSize()) > list.size() ? list.size() :  pageable.getOffset() + pageable.getPageSize());
+		list = list.subList(start, end);
+		
+		return new PageImpl<Category>(list, pageable,  this.searchCategory(keyword).size());
+	}
+
+	@Override
+	public boolean create(Category object) {
+		try {
+			repo.save(object);
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+
+	@Override
+	public boolean update(Category object) {
+		try {
+			repo.save(object);
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
 	}
 
 	@Override
 	public boolean delete(Long id) {
 		try {
-			repo.delete((Category)getOne(id).get());
+			repo.delete(findOne(id));
 			return true;
 		}
 		 catch (Exception e) {
@@ -48,6 +83,5 @@ public class CategoryService implements ICategoryService
 		 }
 		 return false;
 	}
-	
 
 }

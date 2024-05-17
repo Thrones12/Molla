@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import DaiHoc.Molla.Utils.CookieManager;
 import DaiHoc.Molla.entity.Cart;
-import DaiHoc.Molla.entity.Category;
 import DaiHoc.Molla.service.ICartService;
 import DaiHoc.Molla.service.ICategoryService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -31,7 +30,7 @@ public class CartController {
 	@GetMapping("cart")
 	public String getCart(HttpServletRequest request, ModelMap model) {
 		// Handle cart
-		model.addAttribute("categories", (List<Category>) cateService.getAll().get());
+		model.addAttribute("categories", cateService.findAll());
 		Long user_id = Long.parseLong(CookieManager.getCookieValue(request, "user_id"));
 		List<Cart> carts = (List<Cart>) cartService.findByUser(user_id).get();
 		model.addAttribute("carts",carts);
@@ -64,7 +63,7 @@ public class CartController {
 					"setTimeout(function() {\r\n"
 							+ "		Swal.fire({\r\n"
 							+ "			icon : 'success',\r\n"
-							+ "			title : 'Đã thêm vào giỏ hàng!',\r\n"
+							+ "			title : 'Thêm thành công!',\r\n"
 							+ "			showConfirmButton : false,\r\n"
 							+ "			timer : 1500\r\n"
 							+ "		});\r\n"

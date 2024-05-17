@@ -9,15 +9,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import DaiHoc.Molla.entity.Category;
 import DaiHoc.Molla.entity.Manufacturer;
 import DaiHoc.Molla.entity.Product;
-import DaiHoc.Molla.entity.Review;
 import DaiHoc.Molla.service.ICategoryService;
 import DaiHoc.Molla.service.IManufacturerService;
 import DaiHoc.Molla.service.IProductService;
-import DaiHoc.Molla.service.IReviewService;
-import DaiHoc.Molla.service.ISubPictureService;
 
 @Controller
 @RequestMapping("/")
@@ -28,82 +24,45 @@ public class ProductController {
 	private ICategoryService cateService;
 	@Autowired
 	private IManufacturerService manuService;
-	@Autowired
-	private IReviewService reviewService;
 
 	@SuppressWarnings("unchecked")
 	@GetMapping("product")
-	public String getProduct(@RequestParam(defaultValue = "0") int sortby, 
-							@RequestParam(defaultValue = "1") int page,
-							@RequestParam(defaultValue = "0") String cate_id,
-							@RequestParam(defaultValue = "0") String manu_id,
-							@RequestParam(defaultValue = "0") String price,
-							ModelMap model) {
-		
+	public String getProduct(@RequestParam(defaultValue = "0") int sortby, @RequestParam(defaultValue = "1") int page,
+			@RequestParam(defaultValue = "0") String cate_id, @RequestParam(defaultValue = "0") String manu_id,
+			@RequestParam(defaultValue = "0") String price, ModelMap model) {
+		// Handle header
 		model.addAttribute("urlPage", "product");
-		
-		if (page < 1)
-			page = 1;
-		else if (page > productService.calculatePage())
-			page = productService.calculatePage();
-		
+
+		// Đặt giá trị ban đầu cho filter với price
 		if (price.equals("0")) {
 			price = "0.0," + productService.findMaxPrice().toString();
 		}
-		
-		List<Product> products = (List<Product>) productService.findAll(cate_id, manu_id, 
-				Float.parseFloat(price.replace('đ', ' ').split(",")[0].trim()), 
-				Float.parseFloat(price.replace('đ', ' ').split(",")[1].trim()), 
-				sortby, page - 1).get();
 
-		model.addAttribute("products", products);
-		model.addAttribute("sortby", sortby);
-		model.addAttribute("page", page);
-		model.addAttribute("countPage", productService.calculatePage());
-		model.addAttribute("categories", (List<Category>) cateService.getAll().get());
+		// Find product bằng filter
+		List<Product> products = (List<Product>) productService
+				.findAll(cate_id, manu_id, Float.parseFloat(price.replace('đ', ' ').split(",")[0].trim()),
+						Float.parseFloat(price.replace('đ', ' ').split(",")[1].trim()))
+				.get();
+
+		// Get product của page hiện tại
+		List<Product> productPage = (List<Product>) productService.findPage(products, sortby, page - 1).get();
+
+		// Handle page number
+		if (page < 1)
+			page = 1;
+		else if (page > productService.calculatePage(products))
+			page = productService.calculatePage(products);
+
+		model.addAttribute("products", productPage);
+		model.addAttribute("sortby", sortby); // Phương thức sort user chọn
+		model.addAttribute("page", page); // Số trang
+		model.addAttribute("countPage", productService.calculatePage(products)); // Tổng số trang để xử lí prev/next
+		model.addAttribute("categories", cateService.findAll());
 		model.addAttribute("manufacturers", (List<Manufacturer>) manuService.getAll().get());
-		model.addAttribute("cate_id", cate_id);
-		model.addAttribute("manu_id", manu_id);
+		model.addAttribute("cate_id", cate_id); // Để xử lí checked các cate đã chọn trong filter
+		model.addAttribute("manu_id", manu_id); // Để xử lí checked các manu đã chọn trong filter
 		return "web/views/products";
-		
+
 	}
 
-	@SuppressWarnings("unchecked")
-	@GetMapping("detail")
-	public String getDetail(@RequestParam Long id, ModelMap model) {
-		//${review.user.fullname}
-		List<Review> reviews = (List<Review>) reviewService.findByProduct_Id(id).get();
-		Product product = (Product) productService.findOne(id).get();
-		model.addAttribute("product", product);
-		model.addAttribute("top4_product", productService.findTop4Product().get());
-		model.addAttribute("reviews", reviews);
-		model.addAttribute("countReview", reviews.size());
-		model.addAttribute("categories", (List<Product>) productService.findByCategory(product.getCategory().getId()).get());
-		model.addAttribute("manufacturers", (List<Product>) productService.findByManufacturer(product.getManufacturer().getId()).get());
-		return "web/views/detail";
-	}
-	@SuppressWarnings("unchecked")
-	@GetMapping("search")
-	public String getSearch(@RequestParam() String q,
-			ModelMap model) {
-		try {
-			model.addAttribute("urlPage", "product");
-			
-			List<Product> products = (List<Product>) productService.search(q).get();
-
-			model.addAttribute("products", products);
-			model.addAttribute("sortby", 0);
-			model.addAttribute("page", 1);
-			model.addAttribute("countPage", productService.calculatePage());
-			model.addAttribute("categories", (List<Category>) cateService.getAll().get());
-			model.addAttribute("manufacturers", (List<Manufacturer>) manuService.getAll().get());
-			model.addAttribute("cate_id", 0);
-			model.addAttribute("manu_id", 0);
-			return "web/views/products";
-		}
-		catch(Exception e) {
-			e.printStackTrace();
-			return "web/views/404";
-		}
-	}
 }

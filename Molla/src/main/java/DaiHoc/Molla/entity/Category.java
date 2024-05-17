@@ -1,7 +1,6 @@
 package DaiHoc.Molla.entity;
 
 import java.util.List;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.CascadeType;
@@ -15,12 +14,14 @@ import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Entity
 @Table(name = "category")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 public class Category {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

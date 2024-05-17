@@ -1,12 +1,13 @@
 package DaiHoc.Molla.service.Imp;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import DaiHoc.Molla.entity.Favourite;
+import DaiHoc.Molla.entity.Product;
+import DaiHoc.Molla.entity.User;
 import DaiHoc.Molla.repository.FavouriteRepository;
 import DaiHoc.Molla.repository.StockRepository;
 import DaiHoc.Molla.service.IFavouriteService;
@@ -18,25 +19,47 @@ public class FavouriteService implements IFavouriteService{
 	@Autowired
 	private StockRepository stockRepo;
 	@Override
-	public Optional<?> findAll() {
-		return Optional.ofNullable(repo.findAll());
+	public List<Favourite> findAll() {
+		return repo.findAll();
 	}
 
 	@Override
-	public Optional<?> findByUser(Long user_id) {
-		return Optional.ofNullable(repo.findByUser_id(user_id));
+	public List<Favourite> findAll(User user) {
+		return repo.findByUser(user);
 	}
 
 	@Override
-	public boolean insert(Favourite fav) {
-		// TODO Auto-generated method stub
-		return false;
+	public Favourite findOne(Long id) {
+		return repo.findById(id).get();
+	}
+
+	@Override
+	public Favourite findOne(Product product, User user) {
+		return repo.findByProductAndUser(product, user);
+	}
+
+	@Override
+	public boolean create(Favourite fav) {
+		try {
+			repo.save(fav);
+			return true;
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+			return false;
+		}
 	}
 
 	@Override
 	public boolean update(Favourite fav) {
-		// TODO Auto-generated method stub
-		return false;
+		try {
+			repo.save(fav);
+			return true;
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+			return false;
+		}
 	}
 
 	@Override

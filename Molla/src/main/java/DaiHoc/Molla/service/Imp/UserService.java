@@ -16,14 +16,13 @@ public class UserService implements IUserService
 	private UserRepository repo;
 
 	@Override
-	public Optional<?> getAll() {
-		// TODO Auto-generated method stub
-		return null;
+	public List<User> findAll() {
+		return repo.findAll();
 	}
 
 	@Override
-	public Optional<?> getOne(Long id) {
-		return Optional.ofNullable(repo.findById(id).get());
+	public User findOne(Long id) {
+		return repo.findById(id).get();
 	}
 
 	@Override
