@@ -34,6 +34,6 @@ public class Category {
 	@Column(name = "description", length = 500)
 	private String description;
 	@JsonIgnore
-	@OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "category", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Product> products;
 }

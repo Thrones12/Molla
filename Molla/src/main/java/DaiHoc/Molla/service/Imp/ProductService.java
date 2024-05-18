@@ -32,16 +32,16 @@ public class ProductService implements IProductService {
 	@Override
 	@Transactional
 	public Optional<?> findPage(List<Product> products, int sortby, int page) {
-		PageRequest pageable = null;
-		if (sortby == Constant.eSortby.ASCENDING.ordinal()) {
-			pageable = PageRequest.of(page, Constant.productPerPage, Sort.by("name").ascending());
-		} else if (sortby == Constant.eSortby.POPULARITY.ordinal()) {
+		PageRequest pageable = PageRequest.of(page, Constant.productPerPage, Sort.by("id").ascending());
+
+		if (sortby == Constant.eSortby.POPULARITY.ordinal()) {
 			pageable = PageRequest.of(page, Constant.productPerPage, Sort.by("sold").descending());
 		} else if (sortby == Constant.eSortby.RATING.ordinal()) {
 			pageable = PageRequest.of(page, Constant.productPerPage, Sort.by("rating").descending());
 		} else if (sortby == Constant.eSortby.DATE.ordinal()) {
 			pageable = PageRequest.of(page, Constant.productPerPage, Sort.by("id").descending());
 		}
+
 		int start = (int) pageable.getOffset();
 		int end = Math.min((start + pageable.getPageSize()), products.size());
 		Page<Product> productPage = new PageImpl<>(products.subList(start, end), pageable, products.size());
@@ -113,8 +113,7 @@ public class ProductService implements IProductService {
 		try {
 			repo.save(object);
 			return true;
-		}
-		catch(Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 			return false;
 		}

@@ -11,9 +11,9 @@
 				<nav aria-label="breadcrumb" class="breadcrumb-nav border-0 mb-0">
 					<div class="container d-flex align-items-center">
 						<ol class="breadcrumb">
-							<li class="breadcrumb-item"><a href="index.html">Home</a></li>
-							<li class="breadcrumb-item"><a href="#">Products</a></li>
-							<li class="breadcrumb-item active" aria-current="page">With Sidebar</li>
+							<li class="breadcrumb-item"><a href="login">Trang chủ</a></li>
+							<li class="breadcrumb-item"><a href="product">Sản phẩm</a></li>
+							<li class="breadcrumb-item active" aria-current="page">Chi tiết</li>
 						</ol>
 					</div><!-- End .container -->
 				</nav><!-- End .breadcrumb-nav -->
@@ -27,10 +27,19 @@
 										<div class="col-md-6">
 											<div class="product-gallery">
 												<figure class="product-main-image">
-													<span class="product-label label-top">Top</span>
+													<div th:if="${product.state==1}">
+														<span class="product-label label-new">New</span>
+													</div>
+													<div th:if="${product.state==2}">
+														<span class="product-label label-top">Top</span>
+													</div>
+													<div th:if="${product.state==3}">
+														<span class="product-label label-sale">Sale</span>
+													</div>
 													<img id="product-zoom"
+														style="width:458px;height:458px;object-fit: contain;background-color: white;"
 														th:src="'assets/images/products/'+${product.picture}"
-														data-zoom-image="assets/images/products/single/sidebar-gallery/1-big.jpg"
+														th:data-zoom-image="'assets/images/zoompicture/'+${product.picture}"
 														alt="product image">
 
 													<a href="#" id="btn-product-gallery" class="btn-product-gallery">
@@ -39,32 +48,12 @@
 												</figure><!-- End .product-main-image -->
 
 												<div id="product-zoom-gallery" class="product-image-gallery">
-													<a class="product-gallery-item active" href="#"
-														data-image="assets/images/products/single/sidebar-gallery/1.jpg"
-														data-zoom-image="assets/images/products/single/sidebar-gallery/1-big.jpg">
-														<img src="assets/images/products/single/sidebar-gallery/1-small.jpg"
+													<a th:each="sub : ${product.subPicture}"
+														class="product-gallery-item" href="#"
+														th:data-image="'assets/images/subpicture/'+${sub.picture}"
+														th:data-zoom-image="'assets/images/zoompicture/'+${sub.picture}">
+														<img th:src="'assets/images/subpicture/'+${sub.picture}"
 															alt="product side">
-													</a>
-
-													<a class="product-gallery-item" href="#"
-														data-image="assets/images/products/single/sidebar-gallery/1-big.jpg"
-														data-zoom-image="assets/images/products/single/sidebar-gallery/2-big.jpg">
-														<img src="assets/images/products/single/sidebar-gallery/2-small.jpg"
-															alt="product cross">
-													</a>
-
-													<a class="product-gallery-item" href="#"
-														data-image="assets/images/products/single/sidebar-gallery/1.jpg"
-														data-zoom-image="assets/images/products/single/sidebar-gallery/3-big.jpg">
-														<img src="assets/images/products/single/sidebar-gallery/3-small.jpg"
-															alt="product with model">
-													</a>
-
-													<a class="product-gallery-item" href="#"
-														data-image="assets/images/products/single/sidebar-gallery/1.jpg"
-														data-zoom-image="assets/images/products/single/sidebar-gallery/4-big.jpg">
-														<img src="assets/images/products/single/sidebar-gallery/4-small.jpg"
-															alt="product back">
 													</a>
 												</div><!-- End .product-image-gallery -->
 											</div><!-- End .product-gallery -->
@@ -78,7 +67,8 @@
 												<div class="ratings-container">
 													<div class="ratings">
 														<div class="ratings-val"
-															th:style="'width: 20*'+${product.rating}+'%;'"></div>
+															th:style="'width: ' + (20 * ${product.rating}) + '%;'">
+														</div>
 														<!-- End .ratings-val -->
 													</div><!-- End .ratings -->
 													<a class="ratings-text" href="#product-review-link" id="review-link"
@@ -107,9 +97,11 @@
 
 													<div class="details-action-wrapper">
 														<a class="btn-product btn-wishlist" title="Wishlist"
-															onclick="clickToAddFavourite()"><span>Yêu Thích</span></a>
+															th:id="${product.id}"
+															onclick="clickToAddFavourite(id)"><span>Yêu Thích</span></a>
 														<a class="btn-product btn-compare" title="Compare"
-															onclick="clickToAddCompare()"><span>So Sánh</span></a>
+															th:id="${product.id}"
+															onclick="clickToAddCompare(id)"><span>So Sánh</span></a>
 													</div><!-- End .details-action-wrapper -->
 												</div><!-- End .product-details-action -->
 
@@ -242,7 +234,7 @@
 															<div class="ratings-container">
 																<div class="ratings">
 																	<div class="ratings-val"
-																		th:style="'width: 20*'+${review.rating}+'%;'">
+																		th:style="'width: ' + (20 * ${product.rating}) + '%;'">
 																	</div><!-- End .ratings-val -->
 																</div><!-- End .ratings -->
 															</div><!-- End .rating-container -->
@@ -294,22 +286,32 @@
                                 }'>
 									<div class="product product-7 text-center" th:each="product : ${categories}">
 										<figure class="product-media">
-											<span class="product-label label-new">New</span>
+											<div th:if="${product.state==1}">
+												<span class="product-label label-new">New</span>
+											</div>
+											<div th:if="${product.state==2}">
+												<span class="product-label label-top">Top</span>
+											</div>
+											<div th:if="${product.state==3}">
+												<span class="product-label label-sale">Sale</span>
+											</div>
 											<a th:href="'detail?id='+${product.id}">
 												<img th:src="'assets/images/products/'+${product.picture}"
 													alt="Product image" class="product-image">
 											</a>
 
 											<div class="product-action-vertical">
-												<a class="btn-product-icon btn-wishlist btn-expandable"
-													title="Favourite" onclick="clickToAddFavourite()"><span>Yêu
+												<a th:id="${product.id}"
+													class="btn-product-icon btn-wishlist btn-expandable"
+													title="Favourite" onclick="clickToAddFavourite(id)"><span>Yêu
 														thích</span></a>
 												<a class="btn-product-icon btn-compare btn-expandable" title="Compare"
 													onclick="clickToAddCompare()"><span>So sánh</span></a>
 											</div><!-- End .product-action-vertical -->
 
 											<div class="product-action">
-												<a class="btn-product btn-cart" onclick="clickToAddCart()">
+												<a th:id="${product.id}" class="btn-product btn-cart"
+													onclick="clickToAddCart(id)">
 													<span>Thêm giỏ hàng</span></a>
 											</div><!-- End .product-action -->
 										</figure><!-- End .product-media -->
@@ -326,7 +328,7 @@
 											<div class="ratings-container">
 												<div class="ratings">
 													<div class="ratings-val"
-														th:style="'width: 20*'+${product.rating}+'%;'"></div>
+														th:style="'width: ' + (20 * ${product.rating}) + '%;'"></div>
 													<!-- End .ratings-val -->
 												</div><!-- End .ratings -->
 												<span class="ratings-text"
@@ -370,22 +372,32 @@
                                 }'>
 									<div class="product product-7 text-center" th:each="product : ${categories}">
 										<figure class="product-media">
-											<span class="product-label label-new">New</span>
+											<div th:if="${product.state==1}">
+												<span class="product-label label-new">New</span>
+											</div>
+											<div th:if="${product.state==2}">
+												<span class="product-label label-top">Top</span>
+											</div>
+											<div th:if="${product.state==3}">
+												<span class="product-label label-sale">Sale</span>
+											</div>
 											<a th:href="'detail?id='+${product.id}">
 												<img th:src="'assets/images/products/'+${product.picture}"
 													alt="Product image" class="product-image">
 											</a>
 
 											<div class="product-action-vertical">
-												<a class="btn-product-icon btn-wishlist btn-expandable"
-													title="Favourite" onclick="clickToAddFavourite()"><span>Yêu
+												<a th:id="${product.id}"
+													class="btn-product-icon btn-wishlist btn-expandable"
+													title="Favourite" onclick="clickToAddFavourite(id)"><span>Yêu
 														thích</span></a>
 												<a class="btn-product-icon btn-compare btn-expandable" title="Compare"
 													onclick="clickToAddCompare()"><span>So sánh</span></a>
 											</div><!-- End .product-action-vertical -->
 
 											<div class="product-action">
-												<a class="btn-product btn-cart" onclick="clickToAddCart()"><span>Thêm
+												<a th:id="${product.id}" class="btn-product btn-cart"
+													onclick="clickToAddCart(id)"><span>Thêm
 														giỏ hàng</span></a>
 											</div><!-- End .product-action -->
 										</figure><!-- End .product-media -->
@@ -402,7 +414,7 @@
 											<div class="ratings-container">
 												<div class="ratings">
 													<div class="ratings-val"
-														th:style="'width: 20*'+${product.rating}+'%;'"></div>
+														th:style="'width: ' + (20 * ${product.rating}) + '%;'"></div>
 													<!-- End .ratings-val -->
 												</div><!-- End .ratings -->
 												<span class="ratings-text"

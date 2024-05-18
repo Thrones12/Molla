@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import DaiHoc.Molla.entity.Manufacturer;
 import DaiHoc.Molla.entity.Product;
 import DaiHoc.Molla.service.ICategoryService;
 import DaiHoc.Molla.service.IManufacturerService;
@@ -43,8 +42,8 @@ public class ProductController {
 				.findAll(cate_id, manu_id, Float.parseFloat(price.replace('đ', ' ').split(",")[0].trim()),
 						Float.parseFloat(price.replace('đ', ' ').split(",")[1].trim()))
 				.get();
-
-		// Get product của page hiện tại
+		System.out.println(sortby);
+		// Get product của page hiện tại, sortby+1 do truong hop mac dinh = 1
 		List<Product> productPage = (List<Product>) productService.findPage(products, sortby, page - 1).get();
 
 		// Handle page number
@@ -58,7 +57,7 @@ public class ProductController {
 		model.addAttribute("page", page); // Số trang
 		model.addAttribute("countPage", productService.calculatePage(products)); // Tổng số trang để xử lí prev/next
 		model.addAttribute("categories", cateService.findAll());
-		model.addAttribute("manufacturers", (List<Manufacturer>) manuService.getAll().get());
+		model.addAttribute("manufacturers", manuService.findAll());
 		model.addAttribute("cate_id", cate_id); // Để xử lí checked các cate đã chọn trong filter
 		model.addAttribute("manu_id", manu_id); // Để xử lí checked các manu đã chọn trong filter
 		return "web/views/products";

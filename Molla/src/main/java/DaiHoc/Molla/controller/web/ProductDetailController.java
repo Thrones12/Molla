@@ -26,7 +26,7 @@ public class ProductDetailController {
 	@GetMapping("detail")
 	public String getDetail(@RequestParam Long id, ModelMap model) {
 		// Handle header
-		model.addAttribute("urlPage", "home");
+		model.addAttribute("urlPage", "product");
 
 		List<Review> reviews = (List<Review>) reviewService.findByProduct_Id(id).get();
 		Product product = (Product) productService.findOne(id);
@@ -39,5 +39,6 @@ public class ProductDetailController {
 		model.addAttribute("manufacturers",
 				(List<Product>) productService.findByManufacturer(product.getManufacturer().getId()).get());
 		return "web/views/detail";
+		
 	}
 }

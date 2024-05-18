@@ -1005,7 +1005,7 @@ function clickToAddFavourite(p_id) {
 			});
 	}
 }
-function clickToAddCompare() {
+function clickToAddCompare(p_id) {
 
 }
 function handleSelectProduct() {

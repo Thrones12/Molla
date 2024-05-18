@@ -71,7 +71,7 @@ public class FavouriteController {
 				return ResponseEntity.ok(responseScript);
 			} else {
 				String responseScript = "setTimeout(function() {\r\n" + "		Swal.fire({\r\n"
-						+ "			icon : 'info',\r\n" + "			title : 'Đã yêu thích!',\r\n"
+						+ "			icon : 'info',\r\n" + "			title : 'Đã thêm vào yêu thích!',\r\n"
 						+ "			showConfirmButton : false,\r\n" + "			timer : 1000\r\n" + "		});\r\n"
 						+ "	}, 0); ";
 				return ResponseEntity.ok(responseScript);

@@ -25,7 +25,7 @@ public class CategoryService implements ICategoryService {
 
 	@Override
 	public Page<Category> findAll(Integer pageNo) {
-		Pageable pageable =PageRequest.of(pageNo-1, 10);
+		Pageable pageable = PageRequest.of(pageNo - 1, 10);
 		return repo.findAll(pageable);
 	}
 
@@ -41,13 +41,14 @@ public class CategoryService implements ICategoryService {
 
 	@Override
 	public Page<Category> searchCategory(String keyword, Integer pageNo) {
-		List list = this.searchCategory(keyword);
-		Pageable pageable =PageRequest.of(pageNo-1, 10);
-		Integer start= (int) pageable.getOffset();
-		Integer end = (int)((pageable.getOffset() + pageable.getPageSize()) > list.size() ? list.size() :  pageable.getOffset() + pageable.getPageSize());
+		List<Category> list = this.searchCategory(keyword);
+		Pageable pageable = PageRequest.of(pageNo - 1, 10);
+		Integer start = (int) pageable.getOffset();
+		Integer end = (int) ((pageable.getOffset() + pageable.getPageSize()) > list.size() ? list.size()
+				: pageable.getOffset() + pageable.getPageSize());
 		list = list.subList(start, end);
-		
-		return new PageImpl<Category>(list, pageable,  this.searchCategory(keyword).size());
+
+		return new PageImpl<Category>(list, pageable, this.searchCategory(keyword).size());
 	}
 
 	@Override
@@ -64,7 +65,11 @@ public class CategoryService implements ICategoryService {
 	@Override
 	public boolean update(Category object) {
 		try {
-			repo.save(object);
+			Category cate = findOne(object.getId());
+			cate.setName(object.getName());
+			cate.setDescription(object.getDescription());
+			
+			repo.save(cate);
 			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -77,11 +82,10 @@ public class CategoryService implements ICategoryService {
 		try {
 			repo.delete(findOne(id));
 			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-		 catch (Exception e) {
-			 e.printStackTrace();
-		 }
-		 return false;
+		return false;
 	}
 
 }

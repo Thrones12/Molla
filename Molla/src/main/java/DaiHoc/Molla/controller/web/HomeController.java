@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import DaiHoc.Molla.Utils.ImageFileFounder;
-import DaiHoc.Molla.entity.Manufacturer;
 import DaiHoc.Molla.entity.Product;
 import DaiHoc.Molla.service.ICategoryService;
 import DaiHoc.Molla.service.IManufacturerService;
@@ -65,7 +64,7 @@ public class HomeController {
 			model.addAttribute("page", 1);
 			model.addAttribute("countPage", productService.calculatePage(products));
 			model.addAttribute("categories", cateService.findAll());
-			model.addAttribute("manufacturers", (List<Manufacturer>) manuService.getAll().get());
+			model.addAttribute("manufacturers", manuService.findAll());
 			model.addAttribute("cate_id", 0);
 			model.addAttribute("manu_id", 0);
 			return "web/views/products";

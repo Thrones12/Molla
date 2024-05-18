@@ -66,7 +66,7 @@ public class CategoryManagerController {
 	
 	@PostMapping("/update-category")
 	public String updateCategory(@ModelAttribute("category") Category category) {
-		if(categoryService.create(category)) {
+		if(categoryService.update(category)) {
 			return "redirect:/admin/category";
 		}
 		
