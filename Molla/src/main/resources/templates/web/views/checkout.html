@@ -95,46 +95,54 @@
 												<tbody>
 													<tr th:each="cart: ${carts}" name="cart" th:value="${cart.id}">
 														<input type="hidden" name="cart" th:value="${cart.id}">
-														<td><a th:href="'detail?id='+${cart.lineItem.product.id}" th:text="${cart.lineItem.product.name}"></a></td>
-														<td th:text="${#numbers.formatDecimal(cart.lineItem.subtotal, 0, 'COMMA', 0, 'POINT')}+'₫'"></td>
+														<td><a th:href="'detail?id='+${cart.lineItem.product.id}"
+																th:text="${cart.lineItem.product.name}"></a></td>
+														<td
+															th:text="${#numbers.formatDecimal(cart.lineItem.subtotal, 0, 'COMMA', 0, 'POINT')}+'₫'">
+														</td>
 													</tr>
 													<tr class="summary-subtotal">
 														<input type="hidden" name="subtotal" th:value="${subtotal}">
 														<td>Tổng sản phẩm:</td>
-														<td th:text="${#numbers.formatDecimal(subtotal, 0, 'COMMA', 0, 'POINT')}+'₫'"></td>
+														<td
+															th:text="${#numbers.formatDecimal(subtotal, 0, 'COMMA', 0, 'POINT')}+'₫'">
+														</td>
 													</tr><!-- End .summary-subtotal -->
 													<tr>
 														<input type="hidden" name="ship" th:value="${ship}">
 														<td>Phí vận chuyển:</td>
-														<td th:text="${#numbers.formatDecimal(ship, 0, 'COMMA', 0, 'POINT')}+'₫'"></td>
+														<td
+															th:text="${#numbers.formatDecimal(ship, 0, 'COMMA', 0, 'POINT')}+'₫'">
+														</td>
 													</tr>
 													<tr class="summary-total">
 														<input type="hidden" name="total" th:value="${total}">
 														<td>Thành tiền:</td>
-														<td th:text="${#numbers.formatDecimal(total, 0, 'COMMA', 0, 'POINT')}+'₫'"></td>
+														<td
+															th:text="${#numbers.formatDecimal(total, 0, 'COMMA', 0, 'POINT')}+'₫'">
+														</td>
 													</tr><!-- End .summary-total -->
 												</tbody>
 											</table><!-- End .table table-summary -->
-											<div ><h6>Phương thức thanh toán:</h6></div>
+											<div>
+												<h6>Phương thức thanh toán:</h6>
+											</div>
 											<div class="accordion-summary" id="accordion-payment">
 												<div class="custom-control custom-radio">
-													<input type="radio" id="free-shipping" checked name="cash"
-														class="custom-control-input">
-													<label class="custom-control-label" for="free-shipping">Tiền mặt</label>
+													<input type="radio" id="cash-payment" name="paymentMethod"
+														value="cash" class="custom-control-input" checked>
+													<label class="custom-control-label" for="cash-payment">Tiền
+														mặt</label>
 												</div><!-- End .custom-control -->
+
 												<div class="custom-control custom-radio">
-													<input type="radio" id="standart-shipping" name="VNPAY"
-														class="custom-control-input">
+													<input type="radio" id="vnpay-payment" name="paymentMethod"
+														value="vnpay" class="custom-control-input">
 													<label class="custom-control-label"
-														for="standart-shipping">VNPAY</label>
+														for="vnpay-payment">VNPAY</label>
 												</div><!-- End .custom-control -->
-												<div class="custom-control custom-radio">
-													<input type="radio" id="express-shipping" name="MOMO"
-														class="custom-control-input">
-													<label class="custom-control-label"
-														for="express-shipping">MOMO</label>
-												</div><!-- End .custom-control -->
-											</div><!-- End .accordion -->
+											</div><!-- End .accordion-summary -->
+
 
 											<button type="submit" class="btn btn-outline-primary-2 btn-order btn-block">
 												<span class="btn-text">Thanh toán</span>

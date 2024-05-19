@@ -2,6 +2,7 @@ package DaiHoc.Molla.service.Imp;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,21 +33,28 @@ public class ProductService implements IProductService {
 	@Override
 	@Transactional
 	public Optional<?> findPage(List<Product> products, int sortby, int page) {
-		PageRequest pageable = PageRequest.of(page, Constant.productPerPage, Sort.by("id").ascending());
+		// Xác định các tùy chọn phân trang
+	    PageRequest pageable = PageRequest.of(page, Constant.productPerPage);
 
-		if (sortby == Constant.eSortby.POPULARITY.ordinal()) {
-			pageable = PageRequest.of(page, Constant.productPerPage, Sort.by("sold").descending());
-		} else if (sortby == Constant.eSortby.RATING.ordinal()) {
-			pageable = PageRequest.of(page, Constant.productPerPage, Sort.by("rating").descending());
-		} else if (sortby == Constant.eSortby.DATE.ordinal()) {
-			pageable = PageRequest.of(page, Constant.productPerPage, Sort.by("id").descending());
-		}
+	    // Sắp xếp danh sách products dựa trên sortby
+	    if (sortby == Constant.eSortby.ASCENDING.ordinal()) {
+	        products.sort(Comparator.comparing(Product::getName));
+	    } else if (sortby == Constant.eSortby.POPULARITY.ordinal()) {
+	        products.sort(Comparator.comparing(Product::getSold).reversed());
+	    } else if (sortby == Constant.eSortby.RATING.ordinal()) {
+	        products.sort(Comparator.comparing(Product::getRating).reversed());
+	    } else if (sortby == Constant.eSortby.DATE.ordinal()) {
+	        products.sort(Comparator.comparing(Product::getId).reversed());
+	    }
 
-		int start = (int) pageable.getOffset();
-		int end = Math.min((start + pageable.getPageSize()), products.size());
-		Page<Product> productPage = new PageImpl<>(products.subList(start, end), pageable, products.size());
+	    // Tính toán phân trang
+	    int start = (int) pageable.getOffset();
+	    int end = Math.min((start + pageable.getPageSize()), products.size());
 
-		return Optional.ofNullable(productPage.getContent());
+	    // Tạo đối tượng Page<Product>
+	    Page<Product> productPage = new PageImpl<>(products.subList(start, end), pageable, products.size());
+
+	    return Optional.ofNullable(productPage.getContent());
 	}
 
 	@Override

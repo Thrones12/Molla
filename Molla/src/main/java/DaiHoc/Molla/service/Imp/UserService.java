@@ -26,13 +26,13 @@ public class UserService implements IUserService
 	}
 
 	@Override
-	public boolean create(Optional<?> object) {
+	public boolean create(User object) {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
-	public boolean update(Optional<?> object) {
+	public boolean update(User object) {
 		// TODO Auto-generated method stub
 		return false;
 	}

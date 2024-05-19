@@ -8,4 +8,5 @@ public class Constant {
 		RATING,
 		DATE
 	}
+	public static String vnp_ReturnUrl = "http://localhost:8081/vnpay-return";
 }

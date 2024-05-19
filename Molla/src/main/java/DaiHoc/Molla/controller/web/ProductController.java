@@ -42,8 +42,8 @@ public class ProductController {
 				.findAll(cate_id, manu_id, Float.parseFloat(price.replace('đ', ' ').split(",")[0].trim()),
 						Float.parseFloat(price.replace('đ', ' ').split(",")[1].trim()))
 				.get();
-		System.out.println(sortby);
-		// Get product của page hiện tại, sortby+1 do truong hop mac dinh = 1
+
+		// Get product của page hiện tại
 		List<Product> productPage = (List<Product>) productService.findPage(products, sortby, page - 1).get();
 
 		// Handle page number
