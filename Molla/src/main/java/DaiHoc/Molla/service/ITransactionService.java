@@ -5,6 +5,8 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Component;
 
+import DaiHoc.Molla.entity.Transaction;
+
 
 @Component
 public interface ITransactionService {
@@ -13,4 +15,6 @@ public interface ITransactionService {
 	boolean create(Optional<?> object);
 	boolean update(Optional<?> object);
 	boolean delete(Long id);
+	List<Transaction> findTransactionByBillId(Long Id);
+	
 }

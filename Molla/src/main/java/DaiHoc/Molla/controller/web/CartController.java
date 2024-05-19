@@ -1,9 +1,12 @@
 package DaiHoc.Molla.controller.web;
 
+import java.security.Principal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -25,10 +28,12 @@ public class CartController {
 	private ICartService cartService;
 	@Autowired
 	private ICategoryService cateService;
+	@Autowired
+	private UserDetailsService userDetailsService;
 
 	@SuppressWarnings("unchecked")
 	@GetMapping("cart")
-	public String getCart(HttpServletRequest request, ModelMap model) {
+	public String getCart(HttpServletRequest request, ModelMap model, Principal principal) {
 		// Handle cart
 		model.addAttribute("categories", cateService.findAll());
 		Long user_id = Long.parseLong(CookieManager.getCookieValue(request, "user_id"));

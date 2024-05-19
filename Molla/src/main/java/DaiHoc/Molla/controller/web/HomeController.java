@@ -30,9 +30,8 @@ public class HomeController {
 	private ICategoryService cateService;
 	@Autowired
 	private IManufacturerService manuService;
-
 	@Autowired
-	UserDetailsService userDetailsService;
+	private UserDetailsService userDetailsService;
 	
 	@GetMapping(value = { "home", "index", "" })
 	public String getHome(ModelMap model, Principal principal) {

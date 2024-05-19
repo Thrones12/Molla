@@ -49,5 +49,9 @@ public class TransactionService implements ITransactionService
 		// TODO Auto-generated method stub
 		return false;
 	}
+	@Override
+	public List<Transaction> findTransactionByBillId(Long Id) {
+		return repo.findTransactionByBillId(Id);
+	}
 
 }

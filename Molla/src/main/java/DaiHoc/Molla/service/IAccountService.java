@@ -11,9 +11,11 @@ import DaiHoc.Molla.entity.Account;
 @Component
 public interface IAccountService {
 	Optional<?> getAll();
-	Optional<?> getOne(String username, String password);
+	Account findOne(Long id);
+	Account findOne(String username, String password);
 	boolean create(Optional<?> object);
-	boolean update(Optional<?> object);
+	boolean update(Account object);
 	boolean delete(Long id);
 	Account save(Account account);
+	Account findAccountByUserId(Long id);
 }

@@ -8,4 +8,6 @@ import DaiHoc.Molla.entity.Account;
 @Repository
 public interface AccountRepository extends JpaRepository<Account, Long>{
 	Account findByUsername(String username);
+
+	Account findAccountByUserId(Long userId);
 }

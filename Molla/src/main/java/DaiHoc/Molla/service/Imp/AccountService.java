@@ -34,13 +34,7 @@ public class AccountService implements IAccountService {
 	public Optional<?> getAll() {
 		return Optional.ofNullable(repo.findAll());
 	}
-
-	@Override
-	public Optional<?> getOne(String username, String password) {
-		// TODO Auto-generated method stub
-		return Optional.empty();
-	}
-
+	
 	@Override
 	public boolean create(Optional<?> object) {
 		repo.save((Account) object.get());
@@ -48,9 +42,18 @@ public class AccountService implements IAccountService {
 	}
 
 	@Override
-	public boolean update(Optional<?> object) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean update(Account object) {
+		try {
+			Account account = findOne(object.getId());
+			account.setPassword(object.getPassword());
+			account.setRole(object.getRole());
+			repo.save(account);
+			return true;
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+			return false;
+		}
 	}
 
 	@Override
@@ -59,4 +62,19 @@ public class AccountService implements IAccountService {
 		return false;
 	}
 
+	@Override
+	public Account findOne(Long id) {
+		return repo.findById(id).get();
+	}
+
+	@Override
+	public Account findOne(String username, String password) {
+		return repo.findByUsername(username);
+	}
+
+	@Override
+	public Account findAccountByUserId(Long id) {
+		// TODO Auto-generated method stub
+		return repo.findAccountByUserId(id);
+	}
 }

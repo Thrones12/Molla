@@ -21,10 +21,6 @@ public class CookieInterceptor implements HandlerInterceptor {
 		Cookie cookie = new Cookie("max_price", service.findMaxPrice().toString());
 		cookie.setMaxAge(3600); // Đặt thời gian sống cho cookie (ví dụ: 1 giờ)
 		response.addCookie(cookie);
-		// Thêm cookie vào mỗi yêu cầu
-		cookie = new Cookie("user_id", "1");
-		cookie.setMaxAge(3600); // Đặt thời gian sống cho cookie (ví dụ: 1 giờ)
-		response.addCookie(cookie);
 		return true;
 	}
 

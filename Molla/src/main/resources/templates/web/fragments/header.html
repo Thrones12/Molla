@@ -25,7 +25,7 @@
 								</li>
 								<li sec:authorize="isAuthenticated">
 									<div class="header-dropdown">
-										<a href="#">Hi, [[${account.getUsername()}]]</a>
+										<a href="#" th:text="'Hi, '+${account.username}"></a>
 										<div class="header-menu">
 											<ul>
 												<li><a href="#">Account</a></li>

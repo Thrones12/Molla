@@ -7,7 +7,8 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import DaiHoc.Molla.entity.Account;
-
+import lombok.Data;
+@Data
 public class CustomUserDetail implements UserDetails {
 
 
