@@ -11,7 +11,7 @@ import DaiHoc.Molla.repository.ManufacturerRepository;
 import DaiHoc.Molla.service.IManufacturerService;
 @Service
 public class ManufacturerService implements IManufacturerService
-{
+{  
 	@Autowired
 	private ManufacturerRepository repo;
 	@Override
@@ -32,6 +32,7 @@ public class ManufacturerService implements IManufacturerService
 	}
 	@Override
 	public boolean update(Manufacturer manufacturer) {
+		// TODO Auto-generated method stub
 		try {
 			Optional<Manufacturer> opt = Optional.of(findById(manufacturer.getId()));
 			if (opt.isPresent()) {

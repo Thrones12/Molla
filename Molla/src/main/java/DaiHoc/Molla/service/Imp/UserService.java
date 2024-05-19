@@ -83,5 +83,25 @@ public class UserService implements IUserService
 		
 		return new PageImpl<User>(list, pageable,  this.searchUser(keyword).size());
 	}
+	
+	@Override
+	public boolean editProfile(User user) {
+		// TODO Auto-generated method stub		
+		try {
+			Optional<User> opt = Optional.of(findById(user.getId()));
+			if (opt.isPresent()) {
+				repo.save(user);
+				return true;
+			}
+			else {
+				return false;
+			}
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
 
 }
+

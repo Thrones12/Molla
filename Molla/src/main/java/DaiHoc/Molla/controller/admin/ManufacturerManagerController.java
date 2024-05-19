@@ -10,8 +10,12 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import DaiHoc.Molla.entity.Manufacturer;
+import DaiHoc.Molla.service.IStorageImageService;
+import DaiHoc.Molla.service.Imp.StorageImageService;
 import DaiHoc.Molla.service.Imp.ManufacturerService;
 
 @Controller
@@ -19,13 +23,16 @@ import DaiHoc.Molla.service.Imp.ManufacturerService;
 public class ManufacturerManagerController {
 	@Autowired
 	private ManufacturerService manufacturerService;
+	
+//	@Autowired
+//	private FileSystemStorageService fssService;
+	
+	@Autowired
+	private IStorageImageService iStorageService ;
+	
 	@GetMapping("/manufacturer")
 	public String ManufacturerMangerPage(Model model) {
 		
-//		Set<Product> lists = new HashSet<>();
-////
-//		Category c = new Category(4l,"xiaomi","aaaa",lists);
-//		categoryService.save(c);
 		List<Manufacturer> list = manufacturerService.getAll();
 		model.addAttribute("list", list);
 		return "/admin/views/manufacturer/ManufacturerManager";
@@ -41,7 +48,13 @@ public class ManufacturerManagerController {
 	
 	
 	@PostMapping("/create-manufacturer")
-	public String createManufacturer(@ModelAttribute("manufacturer") Manufacturer manufacturer ) {
+	public String createManufacturer(@ModelAttribute("manufacturer") Manufacturer manufacturer, @RequestParam("FilePicture") MultipartFile file ) {
+				
+		iStorageService.save(file);
+
+		String filename = file.getOriginalFilename();
+		manufacturer.setPicture(filename);
+		
 		if(manufacturerService.save(manufacturer)) {
 			return "redirect:/admin/manufacturer";
 		}
@@ -57,7 +70,13 @@ public class ManufacturerManagerController {
 	}
 	
 	@PostMapping("/update-manufacturer")
-	public String updateManufacturer(@ModelAttribute("manufacturer") Manufacturer manufacturer) {
+	public String updateManufacturer(@ModelAttribute("manufacturer") Manufacturer manufacturer, @RequestParam("FilePicture") MultipartFile file) {
+
+		iStorageService.save(file);
+
+		String filename = file.getOriginalFilename();
+		manufacturer.setPicture(filename);
+		
 		if(manufacturerService.save(manufacturer)) {
 			return "redirect:/admin/manufacturer";
 		}

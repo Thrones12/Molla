@@ -20,4 +20,6 @@ public interface IUserService {
 	List<User> searchUser(String keyword);
 	Page<User> getAll(Integer pageNo);
 	Page<User> searchUser(String keyword, Integer pageNo);
+	
+	boolean editProfile(User user);
 }

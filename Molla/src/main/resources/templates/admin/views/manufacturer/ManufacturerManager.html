@@ -19,7 +19,7 @@
 		<div class="content-wrapper">
 			<!-- Content Header (Page header) -->
 			<section class="content-header">
-				<h1>Quản lí nhà sản xuất</h1>
+				<h1>Quản lý nhà sản xuất</h1>
 				<ol class="breadcrumb">
 					<li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
 					<li><a href="#">Examples</a></li>
@@ -34,7 +34,7 @@
 				<div class="col-xs-12">
 					<div class="box">
 						<div class="box-header">
-							<a href="/admin/create-manufacturer" class="btn btn-success">+Thêm nhà sản xuất</a>
+							<a href="/admin/create-manufacturer" class="btn btn-success">Thêm mới</a>
 
 							<div class="box-tools">
 								<div class="input-group input-group-sm" style="width: 150px;">
@@ -54,24 +54,26 @@
 							<table class="table table-hover">
 								<tbody>
 									<tr>
-										<th>Mã nhà sản xuất</th>
+										<th>ID</th>
+										<th>Hình ảnh</th>
 										<th>Tên nhà sản xuất</th>
 										<th>Mô tả</th>
-										<th></th>
-										<th>Action</th>
+										<th>Trạng thái</th>
+										<th>Tùy chọn</th>
 
 									</tr>
 									<tr th:each="list: ${list}">
 										<td th:text="${list.id}"></td>
+										<td ><img class="img-manufacture" th:src="@{'/assets/images/manufacture/' + ${list.picture}}"  alt="Manufacture Image" style ="height:70px; width:140px; border-radius:2rem"> </td>
 										<td th:text="${list.name}"></td>
 										<td th:text="${list.description}"></td>
 										<td><span class="label label-success">Hiển thị</span></td>
 										<td><a
 											th:href="@{/admin/update-manufacturer/{id}(id=${list.id})}"
-											class="btn btn-success">Chỉnh sửa</a> <a
+											class="btn btn-success">Sửa</a> <a
 											th:href="@{/admin/delete-manufacturer/{id}(id=${list.id})}"
 											onclick="return confirm('Do you want to delete it?')"
-											class="btn btn-danger">Xóa</a></td>
+											class="btn btn-danger">Xóa</a></td>
 									</tr>
 
 
