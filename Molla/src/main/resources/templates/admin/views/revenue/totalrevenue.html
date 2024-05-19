@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>Admin Page</title>
+<!-- Tell the browser to be responsive to screen width -->
+<meta
+	content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
+	name="viewport">
+<!-- Bootstrap 3.3.7 -->
+<link rel="stylesheet" th:href="@{/admin/css/bootstrap.min.css}">
+<link rel="stylesheet" th:href="@{/admin/css/font-awesome.min.css}">
+<link rel="stylesheet" th:href="@{/admin/css/AdminLTE.css}">
+<link rel="stylesheet" th:href="@{/admin/css/_all-skins.min.css}">
+<link rel="stylesheet" th:href="@{/admin/css/jquery-ui.css}">
+<link rel="stylesheet" th:href="@{/admin/css/style.css}" />
+<script th:src="@{/admin/js/angular.min.js}"></script>
+<script th:src="@{/admin/js/app.js}"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<meta charset="UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Chart.js by homiedev.com</title>
+<link rel="stylesheet" href="style.css" />
+
+</head>
+
+<body class="hold-transition skin-blue sidebar-mini">
+	<!-- Site wrapper -->
+	<div class="wrapper">
+
+		<div th:replace="admin/fragments/header :: header"></div>
+		<!-- =============================================== -->
+
+		<!-- Left side column. contains the sidebar -->
+
+		<div th:replace="admin/fragments/sidebar :: sidebar"></div>
+		<!-- =============================================== -->
+
+		<!-- Content Wrapper. Contains page content -->
+		<!-- Content Wrapper. Contains page content -->
+		<div class="content-wrapper">
+			<!-- Content Header (Page header) -->
+
+
+			<!-- Main content -->
+			<section class="content">
+
+				<!-- Default box -->
+				<div class="col-xs-12">
+					<h3>
+								Tổng Doanh thu năm 2024 đến hiện tại: <span
+									th:text="${t2024 != null ? t2024 : 0}"> </span> <span>
+									(VND)</span>
+							</h3>
+					<div class="box">
+						<canvas th:id="revenueChart" width="800" height="400"></canvas>
+				
+	
+						<script th:inline="javascript">
+							/* Lấy danh sách doanh thu hàng tháng từ model */
+							var monthlyRevenueList = /*[[${monthlyRevenueList}]]*/[];
+
+							/* Tạo biểu đồ */
+							var ctx = document.getElementById('revenueChart')
+									.getContext('2d');
+							var chartData = generateChartData(monthlyRevenueList);
+							var myChart = new Chart(ctx, {
+								type : 'bar',
+								data : chartData,
+								options : {
+									scales : {
+										yAxes : [ {
+											ticks : {
+												beginAtZero : true
+											}
+										} ]
+									}
+								}
+							});
+
+							/* Hàm tạo dữ liệu cho biểu đồ */
+							function generateChartData(monthlyRevenueList) {
+								var labels = [];
+								var revenues = [];
+
+								monthlyRevenueList.forEach(function(
+										monthlyRevenue) {
+									labels.push(monthlyRevenue.month + '/'
+											+ monthlyRevenue.year);
+									revenues.push(monthlyRevenue.revenue);
+								});
+
+								return {
+									labels : labels,
+									datasets : [ {
+										label : 'Doanh thu theo tháng',
+										data : revenues,
+										backgroundColor : 'rgb(75, 192, 192)',
+										borderColor : 'rgb(75, 192, 192)',
+										borderWidth : 1
+									} ]
+								};
+							}
+						</script>
+
+					</div>
+
+					<!-- /.box -->
+				</div>
+				<!-- /.box -->
+
+			</section>
+			<!-- /.content -->
+		</div>
+		<!-- /.content-wrapper -->
+
+
+
+		<div th:replace="admin/fragments/fooster :: fooster"></div>
+
+	</div>
+	<!-- ./wrapper -->
+
+	<!-- jQuery 3 -->
+	<script src="script.js"></script>
+
+	<script th:src="@{/admin/js/jquery.min.js}"></script>
+	<script th:src="@{/admin/js/jquery-ui.js}"></script>
+	<script th:src="@{/admin/js/bootstrap.min.js}"></script>
+	<script th:src="@{/admin/js/adminlte.min.js}"></script>
+	<script th:src="@{/admin/js/dashboard.js}"></script>
+	<script th:src="@{/admin/tinymce/tinymce.min.js}"></script>
+	<script th:src="@{/admin/tinymce/config.js}"></script>
+	<script th:src="@{/admin/js/function.js}"></script>
+</body>
+</html>

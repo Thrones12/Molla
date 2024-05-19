@@ -1,5 +1,8 @@
 package DaiHoc.Molla.controller.admin;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,9 +42,14 @@ public class UserManagerController {
 	private TransactionRepository transRepo;
 	@GetMapping("/user")
 	public String UserMangerPage(Model model,@Param("keyword")String keyword
-			,@RequestParam(name="pageNo", defaultValue="1") Integer pageNo) {
+			,@RequestParam(name="pageNo", defaultValue="1") Integer pageNo) throws ParseException {
 		Page<User> list = userService.getAll(pageNo);
-		
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		Date   startDate = dateFormat.parse("2024-03-01");
+		Date   endDate = dateFormat.parse("2024-03-30");
+		float totalRevenue;
+		totalRevenue = billService.TotalRevenueBetweenDates(startDate, endDate) ;
+		model.addAttribute("totalRevenue", totalRevenue);
 
 		if(keyword != null) {
 			list = userService.searchUser(keyword,pageNo);

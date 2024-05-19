@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import DaiHoc.Molla.entity.Category;
 import DaiHoc.Molla.entity.Manufacturer;
 import DaiHoc.Molla.entity.Product;
+import DaiHoc.Molla.repository.LineItemRepository;
 import DaiHoc.Molla.repository.ProductRepository;
 import DaiHoc.Molla.service.IProductService;
 
@@ -20,7 +21,9 @@ import DaiHoc.Molla.service.IProductService;
 public class ProductService implements IProductService {
 	@Autowired
 	private ProductRepository repo;
-
+	
+	@Autowired
+	private LineItemRepository lineItemRepository;
 	@Override
 	public List<Product> getAll() {
 		return repo.findAll();
@@ -154,5 +157,9 @@ public class ProductService implements IProductService {
 
 		return new PageImpl<Product>(list, pageable, this.findProductsByCategoryAndManufacturer(category,manu).size());
 	}
-
+//////////////////////////////////////////////////////////
+//	public List<Object[]> getTopSellingProducts(int month, int year) {
+//        Pageable pageable = PageRequest.of(0, 10);
+//        return lineItemRepository.findTopProductsByMonthAndYear(month, year, pageable);
+//    }
 }

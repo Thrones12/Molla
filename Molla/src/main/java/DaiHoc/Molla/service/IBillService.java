@@ -1,10 +1,12 @@
 package DaiHoc.Molla.service;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.stereotype.Component;
 
 import DaiHoc.Molla.entity.Bill;
+import DaiHoc.Molla.entity.MonthlyRevenue;
 
 @Component
 public interface IBillService {
@@ -15,4 +17,8 @@ public interface IBillService {
 	Boolean delete(Long Id);
 	Bill findById(Long id);
 	List<Bill> findBillByUserId(Long userId);
+	
+	List<MonthlyRevenue> calculateMonthlyRevenue();
+	float TotalRevenueBetweenDates(Date startDate, Date endDate);
+
 }

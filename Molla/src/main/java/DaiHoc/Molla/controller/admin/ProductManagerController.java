@@ -142,7 +142,7 @@ public class ProductManagerController {
 	}
 
 	@PostMapping("/create-product")
-	public String createCategory(@ModelAttribute("product") Product product,
+	public String createProduct(@ModelAttribute("product") Product product,
 			@RequestParam("FilePicture") MultipartFile file) {
 		iStorageService.store(file);
 
@@ -196,42 +196,13 @@ public class ProductManagerController {
 
 		return "redirect:/admin/admin";
 	}
+	
+//	 @GetMapping("/top-products")
+//	 public String getTopProducts( Model model) {
+//	        List<Object[]> topProducts = productService.getTopSellingProducts(4, 2024);
+//	        model.addAttribute("topProducts", topProducts);
+//	        return "NewFile";
+//	    }
 
-//	@GetMapping("/filter-by-cate")
-////	public String FilterCate(Model model, @Param("id") Long id) {
-////
-////		List<Category> listCate = this.categoryService.getAll();
-////		Category cate = categoryService.findById(id);
-////		model.addAttribute("cate", cate);
-////
-////		Manufacturer manu = manufacturerService.findById(id);
-////		model.addAttribute("manu", manu);
-////
-////		model.addAttribute("listCate", listCate);
-////		List<Manufacturer> listManu = this.manufacturerService.getAll();
-////		model.addAttribute("listManu", listManu);
-////		List<Product> list = productService.getByCategory(id);
-////
-////		model.addAttribute("list", list);
-////		return "/admin/views/product/ProductManager";
-////
-////	}
-//
-//	@GetMapping("/filter-by-manu")
-//	public String FilterManu(Model model, @Param("id") Long id) {
-//
-//		List<Category> listCate = this.categoryService.getAll();
-//		Category cate = categoryService.findById(id);
-//		model.addAttribute("cate", cate);
-//		Manufacturer manu = manufacturerService.findById(id);
-//		model.addAttribute("manu", manu);
-//		model.addAttribute("listCate", listCate);
-//		List<Manufacturer> listManu = this.manufacturerService.getAll();
-//		model.addAttribute("listManu", listManu);
-//		List<Product> list = productService.getByManufacturer(id);
-//		model.addAttribute("list", list);
-//
-//		return "/admin/views/product/ProductManager";
-//
-//	}
+
 }
