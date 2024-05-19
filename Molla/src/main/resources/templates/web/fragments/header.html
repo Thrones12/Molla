@@ -20,7 +20,20 @@
 					<ul class="top-menu">
 						<li>
 							<ul>
-								<li><a href="#signin-modal" data-toggle="modal">Sign in / Sign up</a></li>
+								<li sec:authorize="!isAuthenticated">
+									<a th:href="@{/login}">Sign in / Sign up</a>
+								</li>
+								<li sec:authorize="isAuthenticated">
+									<div class="header-dropdown">
+										<a href="#">Hi, [[${account.getUsername()}]]</a>
+										<div class="header-menu">
+											<ul>
+												<li><a href="#">Account</a></li>
+												<li><a th:href="@{/logout}">Sign out</a></li>
+											</ul>
+										</div><!-- End .header-menu -->
+									</div>
+								</li>
 							</ul>
 						</li>
 					</ul><!-- End .top-menu -->
@@ -99,8 +112,9 @@
 
 						<div class="dropdown-menu">
 							<nav class="side-nav">
-								<ul class="menu-vertical sf-arrows" th:each="category : ${categories}" >
-									<li><a th:href="'product?cate_id='+${category.id}" th:text="${category.name}"></a></li>
+								<ul class="menu-vertical sf-arrows" th:each="category : ${categories}">
+									<li><a th:href="'product?cate_id='+${category.id}" th:text="${category.name}"></a>
+									</li>
 								</ul><!-- End .menu-vertical -->
 							</nav><!-- End .side-nav -->
 						</div><!-- End .dropdown-menu -->
@@ -110,13 +124,16 @@
 				<div class="header-center">
 					<nav class="main-nav">
 						<ul class="menu sf-arrows">
-							<li class="megamenu-container" th:class="${urlPage != null and urlPage == 'home' ? 'active' : ''}">
+							<li class="megamenu-container"
+								th:class="${urlPage != null and urlPage == 'home' ? 'active' : ''}">
 								<a th:href="home">Trang chủ</a>
 							</li>
-							<li class="megamenu-container" th:class="${urlPage != null and urlPage == 'product' ? 'active' : ''}">
+							<li class="megamenu-container"
+								th:class="${urlPage != null and urlPage == 'product' ? 'active' : ''}">
 								<a th:href="product">Sản phẩm</a>
 							</li>
-							<li class="megamenu-container" th:class="${urlPage != null and urlPage == 'support' ? 'active' : ''}">
+							<li class="megamenu-container"
+								th:class="${urlPage != null and urlPage == 'support' ? 'active' : ''}">
 								<a th:href="support">Chăm sóc khách hàng</a>
 							</li>
 						</ul><!-- End .menu -->

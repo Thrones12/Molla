@@ -1,9 +1,13 @@
 package DaiHoc.Molla.controller.web;
 
+import java.security.Principal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,10 +31,18 @@ public class HomeController {
 	@Autowired
 	private IManufacturerService manuService;
 
+	@Autowired
+	UserDetailsService userDetailsService;
+	
 	@GetMapping(value = { "home", "index", "" })
-	public String getHome(ModelMap model) {
+	public String getHome(ModelMap model, Principal principal) {
 		// Handle header
 		model.addAttribute("urlPage", "home");
+		//đoạn này để load tên lên trang homepage
+	    if (principal != null) {
+	        UserDetails userDetails = userDetailsService.loadUserByUsername(principal.getName());
+	        model.addAttribute("account", userDetails);
+	    }
 
 		// Handle banner
 		List<String> banners = ImageFileFounder.findImageFiles("src/main/resources/static/assets/images/banners");

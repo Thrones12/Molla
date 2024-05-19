@@ -9,4 +9,8 @@ public class Constant {
 		DATE
 	}
 	public static String vnp_ReturnUrl = "http://localhost:8081/vnpay-return";
+	public static enum eRole{
+		ADMIN,
+		CUSTOMER
+	}
 }
