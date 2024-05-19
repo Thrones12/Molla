@@ -16,9 +16,8 @@ public class PromotionalEventService implements IPromotionalEventService
 	private PromotionalEventRepository repo;
 
 	@Override
-	public Optional<?> getAll() {
-		// TODO Auto-generated method stub
-		return null;
+	public List<PromotionalEvent> findAll() {
+		return repo.findAll();
 	}
 
 	@Override

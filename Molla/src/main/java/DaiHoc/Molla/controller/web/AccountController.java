@@ -38,13 +38,4 @@ public class AccountController {
 	public String login() {
 		return "web/views/login";
 	}
-	
-	//Đoạn này trong adminController á, có gì copy nội dung cái này qua bên kia nha
-	//t ko có code bên controller, nên tạo để xử lí
-	@GetMapping("/admin")
-    public String getAdminPage(Model model, Principal principal) {
-        UserDetails userDetails = userDetailsService.loadUserByUsername(principal.getName());
-        model.addAttribute("account", userDetails);
-        return "admin/admin";
-    }
 }

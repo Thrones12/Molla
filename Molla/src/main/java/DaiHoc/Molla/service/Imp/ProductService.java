@@ -1,7 +1,5 @@
 package DaiHoc.Molla.service.Imp;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
@@ -10,24 +8,35 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import DaiHoc.Molla.Utils.Constant;
+import DaiHoc.Molla.entity.Category;
+import DaiHoc.Molla.entity.Manufacturer;
 import DaiHoc.Molla.entity.Product;
+import DaiHoc.Molla.repository.CategoryRepository;
+import DaiHoc.Molla.repository.ManufacturerRepository;
 import DaiHoc.Molla.repository.ProductRepository;
+import DaiHoc.Molla.repository.PromotionalEventRepository;
 import DaiHoc.Molla.service.IProductService;
 import jakarta.transaction.Transactional;
 
 @Service
 public class ProductService implements IProductService {
 	@Autowired
-	ProductRepository repo;
+	private ProductRepository repo;
+	@Autowired
+	private ManufacturerRepository manuRepo;
+	@Autowired
+	private CategoryRepository cateRepo;
+	@Autowired
+	private PromotionalEventRepository eventRepo;
 
 	// Tìm kiếm
 	@Override
-	public Optional<?> findAll() {
-		return Optional.ofNullable(repo.findAll());
+	public List<Product> findAll() {
+		return repo.findAll();
 	}
 
 	@Override
@@ -71,14 +80,13 @@ public class ProductService implements IProductService {
 	}
 
 	@Override
-	public Optional<?> findByCategory(Long cateID) {
-		System.out.println(cateID);
-		return Optional.ofNullable(repo.findByCategory_Id(cateID));
+	public List<Product> findByCategory(Long cateID) {
+		return repo.findByCategory_Id(cateID);
 	}
 
 	@Override
-	public Optional<?> findByManufacturer(Long manuID) {
-		return Optional.ofNullable(repo.findByManufacturer_Id(manuID));
+	public List<Product> findByManufacturer(Long manuID) {
+		return repo.findByManufacturer_Id(manuID);
 	}
 
 	@Override
@@ -130,7 +138,18 @@ public class ProductService implements IProductService {
 	@Override
 	public boolean update(Product object) {
 		try {
-			repo.save(object);
+			Product product = findOne(object.getId());
+			product.setName(object.getName());
+			product.setDescription(object.getDescription());
+			product.setPicture(object.getPicture());
+			product.setPurchase_price(object.getPurchase_price());
+			product.setSelling_price(object.getSelling_price());
+			product.setState(object.getState());
+			product.setManufacturer(manuRepo.findById(object.getManufacturer().getId()).get());
+			product.setCategory(cateRepo.findById(object.getCategory().getId()).get());
+			product.setEvent(eventRepo.findById(object.getEvent().getId()).get());
+			
+			repo.save(product);
 			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -140,7 +159,12 @@ public class ProductService implements IProductService {
 
 	@Override
 	public boolean delete(Long id) {
-		// TODO Auto-generated method stub
+		try {
+			repo.deleteById(id);
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		return false;
 	}
 
@@ -157,6 +181,73 @@ public class ProductService implements IProductService {
 		} else {
 			return products.size() / Constant.productPerPage;
 		}
+	}
+
+	@Override
+	public List<Product> findProductsByCategoryAndManufacturer(Category category, Manufacturer manu) {
+		return repo.findProductsByCategoryAndManufacturer(category, manu);
+	}
+
+	@Override
+	public Page<Product> getAllByManufacturer(Manufacturer manu, Integer pageNo) {
+		List<Product> list = this.findByManufacturer(manu.getId());
+		Pageable pageable = PageRequest.of(pageNo - 1, 4);
+		Integer start = (int) pageable.getOffset();
+
+		Integer end = (int) ((pageable.getOffset() + pageable.getPageSize()) > list.size() ? list.size()
+				: pageable.getOffset() + pageable.getPageSize());
+		list = list.subList(start, end);
+
+		return new PageImpl<Product>(list, pageable, this.findByManufacturer(manu.getId()).size());
+	}
+
+	@Override
+	public Page<Product> getAllByCategory(Category category, Integer pageNo) {
+		List<Product> list = this.findByCategory(category.getId());
+		Pageable pageable = PageRequest.of(pageNo - 1, 4);
+		Integer start = (int) pageable.getOffset();
+
+		Integer end = (int) ((pageable.getOffset() + pageable.getPageSize()) > list.size() ? list.size()
+				: pageable.getOffset() + pageable.getPageSize());
+		list = list.subList(start, end);
+
+		return new PageImpl<Product>(list, pageable, this.findByCategory(category.getId()).size());
+	}
+
+	@Override
+	public Page<Product> getAllByCategoryAndManufacturer(Category category, Manufacturer manu, Integer pageNo) {
+		List<Product> list = this.findProductsByCategoryAndManufacturer(category,manu);
+		Pageable pageable = PageRequest.of(pageNo - 1, 4);
+		Integer start = (int) pageable.getOffset();
+
+		Integer end = (int) ((pageable.getOffset() + pageable.getPageSize()) > list.size() ? list.size()
+				: pageable.getOffset() + pageable.getPageSize());
+		list = list.subList(start, end);
+
+		return new PageImpl<Product>(list, pageable, this.findProductsByCategoryAndManufacturer(category,manu).size());
+	}
+
+	@Override
+	public List<Product> searchProduct(String keyword) {
+		return repo.searchProduct(keyword);
+	}
+
+	@Override
+	public Page<Product> getAll(Integer pageNo) {
+		Pageable pageable = PageRequest.of(pageNo - 1, 4);
+		return repo.findAll(pageable);
+	}
+
+	@Override
+	public Page<Product> searchProduct(String keyword, Integer pageNo) {
+		List<Product> list = this.searchProduct(keyword);
+		Pageable pageable = PageRequest.of(pageNo - 1, 4);
+		Integer start = (int) pageable.getOffset();
+		Integer end = (int) ((pageable.getOffset() + pageable.getPageSize()) > list.size() ? list.size()
+				: pageable.getOffset() + pageable.getPageSize());
+		list = list.subList(start, end);
+
+		return new PageImpl<Product>(list, pageable, this.searchProduct(keyword).size());
 	}
 
 }

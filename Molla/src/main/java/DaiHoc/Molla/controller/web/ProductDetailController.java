@@ -34,11 +34,9 @@ public class ProductDetailController {
 		model.addAttribute("top4_product", productService.findTop4Product().get());
 		model.addAttribute("reviews", reviews);
 		model.addAttribute("countReview", reviews.size());
-		model.addAttribute("categories",
-				(List<Product>) productService.findByCategory(product.getCategory().getId()).get());
-		model.addAttribute("manufacturers",
-				(List<Product>) productService.findByManufacturer(product.getManufacturer().getId()).get());
+		model.addAttribute("categories", productService.findByCategory(product.getCategory().getId()));
+		model.addAttribute("manufacturers", productService.findByManufacturer(product.getManufacturer().getId()));
 		return "web/views/detail";
-		
+
 	}
 }
