@@ -20,12 +20,17 @@ import DaiHoc.Molla.service.IStorageService;
 @Service
 public class FileSystemStorageService implements IStorageService {
 
-	private final Path rootLocation;
+	private Path rootLocation;
 
 	public FileSystemStorageService() {
 		this.rootLocation = Paths.get("src/main/resources/static/assets/images/products");
 	}
 
+	@Override
+	public void setRootLocation(String s) {
+		this.rootLocation = Paths.get(s);
+	}
+	
 	@Override
 	public void store(MultipartFile file) {
 		try {
@@ -86,4 +91,6 @@ public class FileSystemStorageService implements IStorageService {
 			throw new RuntimeException("Could not load the files!");
 		}
 	}
+
+
 }

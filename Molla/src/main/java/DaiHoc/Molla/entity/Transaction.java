@@ -30,6 +30,9 @@ public class Transaction {
 	@Column(name = "id")
 	private Long id;
 	
+	@Column(name="is_review")
+	private boolean is_review;
+	
 	@JsonIgnore
 	@OneToOne(cascade = CascadeType.DETACH, orphanRemoval = false)
 	@JoinColumn(name="line_id", referencedColumnName="id")

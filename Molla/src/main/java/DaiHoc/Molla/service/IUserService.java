@@ -13,7 +13,7 @@ import DaiHoc.Molla.entity.User;
 public interface IUserService {
 	List<User> findAll();
 	User findOne(Long id);
-	boolean create(User object);
+	User create(User object);
 	boolean update(User object);
 	boolean delete(Long id);
 

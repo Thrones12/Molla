@@ -40,6 +40,7 @@ public class FavouriteController {
 			model.addAttribute("categories", cateService.findAll());
 			Long user_id = Long.parseLong(CookieManager.getCookieValue(request, "user_id"));
 			User user = userService.findOne(user_id);
+			model.addAttribute("account", user.getAccount());
 			List<Favourite> favourites = (List<Favourite>) service.findAll(user);
 			service.setState(favourites); // state: 0 - còn hàng, 1 - hết hàng
 			model.addAttribute("favourites", favourites);

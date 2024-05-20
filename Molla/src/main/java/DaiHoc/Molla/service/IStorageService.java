@@ -9,7 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 public interface IStorageService {
 	void init();
 	void store(MultipartFile file); 
-	
+	void setRootLocation(String s);
 	
 	void save(MultipartFile file);
 	Resource load(String filename);

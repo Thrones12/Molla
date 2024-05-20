@@ -9,8 +9,14 @@ public class Constant {
 		DATE
 	}
 	public static String vnp_ReturnUrl = "http://localhost:8081/vnpay-return";
+	public static String productImageFile = "src/main/resources/static/assets/images/products";
+	public static String manuImageFile = "src/main/resources/static/assets/images/manufacture";
 	public static enum eRole{
 		ADMIN,
 		CUSTOMER
+	}
+	public static enum eStorageImage{
+		PRODUCT,
+		MANUFACTURER
 	}
 }

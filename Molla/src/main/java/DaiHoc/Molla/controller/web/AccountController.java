@@ -1,26 +1,24 @@
 package DaiHoc.Molla.controller.web;
 
-import java.security.Principal;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import DaiHoc.Molla.entity.Account;
+import DaiHoc.Molla.entity.User;
 import DaiHoc.Molla.service.IAccountService;
-import DaiHoc.Molla.service.Imp.AccountService;
+import DaiHoc.Molla.service.IUserService;
 
 @Controller
 public class AccountController {
-	
 	@Autowired
-	UserDetailsService userDetailsService;
+	private UserDetailsService userDetailsService;
+	@Autowired
+	private IUserService userService;
 	@Autowired
 	private IAccountService accountService;
 	
@@ -30,6 +28,8 @@ public class AccountController {
 	}
 	@PostMapping("/register")
 	public String saveAccount(@ModelAttribute("account") Account account, Model model) {
+		User user = userService.create(new User());
+		account.setUser(user);
 		accountService.save(account);
 		model.addAttribute("registermessage", "Registered Successfully!");
 	    return "web/views/register";

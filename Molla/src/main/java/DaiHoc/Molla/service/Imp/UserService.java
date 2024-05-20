@@ -26,23 +26,25 @@ public class UserService implements IUserService
 	}
 
 	@Override
-	public boolean create(User object) {
-		// TODO Auto-generated method stub
-		return false;
+	public User create(User object) {
+		User user = repo.save(object);
+		return user;
 	}
 
 
 	@Override
 	public boolean update(User object) {
 		try {
-			Optional<User> opt = Optional.of(findOne(object.getId()));
-			if (opt.isPresent()) {
-				repo.save(object);
-				return true;
-			}
-			else {
-				return false;
-			}
+			User user = findOne(object.getId());
+			user.setFullname(object.getFullname());
+			user.setBirthdate(object.getBirthdate());
+			user.setAddress(object.getAddress());
+			user.setPhone(object.getPhone());
+			user.setEmail(object.getEmail());
+			user.setNotify(object.isNotify());
+			
+			repo.save(user);
+			return true;
 		}
 		catch(Exception e) {
 			e.printStackTrace();

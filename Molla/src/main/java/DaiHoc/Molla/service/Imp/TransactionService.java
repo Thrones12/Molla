@@ -22,8 +22,8 @@ public class TransactionService implements ITransactionService
 	}
 
 	@Override
-	public Optional<?> getOne(Long id) {
-		return repo.findById(id);
+	public Transaction findOne(Long id) {
+		return repo.findById(id).get();
 	}
 
 	@Override

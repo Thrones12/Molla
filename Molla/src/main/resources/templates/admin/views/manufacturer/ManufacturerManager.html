@@ -2,9 +2,6 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{layouts/layout-admin.html}">
 
-<head th:replace="admin/fragments/head :: head">
-</head>
-
 <body class="hold-transition skin-blue sidebar-mini">
 	<!-- Site wrapper -->
 	<div class="wrapper" layout:fragment="content">
@@ -49,13 +46,14 @@
 								<tbody>
 									<tr>
 										<th>Mã nhà sản xuất</th>
+										<th>Hình ảnh</th>
 										<th>Tên nhà sản xuất</th>
 										<th>Mô tả</th>
 										<th>Action</th>
 
 									</tr>
 									<tr th:each="list: ${list}">
-										<td th:text="${list.id}"></td>
+										<td th:text="${list.id}"></td><td ><img class="img-manufacture" th:src="@{'/assets/images/manufacture/' + ${list.picture}}"  alt="Manufacture Image" style ="height:70px; width:140px; border-radius:2rem"> </td>
 										<td th:text="${list.name}"></td>
 										<td th:text="${list.description}"></td>
 										<td><a th:href="@{/admin/update-manufacturer/{id}(id=${list.id})}"

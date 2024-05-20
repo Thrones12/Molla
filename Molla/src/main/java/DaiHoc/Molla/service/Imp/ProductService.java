@@ -15,6 +15,7 @@ import DaiHoc.Molla.Utils.Constant;
 import DaiHoc.Molla.entity.Category;
 import DaiHoc.Molla.entity.Manufacturer;
 import DaiHoc.Molla.entity.Product;
+import DaiHoc.Molla.entity.Review;
 import DaiHoc.Molla.repository.CategoryRepository;
 import DaiHoc.Molla.repository.ManufacturerRepository;
 import DaiHoc.Molla.repository.ProductRepository;
@@ -248,6 +249,16 @@ public class ProductService implements IProductService {
 		list = list.subList(start, end);
 
 		return new PageImpl<Product>(list, pageable, this.searchProduct(keyword).size());
+	}
+
+	@Override
+	public void updateRating(Product product) {
+		int temp = 0;
+		for (Review rv : product.getReview()) {
+			temp += rv.getRating();
+		}
+		product.setRating(temp/product.getReview().size());
+		repo.save(product);
 	}
 
 }

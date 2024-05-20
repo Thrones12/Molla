@@ -25,8 +25,8 @@ public class AccountService implements IAccountService {
 		Account acc = new Account();
 		acc.setUsername(account.getUsername());
 		acc.setPassword(passwordEncoder.encode(account.getPassword()));
-		acc.setRole(Constant.eRole.CUSTOMER.ordinal()); // mặc định lúc đăng kí là customer. admin thì tự thêm hoặc vô
-														// sql sửa role lại
+		acc.setRole(Constant.eRole.CUSTOMER.ordinal()); 
+		acc.setUser(account.getUser());
 		return repo.save(acc);
 	}
 
@@ -68,7 +68,7 @@ public class AccountService implements IAccountService {
 	}
 
 	@Override
-	public Account findOne(String username, String password) {
+	public Account findOne(String username) {
 		return repo.findByUsername(username);
 	}
 

@@ -47,7 +47,7 @@ public class SecurityConfig {
 		.sessionManagement(session -> session
 				.sessionCreationPolicy(SessionCreationPolicy.ALWAYS)
 				.invalidSessionUrl("/login?expired")
-				.maximumSessions(60*60*24)
+				.maximumSessions(1)
 				.maxSessionsPreventsLogin(true))
 		.logout(form -> form.invalidateHttpSession(true).clearAuthentication(true)
 				.deleteCookies("JSESSIONID")

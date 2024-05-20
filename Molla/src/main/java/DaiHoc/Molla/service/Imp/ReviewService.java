@@ -33,15 +33,14 @@ public class ReviewService implements IReviewService
 	}
 
 	@Override
-	public boolean create(Optional<?> object) {
-		// TODO Auto-generated method stub
-		return false;
+	public Review create(Review object) {
+		return repo.save(object);
 	}
 
 	@Override
-	public boolean update(Optional<?> object) {
+	public Review update(Review object) {
 		// TODO Auto-generated method stub
-		return false;
+		return null;
 	}
 
 	@Override

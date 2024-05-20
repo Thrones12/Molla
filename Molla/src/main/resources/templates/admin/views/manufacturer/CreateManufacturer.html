@@ -35,7 +35,7 @@
 						<!-- /.box-header -->
 						<!-- form start -->
 						<form role="form" method="post" th:action="@{/admin/create-manufacturer}"
-							th:object="${manufacturer}">
+							th:object="${manufacturer}" enctype="multipart/form-data">
 							<div class="box-body">
 								<div class="form-group">
 									<label for="exampleInputEmail1">Tên nhà sản xuất</label>
@@ -43,9 +43,13 @@
 										th:field="*{name}">
 								</div>
 								<div class="form-group">
+									<label for="exampleInputEmail1">Hình ảnh</label>
+									<input type="file" class="form-control" name="FilePicture">
+								</div>
+								<div class="form-group">
 									<label for="exampleInputEmail1">Mô tả</label>
-									<textarea class="form-control" rows="10" style="resize:none;" name="description" placeholder="mô tả về nhà sản xuất"
-										th:field="*{description}"></textarea>
+									<textarea class="form-control" rows="10" style="resize:none;" name="description"
+										placeholder="mô tả về nhà sản xuất" th:field="*{description}"></textarea>
 								</div>
 
 

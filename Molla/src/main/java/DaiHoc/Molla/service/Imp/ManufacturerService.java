@@ -60,6 +60,7 @@ public class ManufacturerService implements IManufacturerService
 			Manufacturer manu = findOne(object.getId());
 			manu.setName(object.getName());
 			manu.setDescription(object.getDescription());
+			manu.setPicture(object.getPicture());
 			
 			repo.save(manu);
 			return true;

@@ -9,10 +9,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import DaiHoc.Molla.Utils.CookieManager;
 import DaiHoc.Molla.entity.Product;
+import DaiHoc.Molla.entity.User;
 import DaiHoc.Molla.service.ICategoryService;
 import DaiHoc.Molla.service.IManufacturerService;
 import DaiHoc.Molla.service.IProductService;
+import DaiHoc.Molla.service.IUserService;
+import jakarta.servlet.http.HttpServletRequest;
 
 @Controller
 @RequestMapping("/")
@@ -23,15 +27,21 @@ public class ProductController {
 	private ICategoryService cateService;
 	@Autowired
 	private IManufacturerService manuService;
+	@Autowired
+	private IUserService userService;
 
 	@SuppressWarnings("unchecked")
 	@GetMapping("product")
-	public String getProduct(@RequestParam(defaultValue = "0") int sortby, @RequestParam(defaultValue = "1") int page,
+	public String getProduct(HttpServletRequest request, @RequestParam(defaultValue = "0") int sortby, @RequestParam(defaultValue = "1") int page,
 			@RequestParam(defaultValue = "0") String cate_id, @RequestParam(defaultValue = "0") String manu_id,
 			@RequestParam(defaultValue = "0") String price, ModelMap model) {
 		// Handle header
 		model.addAttribute("urlPage", "product");
 
+		Long user_id = Long.parseLong(CookieManager.getCookieValue(request, "user_id"));
+		User user = userService.findOne(user_id);
+		model.addAttribute("account", user.getAccount());
+		
 		// Đặt giá trị ban đầu cho filter với price
 		if (price.equals("0")) {
 			price = "0.0," + productService.findMaxPrice().toString();

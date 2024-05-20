@@ -29,6 +29,9 @@ public class Manufacturer {
 
     @Column(name = "name", length = 500)
     private String name;
+    
+    @Column(name = "picture", length = 255, nullable = true)
+    private String picture;
 
     @Column(name = "description", length = 500)
     private String description;

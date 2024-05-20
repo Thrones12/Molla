@@ -11,7 +11,7 @@ import DaiHoc.Molla.entity.Transaction;
 @Component
 public interface ITransactionService {
 	Optional<?> getAll();
-	Optional<?> getOne(Long id);
+	Transaction findOne(Long id);
 	boolean create(Optional<?> object);
 	boolean update(Optional<?> object);
 	boolean delete(Long id);

@@ -35,6 +35,7 @@ public interface IProductService {
 	boolean create(Product object);
 	boolean update(Product object);
 	boolean delete(Long id);
+	void updateRating(Product product);
 	
 	// Khác
 	int count(Optional<?> products);

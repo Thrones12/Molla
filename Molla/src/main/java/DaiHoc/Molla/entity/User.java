@@ -30,23 +30,23 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @Column
     private String fullname;
 
     private Date birthdate;
 
     private String address;
 
-    @Column(nullable = false, unique = true)
+    @Column(unique = true)
     private Integer phone;
 
-    @Column(nullable = false, unique = true)
+    @Column(unique = true)
     private String email;
 
-    @Column(nullable = false)
+    @Column
     private int state;
 
-    @Column(name="is_notify", nullable = false)
+    @Column(name="is_notify")
     private boolean isNotify;
     
 	@JsonIgnore

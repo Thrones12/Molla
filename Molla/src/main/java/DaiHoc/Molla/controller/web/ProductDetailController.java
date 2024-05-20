@@ -9,10 +9,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import DaiHoc.Molla.Utils.CookieManager;
 import DaiHoc.Molla.entity.Product;
 import DaiHoc.Molla.entity.Review;
+import DaiHoc.Molla.entity.User;
 import DaiHoc.Molla.service.IProductService;
 import DaiHoc.Molla.service.IReviewService;
+import DaiHoc.Molla.service.IUserService;
+import jakarta.servlet.http.HttpServletRequest;
 
 @Controller
 @RequestMapping("/")
@@ -21,13 +25,19 @@ public class ProductDetailController {
 	private IProductService productService;
 	@Autowired
 	private IReviewService reviewService;
+	@Autowired
+	private IUserService userService;
 
 	@SuppressWarnings("unchecked")
 	@GetMapping("detail")
-	public String getDetail(@RequestParam Long id, ModelMap model) {
+	public String getDetail(HttpServletRequest request, @RequestParam Long id, ModelMap model) {
 		// Handle header
 		model.addAttribute("urlPage", "product");
 
+		Long user_id = Long.parseLong(CookieManager.getCookieValue(request, "user_id"));
+		User user = userService.findOne(user_id);
+		model.addAttribute("account", user.getAccount());
+		
 		List<Review> reviews = (List<Review>) reviewService.findByProduct_Id(id).get();
 		Product product = (Product) productService.findOne(id);
 		model.addAttribute("product", product);

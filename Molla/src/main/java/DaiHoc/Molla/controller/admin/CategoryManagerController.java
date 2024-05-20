@@ -15,8 +15,6 @@ import DaiHoc.Molla.entity.Category;
 import DaiHoc.Molla.service.Imp.CategoryService;
 import org.springframework.web.bind.annotation.RequestParam;
 
-
-
 @Controller
 @RequestMapping("/admin")
 public class CategoryManagerController {

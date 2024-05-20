@@ -11,8 +11,12 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import DaiHoc.Molla.Utils.CookieManager;
 import DaiHoc.Molla.entity.SupportMessage;
+import DaiHoc.Molla.entity.User;
 import DaiHoc.Molla.service.ISupportMessageService;
+import DaiHoc.Molla.service.IUserService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 
 @Controller
@@ -20,9 +24,14 @@ import jakarta.validation.Valid;
 public class SupportController {
 	@Autowired
 	private ISupportMessageService service;
+	@Autowired
+	private IUserService userService;
 
 	@GetMapping("support")
-	public String getSupport(ModelMap model) {
+	public String getSupport(HttpServletRequest request, ModelMap model) {
+		Long user_id = Long.parseLong(CookieManager.getCookieValue(request, "user_id"));
+		User user = userService.findOne(user_id);
+		model.addAttribute("account", user.getAccount());
 		model.addAttribute("messages", service.findAllByAnswerIsNotNull());
 		model.addAttribute("spMessage", new SupportMessage());
 		return "web/views/support";

@@ -1142,3 +1142,28 @@ function checkout() {
 		window.location.href = newUrl;
 	}
 }
+// script.js
+document.addEventListener("DOMContentLoaded", function() {
+    var openPopupBtn = document.getElementById("openPopupBtn");
+    var popup = document.getElementById("popup");
+    var closePopupBtn = document.getElementById("closePopupBtn");
+    var transIdInput = document.getElementById("trans_id");
+
+    openPopupBtn.addEventListener("click", function() {
+        var transId = openPopupBtn.getAttribute("data-trans-id");
+        transIdInput.value = transId;
+        popup.style.display = "block";
+    });
+
+    closePopupBtn.addEventListener("click", function() {
+        popup.style.display = "none";
+    });
+
+    window.addEventListener("click", function(event) {
+        if (event.target == popup) {
+            popup.style.display = "none";
+        }
+    });
+});
+
+

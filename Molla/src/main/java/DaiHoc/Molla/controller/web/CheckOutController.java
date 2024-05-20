@@ -3,6 +3,7 @@ package DaiHoc.Molla.controller.web;
 import java.io.IOException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.security.Principal;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -17,6 +18,8 @@ import java.util.Optional;
 import java.util.TimeZone;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -32,6 +35,7 @@ import DaiHoc.Molla.entity.Bill;
 import DaiHoc.Molla.entity.Cart;
 import DaiHoc.Molla.entity.PromotionalCode;
 import DaiHoc.Molla.entity.Transaction;
+import DaiHoc.Molla.entity.User;
 import DaiHoc.Molla.service.IBillService;
 import DaiHoc.Molla.service.ICartService;
 import DaiHoc.Molla.service.ICategoryService;
@@ -56,9 +60,16 @@ public class CheckOutController {
 	private ITransactionService transService;
 	@Autowired
 	private IBillService billService;
+	@Autowired
+	private UserDetailsService userDetailsService;
 
 	@GetMapping("checkout")
-	public String getCheckout(@RequestParam String carts_id, @RequestParam Float ship, ModelMap model) {
+	public String getCheckout(@RequestParam String carts_id, @RequestParam Float ship, ModelMap model,
+			HttpServletRequest request) {
+
+		Long user_id = Long.parseLong(CookieManager.getCookieValue(request, "user_id"));
+		User user = userService.findOne(user_id);
+		model.addAttribute("account", user.getAccount());
 		String[] str_cartsId = carts_id.split(",");
 		List<Cart> carts = new ArrayList<Cart>();
 		Float subtotal = 0F;
@@ -80,9 +91,12 @@ public class CheckOutController {
 		try {
 			model.addAttribute("categories", cateService.findAll());
 			Long user_id = Long.parseLong(CookieManager.getCookieValue(request, "user_id"));
+			User user = userService.findOne(user_id);
+			model.addAttribute("account", user.getAccount());
 
 			String address_ship = "";
-			address_ship += (request.getParameter("more_address") != "") ? request.getParameter("more_address") + ", " : "";
+			address_ship += (request.getParameter("more_address") != "") ? request.getParameter("more_address") + ", "
+					: "";
 			address_ship += request.getParameter("address") + ", " + request.getParameter("Province") + ", "
 					+ request.getParameter("city") + ", " + request.getParameter("country");
 			// Tạo bill
@@ -90,10 +104,10 @@ public class CheckOutController {
 			Bill bill = Bill.builder().user(userService.findOne(user_id))
 					.product_price(Float.parseFloat(request.getParameter("subtotal")))
 					.ship(Float.parseFloat(request.getParameter("ship")))
-					.total_price(Float.parseFloat(request.getParameter("total"))).bill_date(Date.valueOf(LocalDate.now()))
-					.state(0).receiver(request.getParameter("name")).address_shipment(address_ship)
-					.phone_shipment(request.getParameter("Phone")).email(request.getParameter("email"))
-					.note(request.getParameter("note")).build();
+					.total_price(Float.parseFloat(request.getParameter("total")))
+					.bill_date(Date.valueOf(LocalDate.now())).state(0).receiver(request.getParameter("name"))
+					.address_shipment(address_ship).phone_shipment(request.getParameter("Phone"))
+					.email(request.getParameter("email")).note(request.getParameter("note")).build();
 			if (request.getParameter("code") != null) {
 				bill.setPromotionalCode(
 						(PromotionalCode) codeService.getOne(Long.parseLong(request.getParameter("code"))).get());
@@ -111,31 +125,31 @@ public class CheckOutController {
 				Transaction trans = new Transaction();
 				trans.setLineItem(cart.getLineItem());
 				trans.setBill(bill);
+				trans.set_review(false);
 				transService.create(Optional.ofNullable(trans));
 			}
 			if (paymentMethod.equals("cash")) {
+
 				return "web/views/thank";
-			}
-			else if (paymentMethod.equals("vnpay")){
-		        redirectAttributes.addFlashAttribute("bill", savedBill);
-		        System.out.println("Bill id: " +savedBill.getId());
+			} else if (paymentMethod.equals("vnpay")) {
+				redirectAttributes.addFlashAttribute("bill", savedBill);
+				System.out.println("Bill id: " + savedBill.getId());
 				return "redirect:vnpay";
 			}
 			return "web/views/404";
-		}
-		catch(Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 			return "web/views/404";
 		}
 	}
-	
+
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@GetMapping("vnpay")
 	public void getPay(HttpServletRequest req, HttpServletResponse resp, Model model) throws IOException {
 		String vnp_Version = "2.1.0";
 		String vnp_Command = "pay";
 		String orderType = "other";
-        Bill bill = (Bill) model.getAttribute("bill");
+		Bill bill = (Bill) model.getAttribute("bill");
 		long amount = (long) bill.getTotal_price() * 100;
 		String bankCode = req.getParameter("bankCode");
 
@@ -205,25 +219,24 @@ public class CheckOutController {
 		String paymentUrl = Config.vnp_PayUrl + "?" + queryUrl;
 		resp.sendRedirect(paymentUrl);
 	}
-	
 
-    @GetMapping("/vnpay-return")
-    public String vnpayReturn(@RequestParam Long bill_id, @RequestParam Map<String, String> allParams) {
-        String vnp_ResponseCode = allParams.get("vnp_ResponseCode");
+	@GetMapping("/vnpay-return")
+	public String vnpayReturn(@RequestParam Long bill_id, @RequestParam Map<String, String> allParams) {
+		String vnp_ResponseCode = allParams.get("vnp_ResponseCode");
 
-        // Kiểm tra mã phản hồi của VNPAY
-        if ("00".equals(vnp_ResponseCode)) {
-            // Thanh toán thành công
-            Bill bill = billService.findOne(bill_id);
-            bill.setState(1);
-            billService.update(bill);
-            return "web/views/thank";
-        } else {
-            // Thanh toán thất bại
-            Bill bill = billService.findOne(bill_id);
-            bill.setState(2);
-            billService.update(bill);
-            return "web/views/404";
-        }
-    }
+		// Kiểm tra mã phản hồi của VNPAY
+		if ("00".equals(vnp_ResponseCode)) {
+			// Thanh toán thành công
+			Bill bill = billService.findOne(bill_id);
+			bill.setState(1);
+			billService.update(bill);
+			return "web/views/thank";
+		} else {
+			// Thanh toán thất bại
+			Bill bill = billService.findOne(bill_id);
+			bill.setState(2);
+			billService.update(bill);
+			return "web/views/404";
+		}
+	}
 }
