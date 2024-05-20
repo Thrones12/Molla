@@ -28,6 +28,21 @@ public class AccountService implements IAccountService
 		acc.setRole(Constant.eRole.CUSTOMER.ordinal()); //mặc định lúc đăng kí là customer. admin thì tự thêm hoặc vô sql sửa role lại 
 		return repo.save(acc);
 	}
+	@Override
+	public Account updatePassword(Account account) {
+		return repo.save(account);
+	}
+	@Override
+	public Account findByUsername(String username) {
+		
+		return repo.findByUsername(username);
+	}	
+	
+	@Override
+	public Account findByEmail(String username) {
+		
+		return repo.findByUserEmail(username);
+	}	
 	
 	@Override
 	public Optional<?> getAll() {

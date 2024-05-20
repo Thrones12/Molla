@@ -16,4 +16,7 @@ public interface IAccountService {
 	boolean update(Optional<?> object);
 	boolean delete(Long id);
 	Account save(Account account);
+	Account findByUsername(String username);
+	Account findByEmail(String username);
+	Account updatePassword(Account account);
 }
