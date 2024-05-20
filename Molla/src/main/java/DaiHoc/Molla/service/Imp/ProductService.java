@@ -1,5 +1,6 @@
 package DaiHoc.Molla.service.Imp;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -153,6 +154,53 @@ public class ProductService implements IProductService {
 		list = list.subList(start, end);
 
 		return new PageImpl<Product>(list, pageable, this.findProductsByCategoryAndManufacturer(category,manu).size());
+	}
+
+	@Override
+	public List<Product> getProductInEvent(Long id) {
+		List<Product> listAll= repo.findAll();
+		List<Product> list=new ArrayList();
+		for (Product product: listAll) {
+			if (product.getEvent()!= null)
+				if (product.getEvent().getId().equals(id)) {
+					list.add(product);
+			}			
+		}		
+		return list;
+	}
+
+	@Override
+	public List<Product> getProductNotInEvent(List<Product> listAll) {	
+		List<Product> list=new ArrayList();
+		for (Product product: listAll) {
+			if (product.getEvent()==null) {
+				list.add(product);
+			}			
+		}		
+		return list;
+	}
+
+	@Override
+	public boolean updateEventNull(Product product) {
+		product.setEvent(null);
+			try {
+				Optional<Product> opt = Optional.of(getByID(product.getProductId()));
+				if (opt.isPresent()) {
+					repo.save(product);
+					return true;
+				} else {
+					return false;
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return false;
+		}
+
+	@Override
+	public List<Product> getAllByCategoryAndManufacturerNoPage(Category category, Manufacturer manu) {
+		 return this.findProductsByCategoryAndManufacturer(category, manu);
+	
 	}
 
 }

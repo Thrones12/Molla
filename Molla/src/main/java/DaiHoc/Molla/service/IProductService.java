@@ -21,6 +21,7 @@ public interface IProductService {
 	boolean create(Product product);
 	boolean update(Product product);
 	boolean delete(Long id);
+	boolean updateEventNull(Product product);
 	
 	Page<Product> getAllByManufacturer(Manufacturer manu,Integer pageNo);
 	Page<Product> getAllByCategory(Category category,Integer pageNo);
@@ -29,4 +30,12 @@ public interface IProductService {
 	List<Product> searchProduct(String keyword);
 	Page<Product> getAll(Integer pageNo);
 	Page<Product> searchProduct(String keyword, Integer pageNo);
+	List<Product> getProductInEvent(Long id);
+	List<Product> getProductNotInEvent(List<Product> listAll);	
+	
+	List<Product> getAllByCategoryAndManufacturerNoPage(Category category, Manufacturer manufacturer);
+
+
+
+	
 }

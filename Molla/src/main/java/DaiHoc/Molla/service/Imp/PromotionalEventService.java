@@ -64,8 +64,8 @@ public class PromotionalEventService implements IPromotionalEventService
 	
 	
 	@Override
-	public PromotionalEvent findById(Long id) {	
-		return repo.findById(id).get();
+	public PromotionalEvent findById(Long id) {
+	    return repo.findById(id).orElse(null); 
 	}
 
 }

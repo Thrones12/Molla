@@ -45,6 +45,7 @@ public class ProductManagerController {
 	private IStorageService iStorageService;
 	@Autowired
 	private PromotionalEventService promotionalEventService;
+	
 
 	@GetMapping("/product")
 	public String ProductMangerPage(Model model, @Param("keyword") String keyword, @Param("cateid") Long cateid,
@@ -134,8 +135,7 @@ public class ProductManagerController {
 		model.addAttribute("product", product);
 		List<Category> listCate = this.categoryService.getAll();
 		model.addAttribute("listCate", listCate);
-		List<PromotionalEvent> pro_event = promotionalEventService.getAll();
-		model.addAttribute("pro_event", pro_event);
+		
 		List<Manufacturer> listManu = this.manufacturerService.getAll();
 		model.addAttribute("listManu", listManu);
 		return "/admin/views/product/CreateProduct";
@@ -163,8 +163,7 @@ public class ProductManagerController {
 		model.addAttribute("listCate", listCate);
 		List<Manufacturer> listManu = this.manufacturerService.getAll();
 		model.addAttribute("listManu", listManu);
-		List<PromotionalEvent> pro_event = promotionalEventService.getAll();
-		model.addAttribute("pro_event", pro_event);
+
 		Product product = productService.getByID(id);
 		model.addAttribute("product", product);
 

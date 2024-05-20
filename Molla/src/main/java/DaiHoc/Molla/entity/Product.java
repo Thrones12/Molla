@@ -53,30 +53,6 @@ public class Product {
     @Column(name = "rating", nullable = true)
     private Integer rating;
     
-	public int getSlod() {
-		return slod;
-	}
-	public void setSlod(int slod) {
-		this.slod = slod;
-	}
-	public int getRating() {
-		return rating;
-	}
-	public void setRating(Integer rating) {
-		this.rating = rating;
-	}
-	public PromotionalEvent getEvent() {
-		return event;
-	}
-	public void setEvent(PromotionalEvent event) {
-		this.event = event;
-	}
-	public Set<LineItem> getLineItems() {
-		return lineItems;
-	}
-	public void setLineItems(Set<LineItem> lineItems) {
-		this.lineItems = lineItems;
-	}
 	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name = "cate_id")
@@ -85,9 +61,9 @@ public class Product {
 	@ManyToOne
 	@JoinColumn(name = "manu_id")
 	private Manufacturer manufacturer;
-	@JsonIgnore
-	@ManyToOne
-	@JoinColumn(name = "event_id")
+
+	@ManyToOne(optional = true)
+	@JoinColumn(name = "event_id" , nullable = true)
 	private PromotionalEvent event;
 	
 	@JsonIgnore
