@@ -1,7 +1,6 @@
 package DaiHoc.Molla.service;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.stereotype.Component;
 
@@ -10,12 +9,13 @@ import DaiHoc.Molla.entity.Account;
 
 @Component
 public interface IAccountService {
-	Optional<?> getAll();
+	List<Account> findAll();
 	Account findOne(Long id);
 	Account findOne(String username);
-	boolean create(Optional<?> object);
-	boolean update(Account object);
+	
+	Account create(Account account);
+	Account update(Account object);
 	boolean delete(Long id);
-	Account save(Account account);
+	
 	Account findAccountByUserId(Long id);
 }

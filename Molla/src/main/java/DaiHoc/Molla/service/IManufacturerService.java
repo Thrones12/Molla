@@ -1,12 +1,10 @@
 package DaiHoc.Molla.service;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
-import DaiHoc.Molla.entity.Category;
 import DaiHoc.Molla.entity.Manufacturer;
 
 

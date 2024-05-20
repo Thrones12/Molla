@@ -53,13 +53,13 @@ public class HomeController {
 		model.addAttribute("banners", banners);
 
 		// Handle new product
-		model.addAttribute("news", service.findNewProduct().get());
+		model.addAttribute("news", service.findNewProduct());
 
 		// Handle best seller product
-		model.addAttribute("best_sellers", service.findBestSellerProduct().get());
+		model.addAttribute("best_sellers", service.findBestSellerProduct());
 
 		// Handle on sale product
-		model.addAttribute("on_sales", service.findOnSaleProduct().get());
+		model.addAttribute("on_sales", service.findOnSaleProduct());
 
 		// Handle product of category
 		model.addAttribute("categories", cateService.findAll());
@@ -67,7 +67,6 @@ public class HomeController {
 		return "web/views/home";
 	}
 
-	@SuppressWarnings("unchecked")
 	@GetMapping("search")
 	public String getSearch(HttpServletRequest request, @RequestParam() String q, ModelMap model) {
 		try {
@@ -76,7 +75,7 @@ public class HomeController {
 			Long user_id = Long.parseLong(CookieManager.getCookieValue(request, "user_id"));
 			User user = userService.findOne(user_id);
 			model.addAttribute("account", user.getAccount());
-			List<Product> products = (List<Product>) productService.search(q).get();
+			List<Product> products = (List<Product>) productService.search(q);
 
 			model.addAttribute("products", products);
 			model.addAttribute("sortby", 0);

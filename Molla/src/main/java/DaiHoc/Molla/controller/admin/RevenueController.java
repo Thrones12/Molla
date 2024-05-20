@@ -24,7 +24,6 @@ public class RevenueController {
 	@Autowired
 	private BillService billService;
 	
-
 	@GetMapping("/revenue")
 	public String getRevenue(@RequestParam(defaultValue = "2024", value = "year", required = false) Integer year, ModelMap model) {
 		if (year == null) {

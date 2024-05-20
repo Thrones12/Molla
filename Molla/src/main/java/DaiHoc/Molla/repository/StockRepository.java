@@ -10,4 +10,5 @@ import DaiHoc.Molla.entity.Stock;
 @Repository
 public interface StockRepository extends JpaRepository<Stock, Long>{
     List<Stock> findAllByProduct_IdAndState(Long productId, int state);
+    List<Stock> findAllByProduct_Id(Long productId);
 }

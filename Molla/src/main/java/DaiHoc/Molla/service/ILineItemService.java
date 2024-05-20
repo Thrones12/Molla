@@ -1,17 +1,17 @@
 package DaiHoc.Molla.service;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.stereotype.Component;
+
+import DaiHoc.Molla.entity.LineItem;
 
 
 @Component
 public interface ILineItemService {
-	Optional<?> getAll();
-	Optional<?> getOne(Long id);
-	boolean create(Optional<?> object);
-	boolean update(Optional<?> object);
+	List<LineItem> findAll();
+	LineItem findOne(Long id);
+	LineItem create(LineItem object);
+	LineItem update(LineItem object);
 	boolean delete(Long id);
-	Optional<?> findNew();
 }

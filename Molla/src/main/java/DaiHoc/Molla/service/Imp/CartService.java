@@ -1,6 +1,6 @@
 package DaiHoc.Molla.service.Imp;
 
-import java.util.Optional;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,13 +27,13 @@ public class CartService implements ICartService
 	private LineItemRepository lineRepo;
 
 	@Override
-	public Optional<?> findAll() {
-		return Optional.ofNullable(repo.findAll());
+	public List<Cart> findAll() {
+		return repo.findAll();
 	}
 
 	@Override
-	public Optional<?> findByUser(Long user_id) {
-		return Optional.ofNullable(repo.findByUser_Id(user_id));
+	public List<Cart> findByUser(Long user_id) {
+		return repo.findByUser_Id(user_id);
 	}
 	
 	@Override
@@ -42,7 +42,7 @@ public class CartService implements ICartService
 	}
 
 	@Override
-	public boolean create(Long user_id, Long pro_id, int quantity) {
+	public Cart create(Long user_id, Long pro_id, int quantity) {
 		try {
 			User user = userRepo.findById(user_id).get();
 			Product pro = proRepo.findById(pro_id).get();
@@ -55,18 +55,27 @@ public class CartService implements ICartService
 			cart.setUser(user);
 			cart.setLineItem(line);
 			repo.save(cart);
-			return true;
+			return cart;
 		}
 		catch(Exception e) {
 			e.printStackTrace();
-			return false;
+			return null;
 		}
 	}
 
 	@Override
-	public boolean update(Cart cart) {
-		repo.save(cart);
-		return true;
+	public Cart update(Cart cart) {
+		try {
+			Cart c = new Cart();
+			cart.setUser(cart.getUser());
+			cart.setLineItem(cart.getLineItem());
+			repo.save(c);
+			return c;
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 
 	@Override
@@ -111,7 +120,8 @@ public class CartService implements ICartService
 		try {
 			Cart cart = findOne(cart_id);
 			cart.getLineItem().setQuantity(quantity);
-			repo.flush();
+			cart.getLineItem().setSubtotal(cart.getLineItem().getProduct().getSelling_price()*quantity);
+			repo.save(cart);
 			return true;
 		}
 		catch(Exception e) {

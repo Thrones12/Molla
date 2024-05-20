@@ -15,8 +15,8 @@
 					<div class="container">
 						<ol class="breadcrumb">
 							<li class="breadcrumb-item"><a th:href="home">Trang chủ</a></li>
-							<li class="breadcrumb-item"><a th:href="product">Shop</a></li>
-							<li class="breadcrumb-item active" aria-current="page">Checkout</li>
+							<li class="breadcrumb-item"><a th:href="product">Cửa hàng</a></li>
+							<li class="breadcrumb-item active" aria-current="page">Thanh toán</li>
 						</ol>
 					</div><!-- End .container -->
 				</nav><!-- End .breadcrumb-nav -->
@@ -24,13 +24,6 @@
 				<div class="page-content">
 					<div class="checkout">
 						<div class="container">
-							<div class="checkout-discount">
-								<form action="#">
-									<input type="text" class="form-control" required id="checkout-discount-input">
-									<label for="checkout-discount-input" class="text-truncate">Have a coupon?
-										<span>Click here to enter your code</span></label>
-								</form>
-							</div><!-- End .checkout-discount -->
 							<form th:action="checkout" method="POST">
 								<div class="row">
 									<div class="col-lg-8">

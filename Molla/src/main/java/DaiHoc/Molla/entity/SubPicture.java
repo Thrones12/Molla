@@ -1,7 +1,5 @@
 package DaiHoc.Molla.entity;
 
-import java.util.Set;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Column;

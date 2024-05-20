@@ -1,7 +1,6 @@
 package DaiHoc.Molla.service.Imp;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -9,45 +8,53 @@ import org.springframework.stereotype.Service;
 import DaiHoc.Molla.entity.LineItem;
 import DaiHoc.Molla.repository.LineItemRepository;
 import DaiHoc.Molla.service.ILineItemService;
+
 @Service
-public class LineItemService implements ILineItemService
-{
+public class LineItemService implements ILineItemService {
 	@Autowired
 	private LineItemRepository repo;
+
 	@Override
-	public Optional<?> getOne(Long id) {
-		// TODO Auto-generated method stub
-		return Optional.empty();
+	public List<LineItem> findAll() {
+		return repo.findAll();
 	}
+	
 	@Override
-	public Optional<?> findNew(){
-		return repo.findFirstByOrderByIdDesc();
+	public LineItem findOne(Long id) {
+		return repo.findById(id).get();
 	}
+
 	@Override
-	public boolean create(Optional<?> object) {
+	public LineItem create(LineItem object) {
 		try {
-			repo.save((LineItem) object.get());
-			return true;
+			repo.save(object);
+			return object;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
 		}
-		catch(Exception e) {
+	}
+
+	@Override
+	public LineItem update(LineItem object) {
+		try {
+			repo.save(object);
+			return object;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	@Override
+	public boolean delete(Long id) {
+		try {
+			repo.deleteById(id);;
+			return true;
+		} catch (Exception e) {
 			e.printStackTrace();
 			return false;
 		}
-	}
-	@Override
-	public boolean update(Optional<?> object) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-	@Override
-	public boolean delete(Long id) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-	@Override
-	public Optional<?> getAll() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 }

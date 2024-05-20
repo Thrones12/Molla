@@ -30,7 +30,6 @@ public class ProductController {
 	@Autowired
 	private IUserService userService;
 
-	@SuppressWarnings("unchecked")
 	@GetMapping("product")
 	public String getProduct(HttpServletRequest request, @RequestParam(defaultValue = "0") int sortby, @RequestParam(defaultValue = "1") int page,
 			@RequestParam(defaultValue = "0") String cate_id, @RequestParam(defaultValue = "0") String manu_id,
@@ -50,11 +49,10 @@ public class ProductController {
 		// Find product bằng filter
 		List<Product> products = (List<Product>) productService
 				.findAll(cate_id, manu_id, Float.parseFloat(price.replace('đ', ' ').split(",")[0].trim()),
-						Float.parseFloat(price.replace('đ', ' ').split(",")[1].trim()))
-				.get();
+						Float.parseFloat(price.replace('đ', ' ').split(",")[1].trim()));
 
 		// Get product của page hiện tại
-		List<Product> productPage = (List<Product>) productService.findPage(products, sortby, page - 1).get();
+		List<Product> productPage = (List<Product>) productService.findPage(products, sortby, page - 1);
 
 		// Handle page number
 		if (page < 1)

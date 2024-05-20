@@ -17,33 +17,42 @@ public class StockService implements IStockService
 	private StockRepository repo;
 
 	@Override
-	public Optional<?> getAll() {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Stock> findAll() {
+		return repo.findAll();
 	}
 
 	@Override
-	public Optional<?> getOne(Long id) {
-		// TODO Auto-generated method stub
-		return Optional.empty();
+	public List<Stock> findAllByProductId(Long id) {
+		return repo.findAllByProduct_Id(id);
 	}
 
 	@Override
-	public boolean insert(Optional<?> object) {
-		// TODO Auto-generated method stub
-		return false;
+	public Stock findOne(Long id) {
+		return repo.findById(id).get();
 	}
 
 	@Override
-	public boolean update(Optional<?> object) {
-		// TODO Auto-generated method stub
-		return false;
+	public Stock create(Stock object) {
+		return repo.save(object);
+	}
+
+	@Override
+	public Stock update(Stock object) {
+		Stock stock = findOne(object.getId());
+		stock.setState(object.getState());
+		repo.save(stock);
+		return stock;
 	}
 
 	@Override
 	public boolean delete(Long id) {
-		// TODO Auto-generated method stub
-		return false;
+		try {
+			repo.deleteById(id);
+			return true;
+		}
+		catch(Exception e) {
+			return false;
+		}
 	}
 
 }

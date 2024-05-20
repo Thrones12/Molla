@@ -1,5 +1,7 @@
 package DaiHoc.Molla.service.Imp;
 
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
@@ -10,6 +12,9 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.stream.Stream;
 
+import javax.imageio.ImageIO;
+
+import org.imgscalr.Scalr;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
@@ -30,7 +35,7 @@ public class FileSystemStorageService implements IStorageService {
 	public void setRootLocation(String s) {
 		this.rootLocation = Paths.get(s);
 	}
-	
+
 	@Override
 	public void store(MultipartFile file) {
 		try {
@@ -46,8 +51,35 @@ public class FileSystemStorageService implements IStorageService {
 	}
 
 	@Override
+	public void store(MultipartFile file, String storageLocation, int size) {
+		try {
+			// Đọc tệp vào một BufferedImage
+			BufferedImage originalImage = ImageIO.read(file.getInputStream());
+
+			// Resize ảnh thành kích thước mới, ví dụ: 200x200
+			BufferedImage resizedImage = Scalr.resize(originalImage, Scalr.Method.QUALITY, Scalr.Mode.FIT_TO_WIDTH,
+					size, size);
+
+			// Chuyển đổi BufferedImage thành mảng byte
+			ByteArrayOutputStream baos = new ByteArrayOutputStream();
+			ImageIO.write(resizedImage, "jpg", baos);
+			baos.flush();
+			byte[] resizedImageBytes = baos.toByteArray();
+			baos.close();
+
+			// Lưu trữ tệp đã resize vào vị trí mong muốn
+
+			Path destinationFile = this.rootLocation.resolve(Paths.get(file.getOriginalFilename())).normalize()
+					.toAbsolutePath();
+			Files.write(destinationFile, resizedImageBytes);
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	@Override
 	public void init() {
-		// TODO Auto-generated method stub
 		try {
 			Files.createDirectories(rootLocation);
 		} catch (IOException e) {
@@ -91,6 +123,5 @@ public class FileSystemStorageService implements IStorageService {
 			throw new RuntimeException("Could not load the files!");
 		}
 	}
-
 
 }

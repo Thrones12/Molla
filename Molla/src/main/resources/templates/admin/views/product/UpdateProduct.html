@@ -31,8 +31,7 @@
 						<!-- form start -->
 						<form role="form" method="post" th:action="@{/admin/update-product}" th:object="${product}"
 							enctype="multipart/form-data">
-							<input type="hidden" class="form-control" name="id" placeholder="id"
-								th:field="*{id}">
+							<input type="hidden" class="form-control" name="id" placeholder="id" th:field="*{id}">
 							<input type="hidden" class="form-control" name="rating" placeholder="id"
 								th:field="*{rating}">
 							<div class="box-body">
@@ -65,8 +64,13 @@
 									<div class="col-md-3">
 										<div class="form-group">
 											<label for="exampleInputEmail1">Trạng thái</label>
-											<input type="text" class="form-control" name="state" placeholder="State"
+											<select class="form-control select2 select2-hidden-accessible"
 												th:field="*{state}">
+												<option value="0">None</option>
+												<option value="1">New</option>
+												<option value="2">Top</option>
+												<option value="3">Sale</option>
+											</select>
 										</div>
 									</div>
 									<div class="col-md-3">

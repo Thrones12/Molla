@@ -42,7 +42,7 @@ public class UserService implements IUserService
 			user.setPhone(object.getPhone());
 			user.setEmail(object.getEmail());
 			user.setNotify(object.isNotify());
-			
+			user.setState(object.getState());
 			repo.save(user);
 			return true;
 		}

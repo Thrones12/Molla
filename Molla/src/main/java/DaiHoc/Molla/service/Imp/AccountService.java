@@ -1,8 +1,6 @@
 package DaiHoc.Molla.service.Imp;
 
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -21,7 +19,27 @@ public class AccountService implements IAccountService {
 	private PasswordEncoder passwordEncoder;
 
 	@Override
-	public Account save(Account account) {
+	public List<Account> findAll() {
+		return repo.findAll();
+	}
+
+	@Override
+	public Account findOne(Long id) {
+		return repo.findById(id).get();
+	}
+
+	@Override
+	public Account findAccountByUserId(Long id) {
+		return repo.findAccountByUserId(id);
+	}
+
+	@Override
+	public Account findOne(String username) {
+		return repo.findByUsername(username);
+	}
+	
+	@Override
+	public Account create(Account account) {
 		Account acc = new Account();
 		acc.setUsername(account.getUsername());
 		acc.setPassword(passwordEncoder.encode(account.getPassword()));
@@ -31,50 +49,29 @@ public class AccountService implements IAccountService {
 	}
 
 	@Override
-	public Optional<?> getAll() {
-		return Optional.ofNullable(repo.findAll());
-	}
-	
-	@Override
-	public boolean create(Optional<?> object) {
-		repo.save((Account) object.get());
-		return true;
-	}
-
-	@Override
-	public boolean update(Account object) {
+	public Account update(Account object) {
 		try {
 			Account account = findOne(object.getId());
 			account.setPassword(object.getPassword());
 			account.setRole(object.getRole());
 			repo.save(account);
+			return account;
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	@Override
+	public boolean delete(Long id) {
+		try {
+			repo.deleteById(id);
 			return true;
 		}
 		catch(Exception e) {
 			e.printStackTrace();
 			return false;
 		}
-	}
-
-	@Override
-	public boolean delete(Long id) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public Account findOne(Long id) {
-		return repo.findById(id).get();
-	}
-
-	@Override
-	public Account findOne(String username) {
-		return repo.findByUsername(username);
-	}
-
-	@Override
-	public Account findAccountByUserId(Long id) {
-		// TODO Auto-generated method stub
-		return repo.findAccountByUserId(id);
 	}
 }

@@ -1,7 +1,6 @@
 package DaiHoc.Molla.entity;
 
 import java.util.List;
-import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -63,7 +62,7 @@ public class Product {
 	@JoinColumn(name = "manu_id")
 	private Manufacturer manufacturer;
 	@JsonIgnore
-	@ManyToOne
+	@ManyToOne(optional = true)
 	@JoinColumn(name = "event_id")
 	private PromotionalEvent event;
 	

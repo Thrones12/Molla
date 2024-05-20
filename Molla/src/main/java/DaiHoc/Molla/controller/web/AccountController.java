@@ -16,8 +16,6 @@ import DaiHoc.Molla.service.IUserService;
 @Controller
 public class AccountController {
 	@Autowired
-	private UserDetailsService userDetailsService;
-	@Autowired
 	private IUserService userService;
 	@Autowired
 	private IAccountService accountService;
@@ -30,7 +28,7 @@ public class AccountController {
 	public String saveAccount(@ModelAttribute("account") Account account, Model model) {
 		User user = userService.create(new User());
 		account.setUser(user);
-		accountService.save(account);
+		accountService.create(account);
 		model.addAttribute("registermessage", "Registered Successfully!");
 	    return "web/views/register";
 	}

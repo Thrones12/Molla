@@ -74,7 +74,6 @@ public class FavouriteService implements IFavouriteService{
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public boolean setState(List<Favourite> favs) {
 		try {

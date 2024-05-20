@@ -10,9 +10,11 @@ import DaiHoc.Molla.entity.Account;
 import lombok.Data;
 @Data
 public class CustomUserDetail implements UserDetails {
-
-
-    private Account acc;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private Account acc;
 
     public CustomUserDetail(Account acc) {
         this.acc = acc;

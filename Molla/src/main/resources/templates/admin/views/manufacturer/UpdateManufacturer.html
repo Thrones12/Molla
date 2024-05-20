@@ -39,17 +39,17 @@
 							<div class="box-body">
 								<div class="form-group">
 									<label for="exampleInputEmail1">Tên nhà sản xuất</label>
-									<input type="text" class="form-control" name="name" placeholder="Name"
+									<input required type="text" class="form-control" name="name" placeholder="Name"
 										th:field="*{name}">
 								</div>
               					<div class="form-group">
 			                  		<label for="exampleInputEmail1">Hình ảnh</label>
-			                 		<input type="file" class="form-control" name="FilePicture" >
-			                 		<input type="text"  th:field="*{picture}">
+			                 		<input required type="file" class="form-control" name="FilePicture" >
+			                 		<input required type="text"  th:field="*{picture}">
 		                		</div>  
 								<div class="form-group">
 									<label for="exampleInputEmail1">Mô tả</label>
-									<textarea class="form-control" rows="10" style="resize:none;" name="description" placeholder="mô tả về nhà sản xuất"
+									<textarea required class="form-control" rows="10" style="resize:none;" name="description" placeholder="mô tả về nhà sản xuất"
 										th:field="*{description}"></textarea>
 								</div>
 

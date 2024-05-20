@@ -42,7 +42,7 @@ public class ManufacturerManagerController {
 
 	@PostMapping("/create-manufacturer")
 	public String createManufacturer(@ModelAttribute("manufacturer") Manufacturer manufacturer, @RequestParam("FilePicture") MultipartFile file ) {
-
+		iStorageService.setRootLocation(Constant.manuImageFile);
 		iStorageService.save(file);
 
 		String filename = file.getOriginalFilename();

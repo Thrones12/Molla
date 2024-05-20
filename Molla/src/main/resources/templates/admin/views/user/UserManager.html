@@ -2,9 +2,6 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{layouts/layout-admin.html}">
 
-<head th:replace="admin/fragments/head :: head">
-</head>
-
 <body class="hold-transition skin-blue sidebar-mini">
 	<!-- Site wrapper -->
 	<div class="wrapper" layout:fragment="content">
@@ -54,7 +51,7 @@
 										<th>Email</th>
 										<th>Số điện thoại</th>
 										<th>Trạng thái</th>
-										<th></th>
+										<th>Tác vụ</th>
 
 									</tr>
 									<tr th:each="list: ${list}">
@@ -62,20 +59,19 @@
 										<td th:text="${list.fullname}"></td>
 										<td th:text="${list.email}"></td>
 										<td th:text="${list.phone}"></td>
-										<td th:text="${list.state}"></td>
+										<td>
+											<p th:if="${list.state==0}">Đang hoạt động</p>
+											<p th:if="${list.state==1}">Không hoạt động</p>
+											<p th:if="${list.state==2}">Tạm khóa</p>
+											<p th:if="${list.state==3}">Khóa vĩnh viễn</p>
+										</td>
 										<td>
 											<a th:href="@{/admin/show-info-user/{id}(id=${list.id})}"
 												class="btn btn-success">Xem thông tin</a>
 											<a th:href="@{/admin/purchase-history/{id}(id=${list.id})}"
 												class="btn btn-success">Lịch sử mua hàng</a>
-
 										</td>
-
-
 									</tr>
-
-
-
 								</tbody>
 							</table>
 						</div>

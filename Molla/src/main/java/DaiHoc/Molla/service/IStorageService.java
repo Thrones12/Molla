@@ -14,4 +14,5 @@ public interface IStorageService {
 	void save(MultipartFile file);
 	Resource load(String filename);
 	Stream<Path> loadAll();
+	void store(MultipartFile file, String storageLocation, int size);
 }

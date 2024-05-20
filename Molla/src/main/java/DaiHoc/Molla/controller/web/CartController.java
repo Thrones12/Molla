@@ -1,12 +1,9 @@
 package DaiHoc.Molla.controller.web;
 
-import java.security.Principal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -33,7 +30,6 @@ public class CartController {
 	@Autowired
 	private IUserService userService;
 
-	@SuppressWarnings("unchecked")
 	@GetMapping("cart")
 	public String getCart(HttpServletRequest request, ModelMap model) {
 		// Handle cart
@@ -41,7 +37,7 @@ public class CartController {
 		User user = userService.findOne(user_id);
 		model.addAttribute("account", user.getAccount());
 		model.addAttribute("categories", cateService.findAll());
-		List<Cart> carts = (List<Cart>) cartService.findByUser(user_id).get();
+		List<Cart> carts = cartService.findByUser(user_id);
 		model.addAttribute("carts", carts);
 		return "web/views/cart";
 	}
@@ -84,15 +80,13 @@ public class CartController {
 		}
 	}
 
-	@PostMapping("handle-quantity-change")
-	public ResponseEntity<String> postChangeQuantity(@RequestParam("cart_id") Long cart_id,
+	@PostMapping("updateQuantity")
+	public ResponseEntity<Float> postChangeQuantity(@RequestParam("cart_id") Long cart_id,
 			@RequestParam("quantity") int quantity) {
 		if (cartService.changeQuantity(cart_id, quantity)) {
-			String responseScript = "Thành công";
-			return ResponseEntity.ok(responseScript);
+			return ResponseEntity.ok(cartService.findOne(cart_id).getLineItem().getProduct().getSelling_price()*quantity);
 		} else {
-			String responseScript = "Thất bại";
-			return ResponseEntity.ok(responseScript);
+			return ResponseEntity.ok(0f);
 		}
 	}
 

@@ -1,9 +1,9 @@
 package DaiHoc.Molla.controller.admin;
 
+import java.io.IOException;
 import java.security.Principal;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
+import org.springframework.web.multipart.MultipartFile;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -17,22 +17,20 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import DaiHoc.Molla.Utils.Constant;
 import DaiHoc.Molla.entity.Category;
 import DaiHoc.Molla.entity.Manufacturer;
 import DaiHoc.Molla.entity.Product;
 import DaiHoc.Molla.entity.PromotionalEvent;
-import DaiHoc.Molla.repository.CategoryRepository;
+import DaiHoc.Molla.entity.SubPicture;
 import DaiHoc.Molla.service.IStorageService;
+import DaiHoc.Molla.service.ISubPictureService;
 import DaiHoc.Molla.service.Imp.CategoryService;
-import DaiHoc.Molla.service.Imp.FileSystemStorageService;
 import DaiHoc.Molla.service.Imp.ManufacturerService;
 import DaiHoc.Molla.service.Imp.ProductService;
 import DaiHoc.Molla.service.Imp.PromotionalEventService;
-import DaiHoc.Molla.repository.ManufacturerRepository;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
 
 @Controller
 @RequestMapping("/admin")
@@ -45,13 +43,15 @@ public class ProductManagerController {
 	@Autowired
 	private ProductService productService;
 	@Autowired
+	private ISubPictureService subService;
+	@Autowired
 	private IStorageService iStorageService;
 	@Autowired
 	private PromotionalEventService promotionalEventService;
 	@Autowired
 	private UserDetailsService userDetailsService;
 
-	@GetMapping(value = { "/product", "" })
+	@GetMapping("/product")
 	public String ProductMangerPage(Model model, Principal principal, @Param("keyword") String keyword,
 			@Param("cateid") Long cateid, @Param("manuid") Long manuid,
 			@RequestParam(name = "pageNo", defaultValue = "1") Integer pageNo) {
@@ -104,7 +104,7 @@ public class ProductManagerController {
 
 		return "/admin/views/product/ProductManager";
 	}
-	
+
 	@GetMapping("/create-product")
 	public String createProduct(Model model) {
 		Product product = new Product();
@@ -120,12 +120,26 @@ public class ProductManagerController {
 
 	@PostMapping("/create-product")
 	public String createCategory(@ModelAttribute("product") Product product,
-			@RequestParam("FilePicture") MultipartFile file) {
+			@RequestParam("FilePicture") MultipartFile file,
+			@RequestParam("FileSubPicture") List<MultipartFile> subFiles) throws IOException {
 		iStorageService.store(file);
-
 		String filename = file.getOriginalFilename();
 		product.setPicture(filename);
 		if (productService.create(product)) {
+			for (MultipartFile f : subFiles) {
+				// Lưu vào database
+				SubPicture sub = new SubPicture();
+				filename = f.getOriginalFilename();
+				sub.setPicture(filename);
+				sub.setProduct(product);
+				subService.create(sub);
+				// Lưu vào subpicture
+				iStorageService.setRootLocation(Constant.productSubImageFile);
+				iStorageService.store(f, Constant.productSubImageFile, 280);
+				// Lưu vào zoompicture
+				iStorageService.setRootLocation(Constant.productZoomImageFile);
+				iStorageService.store(f, Constant.productZoomImageFile, 1200);
+			}
 			return "redirect:/admin/product";
 		}
 
@@ -160,7 +174,7 @@ public class ProductManagerController {
 			return "redirect:/admin/product";
 		}
 
-		return "redirect:/admin/update-product/"+product.getId();
+		return "redirect:/admin/update-product/" + product.getId();
 	}
 
 	@GetMapping("/delete-product/{productId}")

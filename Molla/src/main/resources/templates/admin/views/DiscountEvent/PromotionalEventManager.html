@@ -51,6 +51,7 @@
 										<th>Giảm giá (%)</th>
 										<th>Thời gian bắt đầu</th>
 										<th>Thời gian kết thúc</th>
+										<th>Các sản phẩm</th>
 										<th></th>
 
 									</tr>
@@ -60,6 +61,9 @@
 										<td th:text="${list.discountPercent}"></td>
 										<td th:text="${list.pro_date}"></td>
 										<td th:text="${list.exp_date}"></td>
+										<td><a th:href="@{/admin/update-product-event/{id}(id=${list.id})}"
+												class="btn btn-primary">Xem</a></td>
+										<td>
 										<td>
 											<a th:href="@{/admin/update-promotional-event/{id}(id=${list.id})}"
 												class="btn btn-success">Cập nhật</a>
@@ -67,12 +71,6 @@
 												onclick="return confirm('Do you want to delete it?')"
 												class="btn btn-danger">Xóa</a>
 										</td>
-
-
-										</td>
-
-
-
 									</tr>
 
 

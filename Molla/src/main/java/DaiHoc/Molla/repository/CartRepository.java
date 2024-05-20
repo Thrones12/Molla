@@ -9,5 +9,5 @@ import DaiHoc.Molla.entity.Cart;
 
 @Repository
 public interface CartRepository extends JpaRepository<Cart, Long>{
-	List<?> findByUser_Id(Long user_id);
+	List<Cart> findByUser_Id(Long user_id);
 }

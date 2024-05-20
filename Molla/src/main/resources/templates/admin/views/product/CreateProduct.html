@@ -34,34 +34,43 @@
 							<div class="box-body">
 								<div class="form-group">
 									<label for="exampleInputEmail1">Tên sản phẩm </label>
-									<input type="text" class="form-control" name="name" placeholder="Tên sản phẩm"
-										th:field="*{name}">
+									<input required type="text" class="form-control" name="name"
+										placeholder="Tên sản phẩm" th:field="*{name}">
 								</div>
 								<div class="form-group">
 									<label for="exampleInputEmail1">Mô tả</label>
-									<input type="text" class="form-control" name="description"
+									<input required type="text" class="form-control" name="description"
 										placeholder="Mô tả sản phẩm " th:field="*{description}">
 								</div>
 								<div class="form-group">
 									<label for="exampleInputEmail1">Hình ảnh</label>
-									<input type="file" class="form-control" name="FilePicture">
+									<input required type="file" class="form-control" name="FilePicture">
+								</div>
+								<div class="form-group">
+									<label for="exampleInputEmail1">Hình ảnh phụ</label>
+									<input required type="file" class="form-control" name="FileSubPicture" multiple>
 								</div>
 								<div class="form-group">
 									<label for="exampleInputEmail1">Giá nhập</label>
-									<input type="text" class="form-control" name="purchase_price" placeholder="Giá nhập"
-										th:field="*{purchase_price}">
+									<input required type="text" class="form-control" name="purchase_price"
+										placeholder="Giá nhập" th:field="*{purchase_price}">
 								</div>
 								<div class="form-group">
 									<label for="exampleInputEmail1">Giá bán</label>
-									<input type="text" class="form-control" name="selling_price" placeholder="Giá bán"
-										th:field="*{selling_price}">
+									<input required type="text" class="form-control" name="selling_price"
+										placeholder="Giá bán" th:field="*{selling_price}">
 								</div>
 								<div class="row">
 									<div class="col-md-3">
 										<div class="form-group">
 											<label for="exampleInputEmail1">Trang thái</label>
-											<input type="text" class="form-control" name="state"
-												placeholder="Trạng thái" th:field="*{state}">
+											<select class="form-control select2 select2-hidden-accessible"
+												th:field="*{state}">
+												<option value="0">None</option>
+												<option value="1">New</option>
+												<option value="2">Top</option>
+												<option value="3">Sale</option>
+											</select>
 										</div>
 									</div>
 									<div class="col-md-3">

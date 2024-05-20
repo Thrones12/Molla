@@ -15,21 +15,19 @@ import DaiHoc.Molla.entity.Product;
 public interface IProductService {
 	// Tìm kiếm
 	List<Product> findAll();
-	Optional<?> findAll(String str_cate, String str_manu, float min_price, float max_price);
-	Optional<?> findPage(List<Product> products, int sortby, int page);
+	List<Product> findAll(String str_cate, String str_manu, float min_price, float max_price);
+	List<Product> findPage(List<Product> products, int sortby, int page);
 	List<Product> findByCategory(Long cateID);
 	List<Product> findByManufacturer(Long manuID);
 	Product findOne(Long id);
 	
 	// Tìm kiếm top sản phẩm
-	Optional<?> findTop4Product();
-	Optional<?> findNewProduct();
-	Optional<?> findBestSellerProduct();
-	Optional<?> findOnSaleProduct();
-	Optional<?> search(String search);
+	List<Product> findTop4Product();
+	List<Product> findNewProduct();
+	List<Product> findBestSellerProduct();
+	List<Product> findOnSaleProduct();
+	List<Product> search(String search);
 	List<Product> findProductsByCategoryAndManufacturer(Category category,Manufacturer manu);
-	
-	
 	
 	// Tác vụ
 	boolean create(Product object);
@@ -49,4 +47,9 @@ public interface IProductService {
 	List<Product> searchProduct(String keyword);
 	Page<Product> getAll(Integer pageNo);
 	Page<Product> searchProduct(String keyword, Integer pageNo);
+	List<Product> getAllByCategoryAndManufacturerNoPage(Category category, Manufacturer manufacturer);
+	List<Product> getProductInEvent(Long id);
+	List<Product> getProductNotInEvent(List<Product> listAll);
+	boolean updateEventNull(Product product);	
+	
 }

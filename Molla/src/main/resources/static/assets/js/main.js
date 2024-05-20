@@ -783,19 +783,6 @@ $(document).ready(function() {
 		}, 10000)
 	}
 });
-
-function handleCartQuantityChange(cart_id, quantity) {
-	// Phân tích URL để lấy ra các tham số
-	var urlParams = new URLSearchParams(window.location.search);
-	urlParams.set('cart_id', cart_id);
-	urlParams.set('quantity', quantity);
-
-
-	// Xây dựng lại URL với các tham số mới
-	var newUrl = window.location.origin + window.location.pathname + '-quantity?' + urlParams.toString();
-	// Chuyển hướng trang đến URL mới
-	window.location.href = newUrl;
-}
 function handleSortByChange() {
 	var selectedValue = document.getElementById("sortby").value;
 	// Tạo một URLSearchParams từ query string của URL hiện tại
@@ -869,35 +856,29 @@ function getCookies() {
 	});
 	return cookieObj;
 }
-
 // Lấy giá trị của một cookie cụ thể
 function getCookie(name) {
 	var cookies = getCookies();
 	return cookies[name];
 }
 function handleCartQuantityChange(cart_id, quantity) {
-	var params = new URLSearchParams();
-	params.append('cart_id', cart_id);
-	params.append('quantity', quantity);
-	fetch(window.location.origin + '/handle-quantity-change?' + params.toString(), {
+	fetch('/updateQuantity', {
 		method: 'POST',
 		headers: {
-			'Content-Type': 'application/x-www-form-urlencoded'
-		}
+			'Content-Type': 'application/x-www-form-urlencoded',
+		},
+		body: new URLSearchParams({
+			cart_id: cart_id,
+			quantity: quantity
+		})
 	})
-		.then(response => {
-			if (response.ok) {
-				return response.text();
-			} else {
-				throw new Error('Có lỗi xảy ra khi thay đổi số lượng!');
-			}
-		})
+		.then(response => response.json())
 		.then(data => {
-			console.log(data);
+			const totalCol = document.querySelector(`.total-col[data-cart-id='${cart_id}']`);
+			totalCol.textContent = data.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
+			console.log(totalCol.textContent);
 		})
-		.catch(error => {
-			console.error('Lỗi:', error);
-		});
+		.catch(error => console.error('Error:', error));
 }
 function clickToRemoveCart(cart_id) {
 	var params = new URLSearchParams();
@@ -973,7 +954,6 @@ function clickToAddCart(p_id) {
 	}
 
 }
-
 function clickToAddFavourite(p_id) {
 	var user_id = getCookie("user_id");
 	if (user_id === 0) {
@@ -1005,9 +985,6 @@ function clickToAddFavourite(p_id) {
 			});
 	}
 }
-function clickToAddCompare(p_id) {
-
-}
 function handleSelectProduct() {
 	// Xử lí các giá trị trong cart 
 	var cart_checkboxes = document.querySelectorAll('input[type="checkbox"][id*="cart"]:checked');
@@ -1016,18 +993,6 @@ function handleSelectProduct() {
 		cartid_value += checkbox.id.split("-")[1] + ',';
 	});
 	cartid_value = cartid_value.slice(0, -1);
-
-	// Lấy phương thức ship khách chọn
-	var ship = 0;
-	if (document.getElementById('free-shipping').checked) {
-		ship = 0;
-	} else if (document.getElementById('standart-shipping').checked) {
-		ship = 10000;
-	} else if (document.getElementById('express-shipping').checked) {
-		ship = 30000;
-	}
-
-
 
 	// Thêm giá trị vào params
 	var params = new URLSearchParams();
@@ -1048,23 +1013,52 @@ function handleSelectProduct() {
 			}
 		})
 		.then(data => {
-			console.log(ship);
-			var subtotal = document.getElementById('subtotal');
-			subtotal.innerText = data + 'đ';
-			var total = document.getElementById('total');
-			total.innerText = parseFloat(data) + parseFloat(ship) + 'đ';
+			// Chuyển đổi data sang float
+			var subtotal = parseFloat(data);
 
+			// Lấy giá trị ship
+			var ship = 0;
+			if (document.getElementById('free-shipping').checked) {
+				ship = 0;
+			} else if (document.getElementById('standart-shipping').checked) {
+				ship = 10000;
+			} else if (document.getElementById('express-shipping').checked) {
+				ship = 30000;
+			}
+
+			// Chuyển đổi ship sang float
+			ship = parseFloat(ship);
+
+			// Cập nhật giá trị subtotal
+			var subtotalElement = document.getElementById('subtotal');
+			subtotalElement.textContent = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(subtotal);
+
+			// Tính tổng
+			var total_price = subtotal + ship;
+
+			// Cập nhật giá trị total
+			var totalElement = document.getElementById('total');
+			totalElement.textContent = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(total_price);
 		})
 		.catch(error => {
 			console.error('Lỗi:', error);
 		});
 }
 function handleShipChange(ship) {
-	var subtotal = document.getElementById('subtotal');
-	var total = document.getElementById('total');
-	console.log(ship);
-	console.log(subtotal.innerText.substring(0, subtotal.innerText.length - 1));
-	total.innerText = parseFloat(subtotal.innerText.substring(0, subtotal.innerText.length - 1)) + parseFloat(ship) + 'đ';
+	// Lấy phần tử subtotal và total
+	var subtotalElement = document.getElementById('subtotal');
+	var totalElement = document.getElementById('total');
+
+	// Chuyển đổi subtotal từ chuỗi thành số thực
+	var subtotal = parseFloat(subtotalElement.innerText.replace('₫', '').replace(/[.,]/g, ''));
+	// Chuyển đổi ship thành số thực
+	var shipCost = parseFloat(ship);
+
+	// Tính toán tổng
+	var total = subtotal + shipCost;
+
+	// Định dạng lại tổng thành tiền tệ Việt Nam Đồng và cập nhật phần tử total
+	totalElement.innerText = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(total);
 }
 function clickToRemoveFavourite(fav_id) {
 	var params = new URLSearchParams();
@@ -1144,26 +1138,26 @@ function checkout() {
 }
 // script.js
 document.addEventListener("DOMContentLoaded", function() {
-    var openPopupBtn = document.getElementById("openPopupBtn");
-    var popup = document.getElementById("popup");
-    var closePopupBtn = document.getElementById("closePopupBtn");
-    var transIdInput = document.getElementById("trans_id");
+	var openPopupBtn = document.getElementById("openPopupBtn");
+	var popup = document.getElementById("popup");
+	var closePopupBtn = document.getElementById("closePopupBtn");
+	var transIdInput = document.getElementById("trans_id");
 
-    openPopupBtn.addEventListener("click", function() {
-        var transId = openPopupBtn.getAttribute("data-trans-id");
-        transIdInput.value = transId;
-        popup.style.display = "block";
-    });
+	openPopupBtn.addEventListener("click", function() {
+		var transId = openPopupBtn.getAttribute("data-trans-id");
+		transIdInput.value = transId;
+		popup.style.display = "block";
+	});
 
-    closePopupBtn.addEventListener("click", function() {
-        popup.style.display = "none";
-    });
+	closePopupBtn.addEventListener("click", function() {
+		popup.style.display = "none";
+	});
 
-    window.addEventListener("click", function(event) {
-        if (event.target == popup) {
-            popup.style.display = "none";
-        }
-    });
+	window.addEventListener("click", function(event) {
+		if (event.target == popup) {
+			popup.style.display = "none";
+		}
+	});
 });
 
 

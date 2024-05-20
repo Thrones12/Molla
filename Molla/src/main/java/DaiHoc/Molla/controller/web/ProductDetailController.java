@@ -41,7 +41,7 @@ public class ProductDetailController {
 		List<Review> reviews = (List<Review>) reviewService.findByProduct_Id(id).get();
 		Product product = (Product) productService.findOne(id);
 		model.addAttribute("product", product);
-		model.addAttribute("top4_product", productService.findTop4Product().get());
+		model.addAttribute("top4_product", productService.findTop4Product());
 		model.addAttribute("reviews", reviews);
 		model.addAttribute("countReview", reviews.size());
 		model.addAttribute("categories", productService.findByCategory(product.getCategory().getId()));

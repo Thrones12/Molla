@@ -3,7 +3,6 @@ package DaiHoc.Molla.controller.web;
 import java.io.IOException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
-import java.security.Principal;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -18,8 +17,6 @@ import java.util.Optional;
 import java.util.TimeZone;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -60,8 +57,6 @@ public class CheckOutController {
 	private ITransactionService transService;
 	@Autowired
 	private IBillService billService;
-	@Autowired
-	private UserDetailsService userDetailsService;
 
 	@GetMapping("checkout")
 	public String getCheckout(@RequestParam String carts_id, @RequestParam Float ship, ModelMap model,
@@ -113,7 +108,7 @@ public class CheckOutController {
 						(PromotionalCode) codeService.getOne(Long.parseLong(request.getParameter("code"))).get());
 			}
 
-			Bill savedBill = billService.createAndReturn(bill);
+			Bill savedBill = billService.create(bill);
 
 			String[] carts_id = (String[]) request.getParameterValues("cart");
 			for (String cart_id : carts_id) {

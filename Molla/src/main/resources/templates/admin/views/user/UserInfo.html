@@ -78,26 +78,30 @@
 							<div class="form-group">
 								<label>Trạng thái</label>
 								<div class="form-control">
-
-									<p th:text=" ${user.state}"></p>
+									<p th:if="${user.state==0}">Đang hoạt động</p>
+									<p th:if="${user.state==1}">Không hoạt động</p>
+									<p th:if="${user.state==2}">Tạm khóa</p>
+									<p th:if="${user.state==3}">Khóa vĩnh viễn</p>
 								</div>
-
 							</div>
 
 							<div class="form-group">
-								<label>Thông báo</label>
+								<label>Thông báo qua email</label>
 								<div class="form-control">
-
 									<p th:text=" ${user.isNotify}"></p>
 								</div>
-
 							</div>
+
 							<div class="form-group">
-								<a th:href="@{/admin/show-acc/{id}(id=${user.id})}" class="btn btn-success"> Xem tài
-									Khoản </a>
-								<a style="margin-left: 60px" th:href="@{/admin/update-user/{id}(id=${user.id})}"
-									class="btn btn-success">Chỉnh sửa</a>
-								<button onclick="history.back()" class=" btn-primary" style="float: right">Back</button>
+								<label>Tên tài khoản</label>
+								<div class="form-control">
+									<p th:text=" ${user.account.username}"></p>
+								</div>
+							</div>
+
+							<div class="form-group">
+								<a th:href="@{/admin/update-user/{id}(id=${user.id})}" class="btn btn-success">Chỉnh
+									sửa</a>
 							</div>
 
 						</div>

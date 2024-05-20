@@ -39,7 +39,7 @@
 													<img id="product-zoom"
 														style="width:458px;height:458px;object-fit: contain;background-color: white;"
 														th:src="'assets/images/products/'+${product.picture}"
-														th:data-zoom-image="'assets/images/zoompicture/'+${product.picture}"
+														th:data-zoom-image="'assets/images/products/zoompicture/'+${product.picture}"
 														alt="product image">
 
 													<a href="#" id="btn-product-gallery" class="btn-product-gallery">
@@ -50,9 +50,9 @@
 												<div id="product-zoom-gallery" class="product-image-gallery">
 													<a th:each="sub : ${product.subPicture}"
 														class="product-gallery-item" href="#"
-														th:data-image="'assets/images/subpicture/'+${sub.picture}"
-														th:data-zoom-image="'assets/images/zoompicture/'+${sub.picture}">
-														<img th:src="'assets/images/subpicture/'+${sub.picture}"
+														th:data-image="'assets/images/products/subpictures/'+${sub.picture}"
+														th:data-zoom-image="'assets/images/products/zoompicture/'+${sub.picture}">
+														<img th:src="'assets/images/products/subpictures/'+${sub.picture}"
 															alt="product side">
 													</a>
 												</div><!-- End .product-image-gallery -->
