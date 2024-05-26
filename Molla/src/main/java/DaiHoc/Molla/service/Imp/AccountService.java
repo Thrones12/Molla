@@ -74,4 +74,9 @@ public class AccountService implements IAccountService {
 			return false;
 		}
 	}
+
+	@Override
+	public Account findByEmail(String email) {
+		return repo.findByUserEmail(email);
+	}
 }

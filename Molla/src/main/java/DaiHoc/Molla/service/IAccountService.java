@@ -16,6 +16,6 @@ public interface IAccountService {
 	Account create(Account account);
 	Account update(Account object);
 	boolean delete(Long id);
-	
+	Account findByEmail(String username);
 	Account findAccountByUserId(Long id);
 }
