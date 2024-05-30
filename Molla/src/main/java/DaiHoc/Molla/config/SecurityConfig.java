@@ -7,6 +7,8 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.session.SessionRegistry;
+import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -45,12 +47,17 @@ public class SecurityConfig {
 		.sessionManagement(session -> session
 				.sessionCreationPolicy(SessionCreationPolicy.ALWAYS)
 				.invalidSessionUrl("/login?expired")
-				.maximumSessions(1)
+				.maximumSessions(100)
+				.sessionRegistry(sessionRegistry())
 				.maxSessionsPreventsLogin(true))
 		.logout(form -> form.invalidateHttpSession(true).clearAuthentication(true)
+				.deleteCookies("max_price")
+				.deleteCookies("user_id")
 				.deleteCookies("JSESSIONID")
+				.invalidateHttpSession(true)
 				.logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
 				.logoutSuccessUrl("/home").permitAll())
+				
 		
 		.rememberMe(rememberMe -> rememberMe.key("uniqueAndSecretKey")
 				.tokenValiditySeconds(7 * 24 * 3600)); //1 tuần
@@ -58,6 +65,11 @@ public class SecurityConfig {
 		return http.build();
 		
 	}
+
+    @Bean
+    public SessionRegistry sessionRegistry() {
+        return new SessionRegistryImpl();
+    }
 	@Autowired
 	public void configure(AuthenticationManagerBuilder auth) throws Exception {
 		auth.userDetailsService(customUserDetailsService).passwordEncoder(passwordEncoder());
