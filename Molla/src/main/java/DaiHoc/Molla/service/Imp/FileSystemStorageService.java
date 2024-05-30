@@ -51,7 +51,7 @@ public class FileSystemStorageService implements IStorageService {
 	}
 
 	@Override
-	public void store(MultipartFile file, String storageLocation, int size) {
+	public void store(MultipartFile file, String prefix, int size) {
 		try {
 			// Đọc tệp vào một BufferedImage
 			BufferedImage originalImage = ImageIO.read(file.getInputStream());
@@ -69,7 +69,7 @@ public class FileSystemStorageService implements IStorageService {
 
 			// Lưu trữ tệp đã resize vào vị trí mong muốn
 
-			Path destinationFile = this.rootLocation.resolve(Paths.get(file.getOriginalFilename())).normalize()
+			Path destinationFile = this.rootLocation.resolve(Paths.get(prefix+file.getOriginalFilename())).normalize()
 					.toAbsolutePath();
 			Files.write(destinationFile, resizedImageBytes);
 

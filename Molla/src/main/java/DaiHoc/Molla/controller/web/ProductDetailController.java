@@ -34,9 +34,11 @@ public class ProductDetailController {
 		// Handle header
 		model.addAttribute("urlPage", "product");
 
-		Long user_id = Long.parseLong(CookieManager.getCookieValue(request, "user_id"));
-		User user = userService.findOne(user_id);
-		model.addAttribute("account", user.getAccount());
+		if (CookieManager.getCookieValue(request, "user_id") != null) {
+			Long user_id = Long.parseLong(CookieManager.getCookieValue(request, "user_id"));
+			User user = userService.findOne(user_id);
+			model.addAttribute("account", user.getAccount());
+		}
 		
 		List<Review> reviews = (List<Review>) reviewService.findByProduct_Id(id).get();
 		Product product = (Product) productService.findOne(id);

@@ -57,11 +57,11 @@
 										<th>Tên sản phẩm</th>
 										<th>Đã bán</th>
 									</tr>
-									<tr th:each="entry : ${productStatistics}">
-										<td >1</td>
-										<td th:text="${entry.key}"></td>
-										<td th:text="${entry.value}"></td>
-									</tr>
+									<tr th:each="entry, iterStat : ${productStatistics}">
+								        <td th:text="${iterStat.index + 1}">1</td>
+								        <td th:text="${entry.key}"></td>
+								        <td th:text="${entry.value}"></td>
+								    </tr>
 								</tbody>
 							</table>
 						</div>

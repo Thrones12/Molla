@@ -20,6 +20,7 @@ public class AccountController {
 	@Autowired
 	private IAccountService accountService;
 	
+	
 	@GetMapping({"/register"})
 	public String getLoginRegisterPage(@ModelAttribute("account") Account account) {
 		return "web/views/register";

@@ -83,7 +83,7 @@ public class UserController {
 			return "redirect:/web/customer";
 		}
 
-		return "redirect:/web/update-infor";
+		return "redirect:/update-infor";
 	}
 
 	@GetMapping("/bill-detail")

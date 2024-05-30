@@ -33,13 +33,18 @@ public class CartController {
 	@GetMapping("cart")
 	public String getCart(HttpServletRequest request, ModelMap model) {
 		// Handle cart
-		Long user_id = Long.parseLong(CookieManager.getCookieValue(request, "user_id"));
-		User user = userService.findOne(user_id);
-		model.addAttribute("account", user.getAccount());
-		model.addAttribute("categories", cateService.findAll());
-		List<Cart> carts = cartService.findByUser(user_id);
-		model.addAttribute("carts", carts);
-		return "web/views/cart";
+		if (CookieManager.getCookieValue(request, "user_id") != null) {
+			Long user_id = Long.parseLong(CookieManager.getCookieValue(request, "user_id"));
+			User user = userService.findOne(user_id);
+			model.addAttribute("account", user.getAccount());
+			model.addAttribute("categories", cateService.findAll());
+			List<Cart> carts = cartService.findByUser(user_id);
+			model.addAttribute("carts", carts);
+			return "web/views/cart";
+		}
+		else {
+			return "web/views/login";
+		}
 	}
 
 	@PostMapping("add-to-cart")

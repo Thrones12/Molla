@@ -37,9 +37,12 @@ public class ProductController {
 		// Handle header
 		model.addAttribute("urlPage", "product");
 
-		Long user_id = Long.parseLong(CookieManager.getCookieValue(request, "user_id"));
-		User user = userService.findOne(user_id);
-		model.addAttribute("account", user.getAccount());
+		if (CookieManager.getCookieValue(request, "user_id") != null) {
+			Long user_id = Long.parseLong(CookieManager.getCookieValue(request, "user_id"));
+			User user = userService.findOne(user_id);
+			model.addAttribute("account", user.getAccount());
+		}
+		
 		
 		// Đặt giá trị ban đầu cho filter với price
 		if (price.equals("0")) {

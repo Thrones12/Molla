@@ -46,8 +46,7 @@ public class FavouriteController {
 			model.addAttribute("favourites", favourites);
 			return "web/views/favourite";
 		} catch (Exception e) {
-			e.printStackTrace();
-			return "web/views/404";
+			return "web/views/login";
 		}
 	}
 

@@ -125,6 +125,7 @@ public class ProductManagerController {
 		iStorageService.store(file);
 		String filename = file.getOriginalFilename();
 		product.setPicture(filename);
+		
 		if (productService.create(product)) {
 			for (MultipartFile f : subFiles) {
 				// Lưu vào database
@@ -135,11 +136,12 @@ public class ProductManagerController {
 				subService.create(sub);
 				// Lưu vào subpicture
 				iStorageService.setRootLocation(Constant.productSubImageFile);
-				iStorageService.store(f, Constant.productSubImageFile, 280);
+				iStorageService.store(f, "sub_", 280);
 				// Lưu vào zoompicture
 				iStorageService.setRootLocation(Constant.productZoomImageFile);
-				iStorageService.store(f, Constant.productZoomImageFile, 1200);
+				iStorageService.store(f, "zoom_", 1200);
 			}
+			iStorageService.store(file, "zoom_", 1200);
 			return "redirect:/admin/product";
 		}
 
