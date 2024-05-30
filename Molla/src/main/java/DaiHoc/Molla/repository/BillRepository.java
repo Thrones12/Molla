@@ -14,6 +14,7 @@ public interface BillRepository extends JpaRepository<Bill, Long> {
 	List<Bill> findBillByUserId(Long userId);
 
 	List<Bill> findByState(int state);
+    List<Bill> findByStateIn(List<Integer> states);
 
 	@Query("SELECT b FROM Bill b WHERE b.bill_date BETWEEN :startDate AND :endDate")
 	List<Bill> findBillsByDateRange(Date startDate, Date endDate);

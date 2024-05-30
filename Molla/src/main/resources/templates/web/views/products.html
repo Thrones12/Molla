@@ -84,7 +84,8 @@
 										</div><!-- End .product-cat -->
 										<h3 class="product-title"><a th:href="'detail?id='+${product.id}"
 												th:text="${product.name}"></a></h3><!-- End .product-title -->
-										<div class="product-price" th:text="${product.selling_price}">
+										<div class="product-price"
+											th:text="${#numbers.formatDecimal(product.selling_price, 0, 'COMMA', 0, 'POINT')}+'₫'">
 										</div><!-- End .product-price -->
 										<div class="ratings-container">
 											<div class="ratings">

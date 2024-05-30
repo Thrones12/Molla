@@ -1138,15 +1138,18 @@ function checkout() {
 }
 // script.js
 document.addEventListener("DOMContentLoaded", function() {
-	var openPopupBtn = document.getElementById("openPopupBtn");
+	var openPopupBtns = document.querySelectorAll(".openPopupBtn");
 	var popup = document.getElementById("popup");
 	var closePopupBtn = document.getElementById("closePopupBtn");
 	var transIdInput = document.getElementById("trans_id");
 
-	openPopupBtn.addEventListener("click", function() {
-		var transId = openPopupBtn.getAttribute("data-trans-id");
-		transIdInput.value = transId;
-		popup.style.display = "block";
+	openPopupBtns.forEach(function(openPopupBtn) {
+		openPopupBtn.addEventListener("click", function() {
+			var transId = openPopupBtn.getAttribute("data-trans-id");
+			transIdInput.value = transId;
+			console.log(transId);
+			popup.style.display = "block";
+		});
 	});
 
 	closePopupBtn.addEventListener("click", function() {

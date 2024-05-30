@@ -99,6 +99,7 @@
 											<label>Chương trình giảm giá</label>
 											<select class="form-control select2 select2-hidden-accessible"
 												th:field="*{event.id}">
+												<option value="0" text="" selected></option>
 												<option th:each="event : ${pro_event}" th:value="${event.id}"
 													th:text="${event.name}"></option>
 											</select>

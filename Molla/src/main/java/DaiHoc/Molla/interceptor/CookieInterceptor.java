@@ -18,9 +18,16 @@ public class CookieInterceptor implements HandlerInterceptor {
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
 		// Thêm cookie vào mỗi yêu cầu
-		Cookie cookie = new Cookie("max_price", service.findMaxPrice().toString());
-		cookie.setMaxAge(3600); // Đặt thời gian sống cho cookie (ví dụ: 1 giờ)
-		response.addCookie(cookie);
+		try {
+			Cookie cookie = new Cookie("max_price", service.findMaxPrice().toString());
+			cookie.setMaxAge(3600); // Đặt thời gian sống cho cookie (ví dụ: 1 giờ)
+			response.addCookie(cookie);
+		}
+		catch(Exception e) {
+			Cookie cookie = new Cookie("max_price", "0");
+			cookie.setMaxAge(3600); // Đặt thời gian sống cho cookie (ví dụ: 1 giờ)
+			response.addCookie(cookie);
+		}
 		return true;
 	}
 

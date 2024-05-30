@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.time.Month;
 import java.time.format.TextStyle;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -82,7 +83,7 @@ public class BillService implements IBillService {
 
 	@Override
 	public Map<String, Double> getMonthlyRevenueByYear(int year) {
-		List<Bill> paidBills = repo.findByState(1);
+		List<Bill> paidBills = repo.findByStateIn(Arrays.asList(2, 6));
 
 		Map<String, Double> monthlyRevenue = new LinkedHashMap<>();
 
@@ -106,7 +107,7 @@ public class BillService implements IBillService {
 
 	@Override
 	public List<Integer> getAvailableYears() {
-		List<Bill> paidBills = repo.findByState(1);
+		List<Bill> paidBills = repo.findByStateIn(Arrays.asList(2, 6));
 
 		return paidBills.stream().map(bill -> bill.getBill_date().toLocalDate().getYear()).distinct().sorted()
 				.collect(Collectors.toList());

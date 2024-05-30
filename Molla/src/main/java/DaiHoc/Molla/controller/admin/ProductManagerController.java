@@ -126,6 +126,9 @@ public class ProductManagerController {
 		String filename = file.getOriginalFilename();
 		product.setPicture(filename);
 		
+		if (product.getEvent().getId()==0)
+			product.setEvent(null);
+		
 		if (productService.create(product)) {
 			for (MultipartFile f : subFiles) {
 				// Lưu vào database
